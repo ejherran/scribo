@@ -1,0 +1,4 @@
+scribo:
+    resource: "@ScriboBundle/Resources/config/routing.yml"
+    prefix:   /
+

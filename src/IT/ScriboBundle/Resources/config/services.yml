@@ -1,0 +1,7 @@
+parameters:
+#    scribo.example.class: IT\ScriboBundle\Example
+
+services:
+#    scribo.example:
+#        class: %scribo.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

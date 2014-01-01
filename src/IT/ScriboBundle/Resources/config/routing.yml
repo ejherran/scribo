@@ -1,0 +1,3 @@
+scribo:
+    pattern:  /
+    defaults: { _controller: ScriboBundle:Default:index }

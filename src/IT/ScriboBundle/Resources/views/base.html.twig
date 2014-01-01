@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+ 
+<html lang="es">
+ 
+    <head>
+        
+        <title>SCRIBO: {% block title %}{% endblock %}</title>        
+        
+        <meta charset="utf-8" />
+        
+        <link rel="shortcut icon" href="{{ asset('bundles/scribo/img/favicon.ico') }}" />
+        
+        {% block header %}{% endblock %}
+    
+    </head>
+     
+    <body {% block init %}{% endblock %} >
+        
+        {% block body %}{% endblock %}
+        
+    </body>
+    
+    {% block style %}{% endblock %}
+    
+    {% block script %}{% endblock %}
+    
+</html> 

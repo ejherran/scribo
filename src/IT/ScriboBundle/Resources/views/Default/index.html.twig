@@ -1,0 +1,52 @@
+{% extends 'ScriboBundle::base.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+
+
+{% block header %}
+
+    <link rel="stylesheet" href="{{ asset('bundles/scribo/css/login.css') }}" />
+
+{% endblock %}
+
+
+
+{% block body %}
+
+    <section class="scr-login">
+        
+        <article class="title">
+            
+            <img src="{{ asset('bundles/scribo/img/scribo_64.png') }}" title="SCRIBO" />
+            <b>INGRESAR</b>
+            
+        </article>
+        
+        <article class="area">
+            
+            <form>
+                
+                <b>Dominio:</b><br />
+                <input id="domain" name="domain" type="text" /><br /><br />
+                
+                <b>Usuario:</b><br />
+                <input id="user" name="user" type="text" /><br /><br />
+                
+                <b>Contraseña:</b><br />
+                <input id="pass" name="pass" type="password" /><br /><br />
+                
+                <input id="btIngresar" name="btIngresar" type="submit" value="Ingresar" /><br /><br />
+                
+            </form>
+            
+        </article>
+        
+    </section>
+    
+    <footer class="scr-foot">
+        <a href="http://itclatam.com/"><img src="{{ asset('bundles/scribo/img/itc.png') }}" title="IT Corporation" /></a>
+        <b>Powered by: </b> 
+    </footer>
+
+{% endblock %}

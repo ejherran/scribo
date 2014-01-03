@@ -1,3 +1,15 @@
 scribo:
     pattern:  /
     defaults: { _controller: ScriboBundle:Default:index }
+scribo_login:
+    pattern:  /login
+    defaults: { _controller: ScriboBundle:Default:login }
+scribo_logout:
+    pattern:  /logout
+    defaults: { _controller: ScriboBundle:Default:logout }
+scribo_chpass:
+    pattern:  /chpass
+    defaults: { _controller: ScriboBundle:Default:chpass }
+scribo_home:
+    pattern:  /home
+    defaults: { _controller: ScriboBundle:Home:index }

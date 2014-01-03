@@ -74,6 +74,7 @@ body
     padding: 7px 8px;
     outline: none;
     color: #303030;
+    font-weight: bold;
     background-color: #FFFFFF;
     background-repeat: no-repeat;
     background-position: right center;
@@ -123,13 +124,43 @@ body
     right: 1%;
     bottom: 1%;
     width: 100%;
-    height: 5%;
 }
 
 .scr-foot img, .scr-foot b
 {
     position: relative;
     float: right;
-    height: 98%;
+    height: 25px;
     cursor: pointer;
+}
+
+.scr-flash
+{
+    position: absolute;
+    left: 0%;
+    top: 0%;
+    width: 100%;
+    z-index: 100;
+}
+
+.scr-flash b
+{
+    display: block;
+    background: #6c8393;
+    background-image: linear-gradient(#7f95a5, #6c8393);
+    border: 1px solid #6e8290;
+    border-radius: 4px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    padding: 5px;
+    margin: 5px 5px 5px 5px;
+    color: #ffffff;
+}
+
+.scr-flash b:hover
+{
+    background: #7EB7DE;
+    color: #000000;
 }

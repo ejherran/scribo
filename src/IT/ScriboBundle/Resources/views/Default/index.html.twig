@@ -1,5 +1,7 @@
 {% extends 'ScriboBundle::base.html.twig' %}
 
+
+
 {% block title %}Login{% endblock %}
 
 
@@ -7,12 +9,21 @@
 {% block header %}
 
     <link rel="stylesheet" href="{{ asset('bundles/scribo/css/login.css') }}" />
+    <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/ice/dom.js') }}">/*--- Include ---*/ </script>
+    <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/comun.js') }}">/*--- Include ---*/ </script>
+
 
 {% endblock %}
 
 
 
 {% block body %}
+
+    <section id="flash-zone" class="scr-flash" title="Click para cerrar!">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <b>{{ flashMessage }}</b>
+        {% endfor %}
+    </section>
 
     <section class="scr-login">
         
@@ -25,16 +36,16 @@
         
         <article class="area">
             
-            <form>
+            <form action="{{ path('scribo_login') }}" method="post">
                 
                 <b>Dominio:</b><br />
-                <input id="domain" name="domain" type="text" /><br /><br />
+                <input id="domain" name="domain" type="text" autocomplete="off" required /><br /><br />
                 
                 <b>Usuario:</b><br />
-                <input id="user" name="user" type="text" /><br /><br />
+                <input id="user" name="user" type="text" autocomplete="off" required /><br /><br />
                 
                 <b>Contraseña:</b><br />
-                <input id="pass" name="pass" type="password" /><br /><br />
+                <input id="pass" name="pass" type="password" autocomplete="off" required /><br /><br />
                 
                 <input id="btIngresar" name="btIngresar" type="submit" value="Ingresar" /><br /><br />
                 

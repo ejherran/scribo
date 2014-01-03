@@ -1,21 +1,112 @@
 {% extends 'ScriboBundle::base.html.twig' %}
 
 
+
+{% block title %}{% endblock %}
+
+
+
 {% block header %}
+
+    <link rel="stylesheet" href="{{ asset('bundles/scribo/css/tema.css') }}" />
+    <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/ice/dom.js') }}">/*--- Include ---*/ </script>
+    <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/ice/basico.js') }}">/*--- Include ---*/ </script>
+    <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/ice/ajax.js') }}">/*--- Include ---*/ </script>
+    <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/comun.js') }}">/*--- Include ---*/ </script>
 
 {% endblock %}
 
 
 {% block body %}
+
+    <nav class="scr-nav">
         
+        <ul class="scr-bro">
+            
+            <li class="scr-menu">
+                
+                <img src="{{ asset('bundles/scribo/img/scribo_48.png') }}" title="MENÚ" />
+            
+                <ul class="scr-mitem">
+                    
+                    <li>PERSONAL</li>
+                    <li>USUARIOS</li>
+                    
+                </ul>
+            
+            </li>
+            
+            <li class="scr-flash">
+                
+                <b>SCRIBO</b>
+                
+                <ul id="flash-zone" class="scr-log">
+                    
+                    {% for flashMessage in app.session.flashbag.get('notice') %}
+                        <li>{{ flashMessage }}</li>
+                    {% endfor %}
+                    
+                </ul>
+                
+            </li>
+            
+            <li class="scr-quick">
+                <img src="{{ asset('bundles/scribo/img/us_edit.png') }}" id="qck-chpass" title="CAMBIAR CONTRASEÑA" />
+                <a href="{{ path('scribo_logout') }}"><img src="{{ asset('bundles/scribo/img/us_close.png') }}" title="CERRAR SESIÓN" /></a>
+            </li>
+        
+        </ul>
+        
+    </nav>
+    
+    
+    <section class="scr-nuler"></section>
+    
+    
+    <section class="scr-view">
+    
+        {% block view %}
+
+        {% endblock %}
+    
+    </section>
+    
+    <section id="chpass" class="scr-chpass">
+        
+        <b>Contraseña Antigua:</b><br />
+        <input id="wgOldpass" name="wgOldpass" type="password" autocomplete="off" required /><br /><br />
+        
+        <b>Nueva Contraseña:</b><br />
+        <input id="wgPass" name="wgPass" type="password" autocomplete="off" required /><br /><br />
+        
+        <b>Confirmar Nueva Contraseña:</b><br />
+        <input id="wgRepass" name="wgRepass" type="password" autocomplete="off" required /><br /><br />
+        
+        <input class="scr-fll" id="wgCambiar" name="wgCambiar" type="button" value="Cambiar" />
+        <input class="scr-flr" id="wgCancelar" name="wgCancelar" type="button" value="Cancelar" />
+            
+    </section>
+    
 {% endblock %}
+
 
 
 {% block style %}
 
 {% endblock %}
 
+
     
 {% block script %}
+    
+    <script type="text/javascript">
+        
+        var $basePath = "{{ path('scribo') }}";
+    
+        {% block uscript %}
 
+        {% endblock %}
+    
+    </script>
+    
 {% endblock %}

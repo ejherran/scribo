@@ -53,4 +53,15 @@ class Tool
         if($driver == 'mysql')
             mysql_close($con);
     }
+    
+    public static function getDbError($con, $driver='*')
+    {
+        $driver = $driver == '*' ? Config::DbDriver : $driver;
+        
+        if(Config::DbError)
+        {
+            if($driver == 'mysql')
+                echo mysql_error($con);
+        }
+    }
 }

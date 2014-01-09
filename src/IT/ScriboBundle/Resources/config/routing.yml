@@ -1,3 +1,6 @@
+#
+# Generales
+#
 scribo:
     pattern:  /
     defaults: { _controller: ScriboBundle:Default:index }
@@ -13,3 +16,48 @@ scribo_chpass:
 scribo_home:
     pattern:  /home
     defaults: { _controller: ScriboBundle:Home:index }
+#
+# Personal
+#
+scribo_personal:
+    pattern:  /pers
+    defaults: { _controller: ScriboBundle:Personal:index }
+scribo_personal_save:
+    pattern:  /pers/save
+    defaults: { _controller: ScriboBundle:Personal:save }
+scribo_personal_save:
+    pattern:  /pers/save
+    defaults: { _controller: ScriboBundle:Personal:save }
+scribo_personal_list:
+    pattern:  /pers/enum
+    defaults: { _controller: ScriboBundle:Personal:enum }
+scribo_personal_get:
+    pattern:  /pers/get
+    defaults: { _controller: ScriboBundle:Personal:get }
+scribo_personal_del:
+    pattern:  /pers/del
+    defaults: { _controller: ScriboBundle:Personal:del }
+scribo_personal_find:
+    pattern:  /pers/find
+    defaults: { _controller: ScriboBundle:Personal:find }
+#
+# Usuarios
+#
+scribo_usuario:
+    pattern:  /usua
+    defaults: { _controller: ScriboBundle:Usuario:index }
+scribo_usuario_save:
+    pattern:  /usua/save
+    defaults: { _controller: ScriboBundle:Usuario:save }
+scribo_usuario_save:
+    pattern:  /usua/save
+    defaults: { _controller: ScriboBundle:Usuario:save }
+scribo_usuario_list:
+    pattern:  /usua/enum
+    defaults: { _controller: ScriboBundle:Usuario:enum }
+scribo_usuario_get:
+    pattern:  /usua/get
+    defaults: { _controller: ScriboBundle:Usuario:get }
+scribo_usuario_del:
+    pattern:  /usua/del
+    defaults: { _controller: ScriboBundle:Usuario:del }

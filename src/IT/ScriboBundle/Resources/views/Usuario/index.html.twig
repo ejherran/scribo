@@ -1,0 +1,85 @@
+{% extends 'ScriboBundle::layout.html.twig' %}
+
+
+
+{% block title %}Usuarios{% endblock %}
+
+
+
+{% block uheader %}
+    <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/usuario.js') }}">/*--- Include ---*/ </script>
+{% endblock %}
+
+
+
+{% block view %}
+
+
+    <h1>GESTIÓN DE USUARIOS</h1><br />
+
+    <table class="scr-tabOne">
+        <tr><th>ID:</th><th>PERSONAL:</th></tr>
+        <tr>
+            <td><input id="id" name="id" type="text" readonly /></td>
+            <td>
+                <input id="personal_id" name="personal_id" class="scr-hidden" type="text" readonly />
+                
+                <table class="scr-wgcont">
+                    <tr>
+                        <td>
+                            <input id="xpersonal_id" name="xpersonal_id" type="text" />
+                            
+                            <div id="lpersonal_id" class="scr-wglist"></div>
+                        </td>
+                        <th>
+                            <img id="kpersonal_id" src="{{ asset('bundles/scribo/img/adown.png') }}" />
+                        </th>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        
+        <tr><th>USUARIO:</th><th>PASSWORD:</th></tr>
+        <tr><td><input id="user" name="user" type="text" maxlength="100" /></td><td><input id="pass" name="pass" type="password" maxlength="250"/></td></tr>
+        
+        <tr><th>ROL:</th><th>INFORMACIÓN AD.:</th></tr>
+        <tr>
+            <td>
+                <input id="role" name="role" class="scr-hidden" type="text" readonly />
+                <table class="scr-wgcont">
+                    <tr>
+                        <td>
+                            <input id="xrole" name="xrole" type="text" readonly />
+                            
+                            <div id="lrole" class="scr-wglist">
+                                <table>
+                                    <tr><th>@</th><td>Seleccione...</td></tr>
+                                    <tr><th>R</th><td>Administrador</td></tr>
+                                    <tr><th>A</th><td>Asesor</td></tr>
+                                    <tr><th>P</th><td>Jefe de Prensa</td></tr>
+                                    <tr><th>I</th><td>Operario de Prensa</td></tr>
+                                    <tr><th>T</th><td>Jefe de Acabados</td></tr>
+                                    <tr><th>D</th><td>Operario de Acabados</td></tr>
+                                    <tr><th>C</th><td>Entregas</td></tr>
+                                </table>
+                            </div>
+                            
+                        </td>
+                        <th>
+                            <img id="krole" src="{{ asset('bundles/scribo/img/adown.png') }}" />
+                        </th>
+                    </tr>
+                </table>
+            </td>
+            <td><textarea id="data" name="data"></textarea></td>
+        </tr>
+        
+        <tr><td colspan="2"><input id="btnSave" class="scr-flr" type="button" value="Guardar" /><input id="btnDelete" class="scr-flr" type="button" value="Eliminar" /><input id="btnClear" class="scr-fll" type="button" value="Limpiar" /></td></tr>
+        
+    </table>
+    
+    <div id="zone" class="scr-zone"><img src="{{ asset('bundles/scribo/img/loader.gif') }}" /></div>
+
+{% endblock %}
+
+

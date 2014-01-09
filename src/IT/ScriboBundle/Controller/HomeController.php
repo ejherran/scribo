@@ -10,7 +10,7 @@ class HomeController extends Controller
 {
     public function indexAction()
     {
-        if(Gestion::isGrant($this, 10))
+        if(Gestion::isGrant($this, '*'))
         {
             return $this->render('ScriboBundle:Home:index.html.twig');
         }

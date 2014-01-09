@@ -76,8 +76,10 @@ class Gestion
             return '_';
     }
     
-    public static function isGrant($controller, $level)
+    public static function isGrant($controller, $priv)
     {
+        $priv = explode(',', $priv);
+        
         $flag = false;
         $session = $controller->getRequest()->getSession();
         
@@ -86,7 +88,7 @@ class Gestion
         
         if(count($svar) > 1)
         {
-            if(intval($svar[2]) > -1 && intval($svar[1]) <= $level)
+            if(in_array($svar[2], $priv) || $priv[0] == '*')
                 $flag = true;
         }
         
@@ -170,6 +172,14 @@ class Gestion
         }
         
         return $flag;
+    }
+    
+    public static function sqlKill($str)
+    {
+        $str = str_ireplace("\\", "\\\\", $str);
+        $str = str_ireplace("'", "\\'", $str);
+        
+        return $str;
     }
 }
  

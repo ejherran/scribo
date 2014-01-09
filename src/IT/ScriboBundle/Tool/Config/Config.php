@@ -10,4 +10,6 @@ class Config
     const DbName = 'register';
     const DbUser = 'register';
     const DbPass = 'register';
+    
+    const DbError = true;
 } 

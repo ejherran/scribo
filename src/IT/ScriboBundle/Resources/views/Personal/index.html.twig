@@ -1,0 +1,41 @@
+{% extends 'ScriboBundle::layout.html.twig' %}
+
+
+
+{% block title %}Personal{% endblock %}
+
+
+
+{% block uheader %}
+    <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/personal.js') }}">/*--- Include ---*/ </script>
+{% endblock %}
+
+
+
+{% block view %}
+
+
+    <h1>GESTIÓN DE PERSONAL</h1><br />
+
+    <table class="scr-tabOne">
+        <tr><th>ID:</th><th>DOCUMENTO:</th></tr>
+        <tr><td><input id="id" name="id" type="text" readonly /></td><td><input id="document" name="document" type="text" maxlength="25"/></td></tr>
+        
+        <tr><th>APELLIDOS:</th><th>NOMBRES:</th></tr>
+        <tr><td><input id="surname" name="surname" type="text" maxlength="100" /></td><td><input id="name" name="name" type="text" maxlength="100"/></td></tr>
+        
+        <tr><th>DIRECCIÓN:</th><th>TELEFONO:</th></tr>
+        <tr><td><input id="address" name="address" type="text" maxlength="250" /></td><td><input id="phone" name="phone" type="text" maxlength="25"/></td></tr>
+        
+        <tr><th>CORREO:</th><th>INFORMACIÓN AD.:</th></tr>
+        <tr><td><input id="mail" name="mail" type="text" maxlength="250" /></td><td><textarea id="data" name="data"></textarea></td></tr>
+        
+        <tr><td colspan="2"><input id="btnSave" class="scr-flr" type="button" value="Guardar" /><input id="btnDelete" class="scr-flr" type="button" value="Eliminar" /><input id="btnClear" class="scr-fll" type="button" value="Limpiar" /></td></tr>
+        
+    </table>
+    
+    <div id="zone" class="scr-zone"><img src="{{ asset('bundles/scribo/img/loader.gif') }}" /></div>
+
+{% endblock %}
+
+

@@ -12,8 +12,11 @@
     <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/ice/dom.js') }}">/*--- Include ---*/ </script>
     <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/ice/basico.js') }}">/*--- Include ---*/ </script>
     <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/ice/ajax.js') }}">/*--- Include ---*/ </script>
-    <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/comun.js') }}">/*--- Include ---*/ </script>
-
+    <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/view.js') }}">/*--- Include ---*/ </script>
+    
+    {% block uheader %}
+    {% endblock %}
+    
 {% endblock %}
 
 
@@ -29,8 +32,9 @@
             
                 <ul class="scr-mitem">
                     
-                    <li>PERSONAL</li>
-                    <li>USUARIOS</li>
+                    <li><a href="{{ path('scribo_home') }}">INICIO</a></li>
+                    <li><a href="{{ path('scribo_personal') }}">PERSONAL</a></li>
+                    <li><a href="{{ path('scribo_usuario') }}">USUARIOS</a></li>
                     
                 </ul>
             

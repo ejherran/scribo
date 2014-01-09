@@ -55,7 +55,7 @@ class DefaultController extends Controller
     
     public function chpassAction()
     {
-        if(Gestion::isGrant($this, 10))
+        if(Gestion::isGrant($this, '*'))
         {
             $request = $this->getRequest();
 			if($request->isXmlHttpRequest())

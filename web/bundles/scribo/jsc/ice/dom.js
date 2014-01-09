@@ -15,7 +15,7 @@ function gTag(elem, tag)
 
 function switchView(ids)
 {
-    if(gId(ids).style.display == 'none')
+    if(gId(ids).style.display != 'block')
         gId(ids).style.display = 'block';
     else
         gId(ids).style.display = 'none';

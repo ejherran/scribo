@@ -1,5 +1,16 @@
 var start = null;
 
+function sleep(milliseconds) 
+{
+    var sleepStart = new Date().getTime();
+  
+    while(true)
+    {
+        if ((new Date().getTime() - sleepStart) > milliseconds)
+            break;
+    }
+}
+
 function toJail(arr, gl, gr, ms)
 {
 	if(gl == undefined)

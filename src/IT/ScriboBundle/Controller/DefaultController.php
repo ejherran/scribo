@@ -43,6 +43,7 @@ class DefaultController extends Controller
         else
         {
             $session->set("userActive", base64_encode($domain."|:|".$user."|:|".$role));
+            $session->set("quick", $role);
             return $this->redirect($this->generateUrl('scribo_home'));
         }
     }
@@ -50,7 +51,7 @@ class DefaultController extends Controller
     public function logoutAction()
     {
         $this->get('session')->getFlashBag()->add('notice', 'Sesión terminada con éxito!...');
-            return $this->redirect($this->generateUrl('scribo'));
+        return $this->redirect($this->generateUrl('scribo'));
     }
     
     public function chpassAction()

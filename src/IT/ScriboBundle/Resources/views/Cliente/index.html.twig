@@ -1,0 +1,74 @@
+{% extends 'ScriboBundle::layout.html.twig' %}
+
+
+
+{% block title %}Personal{% endblock %}
+
+
+
+{% block uheader %}
+    <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/cliente.js') }}">/*--- Include ---*/ </script>
+{% endblock %}
+
+
+
+{% block view %}
+
+
+    <h1>GESTIÓN DE CLIENTES</h1><br />
+
+    <table class="scr-tabOne">
+        <tr><th>ID:</th><th>&nbsp;</th></tr>
+        
+        <tr><td><input id="id" name="id" type="text" readonly /></td><td>&nbsp;</td></tr>
+        
+        <tr><th>TIPO DE DOCUMENTO :</th><th>NÚMERO DE DOCUMENTO:</th></tr>
+        <tr>
+            <td>
+                
+                <input id="type" name="type" class="scr-hidden" type="text" readonly />
+                <table class="scr-wgcont">
+                    <tr>
+                        <td>
+                            <input id="xtype" name="xtype" type="text" readonly />
+                            
+                            <div id="ltype" class="scr-wglist">
+                                <table>
+                                    <tr><th>@</th><td>Seleccione...</td></tr>
+                                    <tr><th>CC</th><td>Cédula de Ciudadanía</td></tr>
+                                    <tr><th>CE</th><td>Cédula de Extranjería</td></tr>
+                                    <tr><th>NT</th><td>NIT</td></tr>
+                                    <tr><th>RC</th><td>Registro Civil</td></tr>
+                                    <tr><th>RM</th><td>Registro Mercantil</td></tr>
+                                </table>
+                            </div>
+                            
+                        </td>
+                        <th>
+                            <img id="ktype" src="{{ asset('bundles/scribo/img/adown.png') }}" />
+                        </th>
+                    </tr>
+                </table>
+            
+            </td>
+            <td><input id="document" name="document" type="text" maxlength="25"/></td>
+        </tr>
+        
+        <tr><th>NOMBRE:</th><th>CONTACTO:</th></tr>
+        <tr><td><input id="name" name="name" type="text" maxlength="100" /></td><td><input id="contact" name="contact" type="text" maxlength="250"/></td></tr>
+        
+        <tr><th>DIRECCIÓN:</th><th>TELEFONO:</th></tr>
+        <tr><td><input id="address" name="address" type="text" maxlength="250" /></td><td><input id="phone" name="phone" type="text" maxlength="25"/></td></tr>
+        
+        <tr><th>CORREO:</th><th>INFORMACIÓN AD.:</th></tr>
+        <tr><td><input id="mail" name="mail" type="text" maxlength="250" /></td><td><textarea id="data" name="data"></textarea></td></tr>
+        
+        <tr><td colspan="2"><input id="btnSave" class="scr-flr" type="button" value="Guardar" /><input id="btnDelete" class="scr-flr" type="button" value="Eliminar" /><input id="btnClear" class="scr-fll" type="button" value="Limpiar" /></td></tr>
+        
+    </table>
+    
+    <div id="zone" class="scr-zone"><img src="{{ asset('bundles/scribo/img/loader.gif') }}" /></div>
+
+{% endblock %}
+
+

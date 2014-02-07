@@ -61,3 +61,24 @@ scribo_usuario_get:
 scribo_usuario_del:
     pattern:  /usua/del
     defaults: { _controller: ScriboBundle:Usuario:del }
+#
+# Clientes
+#
+scribo_cliente:
+    pattern:  /clie
+    defaults: { _controller: ScriboBundle:Cliente:index }
+scribo_cliente_save:
+    pattern:  /clie/save
+    defaults: { _controller: ScriboBundle:Cliente:save }
+scribo_cliente_save:
+    pattern:  /clie/save
+    defaults: { _controller: ScriboBundle:Cliente:save }
+scribo_cliente_list:
+    pattern:  /clie/enum
+    defaults: { _controller: ScriboBundle:Cliente:enum }
+scribo_cliente_get:
+    pattern:  /clie/get
+    defaults: { _controller: ScriboBundle:Cliente:get }
+scribo_cliente_del:
+    pattern:  /clie/del
+    defaults: { _controller: ScriboBundle:Cliente:del }

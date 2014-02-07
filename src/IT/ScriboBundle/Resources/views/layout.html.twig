@@ -22,6 +22,8 @@
 
 {% block body %}
 
+    {% set role = app.session.get('quick') %}
+
     <nav class="scr-nav">
         
         <ul class="scr-bro">
@@ -33,8 +35,15 @@
                 <ul class="scr-mitem">
                     
                     <li><a href="{{ path('scribo_home') }}">INICIO</a></li>
-                    <li><a href="{{ path('scribo_personal') }}">PERSONAL</a></li>
-                    <li><a href="{{ path('scribo_usuario') }}">USUARIOS</a></li>
+                    
+                    {% if role == 'A' or role == 'R' %}
+                        <li><a href="{{ path('scribo_cliente') }}">CLIENTES</a></li>
+                    {% endif %}
+                    
+                    {% if role == 'R' %}
+                        <li><a href="{{ path('scribo_personal') }}">PERSONAL</a></li>
+                        <li><a href="{{ path('scribo_usuario') }}">USUARIOS</a></li>
+                    {% endif %}
                     
                 </ul>
             

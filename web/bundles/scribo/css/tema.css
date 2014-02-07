@@ -240,7 +240,7 @@ body
     margin-right: 5px;
 }
 
-.scr-view input[type="text"], .scr-view input[type="password"], .scr-view input[type="number"], .scr-view textarea
+input[type="text"], input[type="password"], input[type="number"], textarea
 {
     min-height: 34px;
     width: 100%;

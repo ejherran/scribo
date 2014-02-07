@@ -15,6 +15,7 @@ function $init()
 function showFlash(msg)
 {
     gId("flash-zone").innerHTML += "<li>"+msg+"</li>";
+    idHideTime = setTimeout(function(){ gId("flash-zone").innerHTML = ''; clearTimeout(idHideTime); }, 5000);
 }
 
 function hideFlash()

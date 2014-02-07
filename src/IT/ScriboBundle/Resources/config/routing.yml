@@ -103,3 +103,24 @@ scribo_material_get:
 scribo_material_del:
     pattern:  /mate/del
     defaults: { _controller: ScriboBundle:Material:del }
+#
+# Acabados
+#
+scribo_acabado:
+    pattern:  /acab
+    defaults: { _controller: ScriboBundle:Acabado:index }
+scribo_acabado_save:
+    pattern:  /acab/save
+    defaults: { _controller: ScriboBundle:Acabado:save }
+scribo_acabado_save:
+    pattern:  /acab/save
+    defaults: { _controller: ScriboBundle:Acabado:save }
+scribo_acabado_list:
+    pattern:  /acab/enum
+    defaults: { _controller: ScriboBundle:Acabado:enum }
+scribo_acabado_get:
+    pattern:  /acab/get
+    defaults: { _controller: ScriboBundle:Acabado:get }
+scribo_acabado_del:
+    pattern:  /acab/del
+    defaults: { _controller: ScriboBundle:Acabado:del }

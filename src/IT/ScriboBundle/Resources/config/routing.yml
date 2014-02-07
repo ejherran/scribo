@@ -82,3 +82,24 @@ scribo_cliente_get:
 scribo_cliente_del:
     pattern:  /clie/del
     defaults: { _controller: ScriboBundle:Cliente:del }
+#
+# Materiales
+#
+scribo_material:
+    pattern:  /mate
+    defaults: { _controller: ScriboBundle:Material:index }
+scribo_material_save:
+    pattern:  /mate/save
+    defaults: { _controller: ScriboBundle:Material:save }
+scribo_material_save:
+    pattern:  /mate/save
+    defaults: { _controller: ScriboBundle:Material:save }
+scribo_material_list:
+    pattern:  /mate/enum
+    defaults: { _controller: ScriboBundle:Material:enum }
+scribo_material_get:
+    pattern:  /mate/get
+    defaults: { _controller: ScriboBundle:Material:get }
+scribo_material_del:
+    pattern:  /mate/del
+    defaults: { _controller: ScriboBundle:Material:del }

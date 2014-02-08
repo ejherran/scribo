@@ -9,11 +9,11 @@ function $_init()
     gId("xtype").onkeydown = nextType;
     gId("ltype").onclick = picType;
     
-    gId("btnClear").onclick = clrMaterial;
-    gId("btnSave").onclick = savMaterial;
-    gId("btnDelete").onclick = delMaterial;
+    gId("btnClear").onclick = clrTinta;
+    gId("btnSave").onclick = savTinta;
+    gId("btnDelete").onclick = delTinta;
     
-    listMaterial();
+    listTinta();
 }
 
 function listType()
@@ -81,31 +81,31 @@ function showLoader()
     gId("zone").innerHTML = srcLoader;
 }
 
-function clrMaterial()
+function clrTinta()
 {
-    clear("id,name,cost,value,type,xtype,width,height,weigth,data");
+    clear("id,name,cost,value,type,xtype,data");
 }
 
-function savMaterial()
+function savTinta()
 {
-    if(validate("name,cost,value,type,xtype,width,height,weigth"))
+    if(validate("name,cost,value,type,xtype"))
     {
         ajaxAction
         (
-            new Hash(["id","name","cost","value","type","xtype","width","height","weigth","data"]),
-            $basePath+"mate/save",
-            xSavMaterial
+            new Hash(["id","name","cost","value","type","xtype","data"]),
+            $basePath+"tint/save",
+            xSavTinta
         );
     }
 }
 
-function xSavMaterial(response)
+function xSavTinta(response)
 {
     showFlash(response.responseText);
-    listMaterial();
+    listTinta();
 }
 
-function delMaterial()
+function delTinta()
 {
     if(validate("id"))
     {
@@ -114,52 +114,52 @@ function delMaterial()
             ajaxAction
             (
                 new Hash(["id"]),
-                $basePath+"mate/del",
-                xDelMaterial
+                $basePath+"tint/del",
+                xDelTinta
             );
         }
     }
 }
 
-function xDelMaterial(response)
+function xDelTinta(response)
 {
     showFlash(response.responseText);
-    listMaterial();
+    listTinta();
 }
 
 
-function listMaterial()
+function listTinta()
 {
     ajaxAction
     (
         new Hash(["*tok => *"]),
-        $basePath+"mate/enum",
-        xListMaterial
+        $basePath+"tint/enum",
+        xListTinta
     );
     
     showLoader();
 }
 
-function xListMaterial(response)
+function xListTinta(response)
 {
-    src = toTable(response.responseText, 'getMaterial');
-    clrMaterial();
+    src = toTable(response.responseText, 'getTinta');
+    clrTinta();
     idTim = setTimeout(function(){ gId("zone").innerHTML = src; clearTimeout(idTim); }, 250);
 }
 
-function getMaterial(elem)
+function getTinta(elem)
 {
     id = elem.cells[0].innerHTML;
     
     ajaxAction
     (
         new Hash(["*id => "+id]),
-        $basePath+"mate/get",
-        xGetMaterial
+        $basePath+"tint/get",
+        xGetTinta
     );
 }
 
-function xGetMaterial(response)
+function xGetTinta(response)
 {
     toForm(response.responseText);
 }

@@ -2,11 +2,11 @@ var srcLoader = '';
 
 function $_init()
 {
+    srcLoader = gId("zone").innerHTML;
+    
     gId("btnClear").onclick = clrPersonal;
     gId("btnSave").onclick = savPersonal;
     gId("btnDelete").onclick = delPersonal;
-    
-    srcLoader = gId("zone").innerHTML;
     
     listPersonal();
 }

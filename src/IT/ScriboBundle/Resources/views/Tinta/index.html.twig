@@ -1,0 +1,65 @@
+{% extends 'ScriboBundle::layout.html.twig' %}
+
+
+
+{% block title %}Personal{% endblock %}
+
+
+
+{% block uheader %}
+    <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/tinta.js') }}">/*--- Include ---*/ </script>
+{% endblock %}
+
+
+
+{% block view %}
+
+
+    <h1>GESTIÓN DE TINTAS</h1><br />
+
+    <table class="scr-tabOne">
+        <tr><th>ID:</th><th>NOMBRE:</th></tr>
+        
+        <tr><td><input id="id" name="id" type="text" readonly /></td><td><input id="name" name="name" type="text" maxlength="100" /></td></tr>
+        
+        <tr><th>COSTO ($):</th><th>VALOR BASE ($):</th></tr>
+        <tr><td><input id="cost" name="cost" type="number" min="0" max="99999999.99" /></td><td><input id="value" name="value" type="number" min="0" max="99999999.99" /></td></tr>
+        
+        <tr><th>TIPO DE TINTA:</th><th>INFORMACIÓN AD.:</th></tr>
+        <tr>
+            <td>
+                
+                <input id="type" name="type" class="scr-hidden" type="text" readonly />
+                <table class="scr-wgcont">
+                    <tr>
+                        <td>
+                            <input id="xtype" name="xtype" type="text" readonly />
+                            
+                            <div id="ltype" class="scr-wglist">
+                                <table>
+                                    <tr><th>@</th><td>Seleccione...</td></tr>
+                                    <tr><th>P</th><td>PAPEL</td></tr>
+                                    <tr><th>S</th><td>SUSTRATO</td></tr>
+                                </table>
+                            </div>
+                            
+                        </td>
+                        <th>
+                            <img id="ktype" src="{{ asset('bundles/scribo/img/adown.png') }}" />
+                        </th>
+                    </tr>
+                </table>
+            
+            </td>
+            <td><textarea id="data" name="data"></textarea></td>
+        </tr>
+        
+        <tr><td colspan="2"><input id="btnSave" class="scr-flr" type="button" value="Guardar" /><input id="btnDelete" class="scr-flr" type="button" value="Eliminar" /><input id="btnClear" class="scr-fll" type="button" value="Limpiar" /></td></tr>
+        
+    </table>
+    
+    <div id="zone" class="scr-zone"><img src="{{ asset('bundles/scribo/img/loader.gif') }}" /></div>
+
+{% endblock %}
+
+

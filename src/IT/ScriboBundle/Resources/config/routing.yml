@@ -124,3 +124,24 @@ scribo_acabado_get:
 scribo_acabado_del:
     pattern:  /acab/del
     defaults: { _controller: ScriboBundle:Acabado:del }
+#
+# Tintas
+#
+scribo_tinta:
+    pattern:  /tint
+    defaults: { _controller: ScriboBundle:Tinta:index }
+scribo_tinta_save:
+    pattern:  /tint/save
+    defaults: { _controller: ScriboBundle:Tinta:save }
+scribo_tinta_save:
+    pattern:  /tint/save
+    defaults: { _controller: ScriboBundle:Tinta:save }
+scribo_tinta_list:
+    pattern:  /tint/enum
+    defaults: { _controller: ScriboBundle:Tinta:enum }
+scribo_tinta_get:
+    pattern:  /tint/get
+    defaults: { _controller: ScriboBundle:Tinta:get }
+scribo_tinta_del:
+    pattern:  /tint/del
+    defaults: { _controller: ScriboBundle:Tinta:del }

@@ -5,6 +5,8 @@ var blrPers = true;
 
 function $_init()
 {
+    srcLoader = gId("zone").innerHTML;
+    
     gId("krole").onclick = listRole;
     gId("xrole").onkeydown = nextRole;
     gId("lrole").onclick = picRole;
@@ -19,9 +21,7 @@ function $_init()
     gId("btnClear").onclick = clrUsuario;
     gId("btnSave").onclick = savUsuario;
     gId("btnDelete").onclick = delUsuario;
-    
-    srcLoader = gId("zone").innerHTML;
-    
+        
     listUsuario();
 }
 

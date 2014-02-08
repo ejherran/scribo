@@ -3,6 +3,8 @@ var idxType = -1;
 
 function $_init()
 {
+    srcLoader = gId("zone").innerHTML;
+    
     gId("ktype").onclick = listType;
     gId("xtype").onkeydown = nextType;
     gId("ltype").onclick = picType;
@@ -12,8 +14,6 @@ function $_init()
     gId("btnDelete").onclick = delCliente;
     
     listCliente();
-    
-    srcLoader = gId("zone").innerHTML;
 }
 
 function listType()

@@ -1,0 +1,192 @@
+{% extends 'ScriboBundle::layout.html.twig' %}
+
+
+
+{% block title %}Ordenes Tipo 1{% endblock %}
+
+
+
+{% block uheader %}
+    <link rel="stylesheet" href="{{ asset('bundles/scribo/css/pro.css') }}" />
+    <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/uno.js') }}">/*--- Include ---*/ </script>
+    <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/findhelper.js') }}">/*--- Include ---*/ </script>
+    <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/firma.js') }}">/*--- Include ---*/ </script>
+{% endblock %}
+
+
+
+{% block view %}
+
+
+    <h1>GESTIÓN DE ORDENES TIPO 1</h1><br />
+
+    <div class="scr-pro">
+    
+        <table class="scr-f1">
+            <tr>
+                <th>CLIENTE:</th>
+                <td>
+                    <input id="OrdClient" class="scr-hidden" type="text" readonly="readonly" />
+                    <input id="xOrdClient" class="scr-inhelp" type="text" />
+                    <div id="lOrdClient" class="scr-hlpList" ></div>
+                </td>
+                
+                <th>FECHA:</th>
+                <td class="scr-wmin"><input id="ordDate" size="5" type="date" /></td>
+            </tr>
+        </table>
+    
+    </div>
+    
+    <br />
+    
+    <div class="scr-pro">
+        
+        <table>
+            
+            <tr>
+                <th>ARCHIVO</th>
+                <th>Nº PAGINAS</th>
+                <th>MATERIAL</th>
+                <th>TINTA</th>
+                <th>CANTIDAD</th>
+                <th>VALOR</th>
+                <th>TOTAL</th>
+            </tr>
+            
+            <tr>
+            
+                <td>
+                    <table>
+                        <tr class="scr-hidden">
+                            <td><input id="fileIn" type="file" value="Sel.." /></td>
+                        </tr>
+                        <tr>
+                            <td><input id="xFileIn" type="text" readonly="readonly" /></td>
+                            <td class="scr-aright"><img id="xxFileIn" src="{{ asset('bundles/scribo/img/file.png') }}" title="Seleccionar archivo..." /></td>
+                        </tr>
+                    </table>
+                </td>
+                
+                <td><input id="pages" type="text" /></td>
+                <td>
+                    <input id="OrdMaterial" class="scr-hidden" type="text" readonly="readonly" />
+                    <input id="xOrdMaterial" class="scr-inhelp" type="text" />
+                    <div id="lOrdMaterial" class="scr-hlpList" ></div>
+                </td>
+                <td>
+                    <input id="OrdTinta" class="scr-hidden" type="text" readonly="readonly" />
+                    <input id="xOrdTinta" class="scr-inhelp" type="text" />
+                    <div id="lOrdTinta" class="scr-hlpList" ></div>
+                </td>
+                <td><input id="amount" type="text" /></td>
+                <td><input id="unit" type="text" /></td>
+                <td><input id="value" type="text" readonly="readonly" /></td>
+            
+            </tr>
+            
+            <tr>
+                <th colspan="3" class="scr-aleft">NOTA:</th>
+                <th colspan="4" class="scr-aleft">ACABADOS:</th>
+            </tr>
+            
+            <tr>
+                <td colspan="3"><textarea id="notes" rows="7"></textarea></td>
+                
+                <td colspan="4">
+                    
+                    <input id="acabados" class="scr-inhelp" type="text" />
+                    
+                    <div class="scr-detalle">
+                        
+                        <table id="acabadosList">
+                            
+                        </table>
+                    
+                    </div>
+                    
+                </td>
+            </tr>
+            
+            <tr>
+                <td colspan="7" class="scr-aright">
+                    <input id="add" type="button" value="LIMPIAR" />
+                    <input id="clr" type="button" value="AGREGAR" />
+                </td>
+            </tr>
+        
+        </table>
+        
+    </div> 
+    
+    <div id="items" class="scr-orditem">
+    
+        <table id="imgShower">
+        
+        </table>
+    
+    </div>
+    
+    <br />
+    
+    <div class="scr-pro">
+    
+        <table class="scr-f1">
+            <tr>
+                <th>TIEMPO:</th>
+                <td><input id="ordTime" type="text" size="3"/></td>
+                <td>Hr.</td>
+                
+                <th>SUBTOTAL:</th>
+                <th>$</th>
+                <td><input id="ordSubtotal" type="text" /></td>
+                
+                <th>IVA:</th>
+                <th>$</th>
+                <td><input id="ordIva" type="text" /></td>
+                
+                <th>TOTAL:</th>
+                <th>$</th>
+                <td><input id="ordTotal" type="text" /></td>
+                
+            </tr>
+            
+            <tr><th colspan="12" class="scr-aleft">OBSERVACIONES:</th></tr>
+            <tr><td colspan="12"><textarea id="ordData"></textarea></td></tr>
+            <tr>
+                <td colspan="12" class="scr-aright">
+                    <img id="showFirma" src="{{ asset('bundles/scribo/img/firma.png') }}" title="FIRMAR ORDEN" />
+                    <input id="save" type="button" value="GUARDAR" />
+                </td>
+            </tr>
+            
+        </table>
+    
+    </div>
+    
+{% endblock %}
+
+{% block outview %}
+
+     <div id="ctFirma" class="scr-firma">
+
+        <table>
+            <tr>
+                <td>
+                    <canvas id="firma" class="" width="640" height="480" style=""></canvas>
+                    <textarea id="firmaCode" ></textarea>
+                    
+                    <br />
+                    
+                    <input id="clearFirma" type="button" value="LIMPIAR" />
+                    &nbsp;
+                    <input id="getFirma" type="button" value="FIRMAR" />
+                </td>
+            </tr>
+        </table>
+
+    </div>
+    
+{% endblock %}
+
+

@@ -110,11 +110,14 @@ function clear(fields)
     }
 }
 
-function toTable(res, cfun)
+function toTable(res, cfun, mark)
 {
     if(res != '_NONE_')
     {
-        src = "<table> ";
+        if(typeof mark != 'undefined')
+            src = '<table id="dinamicTable_'+mark+'"> ';
+        else
+            src = '<table> ';
         
         rows = res.split('|:|');
         
@@ -131,13 +134,18 @@ function toTable(res, cfun)
                     td += '<td>'+cells[j]+'</td>';
             }
             
+            var mkcons = '';
+            if(typeof mark != 'undefined')
+                mkcons = ' id="'+i+'_'+mark+'"';
+            
             if(typeof cfun != 'undefined')
-                src += '<tr onClick="'+cfun+'(this);">'+td+'</td>';
+                src += '<tr'+mkcons+' onClick="'+cfun+'(this);">'+td+'</td>';
+            
             else
-                src += '<tr>'+td+'</td>';
+                src += '<tr'+mkcons+'>'+td+'</td>';
         }
         
-        src += "</table>";
+        src += '</table>';
         
         return src;
     }
@@ -157,4 +165,21 @@ function toForm(res)
             gId(pts[0]).value = pts[1];
         }
     }
+}
+
+function remConsecutive(data)
+{
+    var parts = data.split('_');
+    
+    if(parts.length > 1)
+        parts.shift();
+    
+    return parts.join('_');
+}
+
+function getConsecutive(data)
+{
+    var parts = data.split('_');
+    
+    return parseInt(parts[0]);
 }

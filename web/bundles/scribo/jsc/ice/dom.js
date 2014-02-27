@@ -250,3 +250,12 @@ function formFocus(elem, control)
         }
     }
 }
+
+function falseClick(idObjete)
+{
+	var nouEvent = document.createEvent("MouseEvents");
+	nouEvent.initMouseEvent("click", true, true, window,0,0,0,0,0,false,false,false,false,0, null);
+	
+	var objecte = document.getElementById(idObjete);
+	var canceled = !objecte.dispatchEvent(nouEvent);
+}

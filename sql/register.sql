@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 24-12-2013 a las 11:30:54
--- Versión del servidor: 5.5.33-1
--- Versión de PHP: 5.5.7-2
+-- Tiempo de generación: 27-02-2014 a las 09:08:38
+-- Versión del servidor: 5.5.35-1
+-- Versión de PHP: 5.5.9-1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -33,12 +33,20 @@ CREATE TABLE IF NOT EXISTS `conexion` (
   `engine` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `host` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `port` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `path` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `user` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `pass` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
   `data` text COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`),
   KEY `licencia_id` (`licencia_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+
+--
+-- Volcado de datos para la tabla `conexion`
+--
+
+INSERT INTO `conexion` (`id`, `licencia_id`, `name`, `engine`, `host`, `port`, `path`, `user`, `pass`, `data`) VALUES
+(1, 1, 'DB_MASTER', 'mysql', 'localhost', '3306', 'scribo', 'c2NyaWJv', 'c2NyaWJv', NULL);
 
 -- --------------------------------------------------------
 
@@ -58,7 +66,14 @@ CREATE TABLE IF NOT EXISTS `licencia` (
   `data` text COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`),
   KEY `servicio_id` (`servicio_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+
+--
+-- Volcado de datos para la tabla `licencia`
+--
+
+INSERT INTO `licencia` (`id`, `servicio_id`, `domain`, `inicio`, `fin`, `owner`, `phone`, `mail`, `data`) VALUES
+(1, 1, 'zarate', '2013-12-01', '2014-02-28', 'developer', '123456789', 'ejherran.c@gamil.com', NULL);
 
 -- --------------------------------------------------------
 
@@ -73,7 +88,14 @@ CREATE TABLE IF NOT EXISTS `servicio` (
   `data` text COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+
+--
+-- Volcado de datos para la tabla `servicio`
+--
+
+INSERT INTO `servicio` (`id`, `code`, `name`, `data`) VALUES
+(1, 'SCRB', 'PRINT MANAGEMENT "SCRIBO"', 'GESTOR DE LINEA DE PRODUCCIÓN DE IMPRESIONES');
 
 --
 -- Restricciones para tablas volcadas

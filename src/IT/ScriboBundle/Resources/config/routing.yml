@@ -145,3 +145,18 @@ scribo_tinta_get:
 scribo_tinta_del:
     pattern:  /tint/del
     defaults: { _controller: ScriboBundle:Tinta:del }
+#
+# Orden Tipo 1
+#
+scribo_uno:
+    pattern:  /uno
+    defaults: { _controller: ScriboBundle:Uno:index }
+scribo_uno_findcli:
+    pattern:  /uno/ordclient
+    defaults: { _controller: ScriboBundle:Uno:fcli }
+scribo_uno_findmate:
+    pattern:  /uno/ordmaterial
+    defaults: { _controller: ScriboBundle:Uno:fmate }
+scribo_uno_findtinta:
+    pattern:  /uno/ordtinta
+    defaults: { _controller: ScriboBundle:Uno:ftinta }

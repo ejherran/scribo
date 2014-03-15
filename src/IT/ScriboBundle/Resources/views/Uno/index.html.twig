@@ -21,7 +21,7 @@
     <h1>GESTIÓN DE ORDENES TIPO 1</h1><br />
 
     <div class="scr-pro">
-    
+        
         <table class="scr-f1">
             <tr>
                 <th>CLIENTE:</th>
@@ -42,7 +42,7 @@
     
     <div class="scr-pro">
         
-        <table>
+        <table class="scr-f1">
             
             <tr>
                 <th>ARCHIVO</th>
@@ -50,52 +50,62 @@
                 <th>MATERIAL</th>
                 <th>TINTA</th>
                 <th>CANTIDAD</th>
-                <th>VALOR</th>
-                <th>TOTAL</th>
             </tr>
             
             <tr>
             
                 <td>
                     <table>
-                        <tr class="scr-hidden">
-                            <td><input id="fileIn" type="file" value="Sel.." /></td>
-                        </tr>
                         <tr>
-                            <td><input id="xFileIn" type="text" readonly="readonly" /></td>
-                            <td class="scr-aright"><img id="xxFileIn" src="{{ asset('bundles/scribo/img/file.png') }}" title="Seleccionar archivo..." /></td>
+                            <td>
+                                <input id="fileIn" class="scr-hidden" type="file" />
+                                <input id="xFileIn" type="text" readonly="readonly" />
+                                <textarea id="cFileIn" class="scr-hidden"></textarea>
+                            </td>
+                            
+                            <td class="scr-aright">
+                                <img id="xxFileIn" src="{{ asset('bundles/scribo/img/file.png') }}" title="Seleccionar archivo..." />
+                            </td>
                         </tr>
                     </table>
                 </td>
                 
                 <td><input id="pages" type="text" /></td>
+                
                 <td>
                     <input id="OrdMaterial" class="scr-hidden" type="text" readonly="readonly" />
                     <input id="xOrdMaterial" class="scr-inhelp" type="text" />
                     <div id="lOrdMaterial" class="scr-hlpList" ></div>
                 </td>
+                
                 <td>
                     <input id="OrdTinta" class="scr-hidden" type="text" readonly="readonly" />
                     <input id="xOrdTinta" class="scr-inhelp" type="text" />
                     <div id="lOrdTinta" class="scr-hlpList" ></div>
                 </td>
-                <td><input id="amount" type="text" /></td>
-                <td><input id="unit" type="text" /></td>
-                <td><input id="value" type="text" readonly="readonly" /></td>
-            
-            </tr>
-            
-            <tr>
-                <th colspan="3" class="scr-aleft">NOTA:</th>
-                <th colspan="4" class="scr-aleft">ACABADOS:</th>
-            </tr>
-            
-            <tr>
-                <td colspan="3"><textarea id="notes" rows="7"></textarea></td>
                 
-                <td colspan="4">
+                <td><input id="amount" type="text" /></td>
+            
+            </tr>
+            
+            <tr>
+                <th colspan="3" class="scr-aleft">ACABADOS:</th>
+                <th colspan="2" class="scr-aleft">NOTA:</th>
+            </tr>
+            
+            <tr>
+                <td colspan="3">
                     
-                    <input id="acabados" class="scr-inhelp" type="text" />
+                    <input id="OrdAcabado" class="scr-hidden" type="text" readonly="readonly" />
+                    
+                    <table class="scr-f2">
+                        <tr>
+                            <td><input id="xOrdAcabado" class="scr-inhelp" type="text" /></td>
+                            <th><input id="kOrdAcabado" type="button" value="+" title="Agregar" /></th>
+                        </tr>
+                    </table>
+                    
+                    <div id="lOrdAcabado" class="scr-hlpList" ></div>
                     
                     <div class="scr-detalle">
                         
@@ -106,12 +116,26 @@
                     </div>
                     
                 </td>
+                <td colspan="2"><textarea id="notes" rows="7"></textarea></td>
             </tr>
             
             <tr>
-                <td colspan="7" class="scr-aright">
-                    <input id="add" type="button" value="LIMPIAR" />
-                    <input id="clr" type="button" value="AGREGAR" />
+                <td colspan="3">
+                    <table class="scr-f2">
+                        <tr>
+                            <th>VALOR:</th>
+                            <th>$</th>
+                            <td><input id="unit" type="text" /></td>
+                            <th>TOTAL:</th>
+                            <th>$</th>
+                            <td><input id="value" type="text" readonly="readonly" /></td>
+                        </tr>
+                    </table>
+                </td>
+                
+                <td colspan="2" class="scr-aright">
+                    <input id="clr" type="button" value="LIMPIAR" />
+                    <input id="add" type="button" value="AGREGAR" />
                 </td>
             </tr>
         
@@ -121,9 +145,7 @@
     
     <div id="items" class="scr-orditem">
     
-        <table id="imgShower">
-        
-        </table>
+        <table id="itemLister"></table>
     
     </div>
     
@@ -139,7 +161,7 @@
                 
                 <th>SUBTOTAL:</th>
                 <th>$</th>
-                <td><input id="ordSubtotal" type="text" /></td>
+                <td><input id="ordSubtotal" type="text" readonly="readonly" /></td>
                 
                 <th>IVA:</th>
                 <th>$</th>
@@ -147,7 +169,7 @@
                 
                 <th>TOTAL:</th>
                 <th>$</th>
-                <td><input id="ordTotal" type="text" /></td>
+                <td><input id="ordTotal" type="text" readonly="readonly" /></td>
                 
             </tr>
             

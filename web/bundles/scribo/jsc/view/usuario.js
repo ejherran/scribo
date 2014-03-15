@@ -149,7 +149,7 @@ function xexPersonal(response)
 {
     idxPers = -1;
     gId("lpersonal_id").innerHTML = toTable(response.responseText);
-    show("lpersonal_id");
+    showB("lpersonal_id");
 }
 
 function picPersonal()

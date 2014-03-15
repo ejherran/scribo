@@ -160,3 +160,6 @@ scribo_uno_findmate:
 scribo_uno_findtinta:
     pattern:  /uno/ordtinta
     defaults: { _controller: ScriboBundle:Uno:ftinta }
+scribo_uno_findacabado:
+    pattern:  /uno/ordacabado
+    defaults: { _controller: ScriboBundle:Uno:facabado }

@@ -249,7 +249,7 @@ input[type="text"], input[type="password"], input[type="number"], input[type="da
 {
     min-height: 34px;
     width: 100%;
-    padding: 7px 8px;
+    padding: 4px;
     outline: none;
     color: #303030;
     font-weight: bold;
@@ -286,7 +286,6 @@ input[type="submit"], input[type="button"]
     border: 1px solid #d5d5d5;
     vertical-align: middle;
     cursor: pointer;
-    user-select: none;
     line-height: 1.4;
 }
 

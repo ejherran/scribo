@@ -1,5 +1,7 @@
 /* ####### Variables ####### */
 
+// var ctlUrl = 'uno'                                       // Url del controlador base.
+
 var findHelpIndex = -1;
 var findHelpBlur = true;
 
@@ -42,7 +44,7 @@ function bFindHelp(response, camp)
 {
     findHelpIndex = -1;
     
-    show('l'+camp);
+    showB('l'+camp);
     gId('l'+camp).innerHTML = toTable(response.responseText, 'cFindHelp', camp);
 }
 
@@ -113,6 +115,9 @@ function gFindHelp(elem)
     gId(camp).value = elem.cells[0].innerHTML;
     gId('x'+camp).value = elem.cells[1].innerHTML;
     gId('x'+camp).focus();
+    
+    if( typeof gId("x"+camp).secondAction != "undefined" )
+        gId("x"+camp).secondAction(elem);
 }
 
 function hFindHelp(event)

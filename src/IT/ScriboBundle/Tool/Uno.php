@@ -55,13 +55,13 @@ class Uno
             
             if($con)
             {
-                $r = mysql_query("select id, name from material where name like '%$param%' and type = 'P' order by name;", $con);
+                $r = mysql_query("select id, name, value from material where name like '%$param%' and type = 'P' order by name;", $con);
                 if($r)
                 {
                     $data = array();
                     
                     while($row = mysql_fetch_assoc($r))
-                        $data[] = $row['id'].'=>'.$row['name'];
+                        $data[] = $row['id'].'=>'.$row['name'].'=>$ '.$row['value'];
                     
                     $data = count($data) > 0 ? join('|:|', $data) : '_NONE_';
                 }
@@ -89,13 +89,47 @@ class Uno
             
             if($con)
             {
-                $r = mysql_query("select id, name from tinta where name like '%$param%' and type = 'P' order by name;", $con);
+                $r = mysql_query("select id, name, value from tinta where name like '%$param%' and type = 'P' order by name;", $con);
                 if($r)
                 {
                     $data = array();
                     
                     while($row = mysql_fetch_assoc($r))
-                        $data[] = $row['id'].'=>'.$row['name'];
+                        $data[] = $row['id'].'=>'.$row['name'].'=>$ '.$row['value'];
+                    
+                    $data = count($data) > 0 ? join('|:|', $data) : '_NONE_';
+                }
+                else
+                    Tool::getDbError($con);
+                    
+                Tool::closeDbCon($con);
+            }
+        }
+        
+        return $data;
+    }
+    
+    public function findAcabado($controller)
+    {
+        $param = Gestion::sqlKill($controller->getRequest()->request->get('param'));
+        
+        $data = '_NONE_';
+        
+        $lic = Gestion::getLicencia(Gestion::getDomain($controller));
+            
+        if($lic)
+        {
+            $con = Tool::newDbCon($lic);
+            
+            if($con)
+            {
+                $r = mysql_query("select id, name, value from acabado where name like '%$param%' and type = 'P' order by name;", $con);
+                if($r)
+                {
+                    $data = array();
+                    
+                    while($row = mysql_fetch_assoc($r))
+                        $data[] = $row['id'].'=>'.$row['name'].'=>$ '.$row['value'];
                     
                     $data = count($data) > 0 ? join('|:|', $data) : '_NONE_';
                 }

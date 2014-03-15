@@ -3,9 +3,11 @@
     font-family: "Courier New", Courier, monospace;
     font-size: 10pt;
     font-weight: bold;
+    position: relative;
+    width: 100%;
 }
 
-.scr-pro .scr-f1
+.scr-pro .scr-f1, .scr-pro .scr-f2
 {
     width: 100%;
     border-collapse: collapse;
@@ -66,7 +68,7 @@
     overflow: auto;
     margin-top: 5px;
     width: 100%;
-    height: 80px;
+    height: 60px;
     border: 1px solid #6c8393;
     background: #fff;
     text-align: center;
@@ -97,9 +99,19 @@
     background: #ADD8E6;
 }
 
-.scr-detalle td
+.scr-detalle td, .scr-detalle th
 {
     border: 1px solid #0B556D;
+}
+
+.scr-pro .scr-detalle th, .scr-pro .scr-detalle td
+{
+    padding: 0px;
+}
+
+.scr-pro .scr-detalle img
+{
+    vertical-align: bottom;
 }
 
 /* --- ITEMS --- */
@@ -111,7 +123,7 @@
     margin-top: 5px;
     margin-bottom: 5px;
     width: 100%;
-    height: 150px;
+    height: 100px;
     border: 1px solid #6c8393;
     background: #fff;
     text-align: center;
@@ -202,17 +214,19 @@
 
 .scr-pro .scr-hlpList
 {
-    background: #E1E1E1;
-    position: absolute;
     display: none;
-    z-index: 97;
-    width: 50%;
-    padding: 10px 25px 10px 25px;
-    margin-top: 5px;
-    opacity: 0.8;
-    border: 1px solid #6c8393;
-    max-height: 150px;
+    position: absolute;
     overflow: auto;
+    background: #E1E1E1;
+    left: 2%;
+    top: auto;
+    width: 96%;
+    max-height: 150px;
+    margin-top: 5px;
+    padding: 10px 0px 10px 0px;
+    border: 1px solid #6c8393;
+    opacity: 0.8;
+    z-index: 97;
 }
 
 .scr-pro .scr-hlpList table
@@ -230,4 +244,12 @@
 .scr-pro .scr-hlpList table tr:hover
 {
     background: #ADD8E6
+}
+
+.picList
+{
+    width: 40px;
+    height: 40px;
+    padding: 5px;
+    vertical-align: bottom;
 }

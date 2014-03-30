@@ -220,7 +220,6 @@ function aplicaIva()
 
 function saveOrder()
 {
-    
     if(gId('firmaCode').value != '')
     {
         if(validate('OrdClient,xOrdClient,ordTime,ordSubtotal,ordIva,ordTotal'))
@@ -245,6 +244,7 @@ function saveOrder()
             
             dsave = dsave+'|-*-*-|'+ditem;
             
+            showB('waiter');
             ajaxAction
             (
                 new Hash(['*param => '+dsave]),
@@ -259,5 +259,11 @@ function saveOrder()
 
 function okSave(response)
 {
-    alert(response.responseText)
+    if(parseInt(response.responseText) > 0)
+        document.location = $basePath+'uno/'+response.responseText+'/visor';
+    else
+    {
+        hide("waiter");
+        showFlash("Error al procesar la orden!...");
+    }
 }

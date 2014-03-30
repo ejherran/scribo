@@ -24,6 +24,19 @@ class UnoController extends Controller
         }
     }
     
+    public function visorAction($id)
+    {
+        if(Gestion::isGrant($this, 'R,A'))
+        {
+            return $this->render('ScriboBundle:Uno:visor.html.twig', array('URL' => $this->generateUrl('scribo_uno_docu', array('id' => $id))));
+        }
+        else
+        {
+            $this->get('session')->getFlashBag()->add('notice', 'Intento de acceso no autorizado!...');
+            return $this->redirect($this->generateUrl('scribo'));
+        }
+    }
+    
     public function fcliAction()
     {
         if(Gestion::isGrant($this, 'R,A'))
@@ -122,6 +135,7 @@ class UnoController extends Controller
                 $obj = new Uno();
                 $res = $obj->save($this);
                 
+                
                 return new Response($res);
             }
             else
@@ -133,6 +147,8 @@ class UnoController extends Controller
             return $this->redirect($this->generateUrl('scribo'));
         }
     }
+    
+    
     
     public function docuAction($id)
     {

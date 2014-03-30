@@ -151,7 +151,7 @@ class Uno
         $user = Gestion::getUserId($controller);
         $pars = explode('|=-=|', $ifo[0]);
         
-        $data = '_NONE_';
+        $data = '-1';
         
         $lic = Gestion::getLicencia(Gestion::getDomain($controller));
             
@@ -199,7 +199,7 @@ class Uno
                         $sql = "insert into proceso values('0', '".$oid."', '".$user."', '".$user."', 'C', 'Nueva orden de tipo 1');";
                         $r = mysql_query($sql, $con);
                         
-                        $data = 'OK!';
+                        $data = $oid;
                     }
                 }
                 else

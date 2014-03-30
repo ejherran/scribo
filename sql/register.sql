@@ -1,10 +1,10 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.10deb1
+-- version 4.1.9deb1
 -- http://www.phpmyadmin.net
 --
--- Servidor: localhost
--- Tiempo de generación: 27-02-2014 a las 09:08:38
--- Versión del servidor: 5.5.35-1
+-- Servidor: localhost:3306
+-- Tiempo de generación: 30-03-2014 a las 09:47:57
+-- Versión del servidor: 5.5.35-2
 -- Versión de PHP: 5.5.9-1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `licencia` (
 --
 
 INSERT INTO `licencia` (`id`, `servicio_id`, `domain`, `inicio`, `fin`, `owner`, `phone`, `mail`, `data`) VALUES
-(1, 1, 'zarate', '2013-12-01', '2014-02-28', 'developer', '123456789', 'ejherran.c@gamil.com', NULL);
+(1, 1, 'zarate', '2013-12-01', '2014-12-31', 'Impresiones Zarate', '123456789', 'test@test.com', NULL);
 
 -- --------------------------------------------------------
 

@@ -208,12 +208,61 @@ class Gestion
         return $flag;
     }
     
+    public static function getRegistro($controller)
+    {
+        $reg = null;
+        
+       $lic = Gestion::getLicencia(Gestion::getDomain($controller));
+            
+        if($lic)
+        {
+            $con = Tool::newDbCon($lic);
+            if($con)
+            {
+                $reg = mysql_query("select * from registro where id = '1' limit 1", $con);
+                
+                if($reg)
+                    $reg = Gestion::utf8Fix(mysql_fetch_assoc($reg));
+                    
+                Tool::closeDbCon($con);
+            }
+        }
+            
+        
+        return $reg;
+    }
+    
     public static function sqlKill($str)
     {
         $str = str_ireplace("\\", "\\\\", $str);
         $str = str_ireplace("'", "\\'", $str);
         
         return $str;
+    }
+    
+    public static function utf8Fix($arr)
+    {
+        if(is_array($arr))
+        {
+            $res = array();
+            foreach($arr as $k => $v)
+                $res[$k] = utf8_encode($v);
+            
+            return $res;
+        }
+        else
+            return null;
+    }
+    
+    public static function creaImg($data)
+    {
+        $img = explode(',',$data);
+        $fname = explode('/', $img[0])[1];
+        $fname = explode(';', $fname)[0];
+        $fname = sha1(date('Y-m-d_H:i:s').'_'.rand(0, 1000)).'.'.$fname;
+        file_put_contents('/tmp/'.$fname, base64_decode($img[1]));
+        
+        return $fname;
     }
 }
  

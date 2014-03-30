@@ -166,3 +166,6 @@ scribo_uno_findacabado:
 scribo_uno_save:
     pattern:  /uno/save
     defaults: { _controller: ScriboBundle:Uno:save }
+scribo_uno_docu:
+    pattern:  /uno/{id}/docu
+    defaults: { _controller: ScriboBundle:Uno:docu }

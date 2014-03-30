@@ -163,3 +163,6 @@ scribo_uno_findtinta:
 scribo_uno_findacabado:
     pattern:  /uno/ordacabado
     defaults: { _controller: ScriboBundle:Uno:facabado }
+scribo_uno_save:
+    pattern:  /uno/save
+    defaults: { _controller: ScriboBundle:Uno:save }

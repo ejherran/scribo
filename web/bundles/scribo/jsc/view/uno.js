@@ -37,7 +37,7 @@ function $_init()
     gId('clr').onclick = clrItem;
     gId('ordTotal').onfocus = aplicaIva;
     
-    alert("Este módulo se encuentra en desarrollo, la función guardar se encuentra deshabilitada!.");
+    gId('save').onclick = saveOrder;
 }
 
 /* ####### Archivos ####### */
@@ -147,12 +147,28 @@ function calculateValor()
 function addItem()
 {
     if(validate("fileIn,xFileIn,pages,OrdMaterial,xOrdMaterial,OrdTinta,xOrdTinta,amount,unit,value"))
-    {
-        var src = '<tr><td><img class="picList" src="'+gId('cFileIn').value+'" /></td><td>'+gId('pages').value+'</td><td>'+gId('xOrdMaterial').value+'</td><td>'+gId('xOrdTinta').value+'</td><td>'+gId('amount').value+'</td><td>'+gId('value').value+'</td><td><img src="'+$imgPath+'rem.png" onclick="remItem(this);" title="Eliminar" /></td></tr>';
+    {   
+        var rows = gId('acabadosList').rows;
+        var crows = rows.length;
+        var daca = Array();
+        
+        for(i = 0; i < crows; i++)
+            daca.push(rows[i].cells[0].innerHTML);
+        
+        daca = daca.join('|-|');
+        daca = daca != '' ? daca : '@@@';
+        
+        var inotes = gId('notes').value != '' ? gId('notes').value : '@@@';
+        
+        var src = '<tr>';
+        src += '<td class="scr-hidden">'+gId('OrdMaterial').value+'|=-=|'+gId('OrdTinta').value+'|=-=|'+gId('xFileIn').value+'|=-=|'+gId('pages').value+'|=-=|'+gId('amount').value+'|=-=|'+gId('unit').value+'|=-=|'+gId('value').value+'|=-=|'+gId('cFileIn').value+'|=-=|'+inotes+'|=-=|'+daca+'</td>';
+        src += '<td><img class="picList" src="'+gId('cFileIn').value+'" /></td><td>'+gId('pages').value+'</td><td>'+gId('xOrdMaterial').value+'</td><td>'+gId('xOrdTinta').value+'</td><td>'+gId('amount').value+'</td><td>'+gId('value').value+'</td><td><img src="'+$imgPath+'rem.png" onclick="remItem(this);" title="Eliminar" /></td>';
+        src += '</tr>';
         gId('itemLister').innerHTML += src;
         
         clrItem();
         calculateSub();
+        gId('xFileIn').focus();
     }
 }
 
@@ -184,7 +200,7 @@ function calculateSub()
     var lim = irows.length;
     
     for(i = 0; i < lim; i++)
-        sub += parseFloat(irows[i].cells[5].innerHTML);
+        sub += parseFloat(irows[i].cells[6].innerHTML);
        
     gId('ordSubtotal').value = sub;
 }
@@ -200,4 +216,48 @@ function aplicaIva()
         gId('ordIva').focus();
     }
         
+}
+
+function saveOrder()
+{
+    
+    if(gId('firmaCode').value != '')
+    {
+        if(validate('OrdClient,xOrdClient,ordTime,ordSubtotal,ordIva,ordTotal'))
+        {
+            var obser = gId('ordData').value != '' ? gId('ordData').value : '@@@';
+            var dsave = gId('OrdClient').value+'|=-=|';
+                dsave += gId('ordTime').value+'|=-=|';
+                dsave += gId('ordSubtotal').value+'|=-=|';
+                dsave += gId('ordIva').value+'|=-=|';
+                dsave += gId('ordTotal').value+'|=-=|';
+                dsave += gId('firmaCode').value+'|=-=|';
+                dsave += obser;
+            
+            var ditem = Array();
+            var irows = gId('itemLister').rows;
+            var lim = irows.length;            
+            for(i = 0; i < lim; i++)
+                ditem.push(irows[i].cells[0].innerHTML);
+            
+            ditem = ditem.join('|:-:|');
+            ditem = ditem != '' ? ditem : '@@@';
+            
+            dsave = dsave+'|-*-*-|'+ditem;
+            
+            ajaxAction
+            (
+                new Hash(['*param => '+dsave]),
+                $basePath+'uno/save',
+                okSave
+            );
+        }
+    }
+    else
+        showFlash('El cliente debe firmar la orden antes de registrarla!');
+}
+
+function okSave(response)
+{
+    alert(response.responseText)
 }

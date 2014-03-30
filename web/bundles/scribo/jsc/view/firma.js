@@ -92,6 +92,7 @@ function getFirma()
 
 function showFirma()
 {
+    window.scroll(0,0);
     show('ctFirma');
     ctx = canvas.getContext("2d");
     rect = canvas.getBoundingClientRect();

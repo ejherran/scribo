@@ -135,6 +135,40 @@ class Gestion
             return null;
     }
     
+    public static function getUserId($controller)
+    {
+        $id = -1;
+        
+        $user = Gestion::getUser($controller);
+        if($user)
+        {
+            $lic = Gestion::getLicencia(Gestion::getDomain($controller));
+            
+            if($lic)
+            {
+                $con = Tool::newDbCon($lic);
+                if($con)
+                {
+                    $user = mysql_query("select id from usuario where user = '$user' limit 1", $con);
+                    
+                    if($user)
+                    {
+                        $user = mysql_fetch_assoc($user);
+                        $user = $user['id'];
+                        
+                        if($user != '' and intval($user) > 0)
+                            $id = $user;
+                    }
+                        
+                    Tool::closeDbCon($con);
+                }
+            }
+            
+        }
+        
+        return $id;
+    }
+    
     public static function chPass($controller, $oldpass, $newpass)
     {
         $flag = false;

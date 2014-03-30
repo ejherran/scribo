@@ -109,8 +109,10 @@ function gFindHelp(elem)
 {
     var camp = remConsecutive(elem.id);
     
+    var dis = elem.parentNode.parentNode.parentNode;
+    
     elem.style.background = '#ADD8E6';
-    elem.scrollIntoView();
+    dis.scrollTop = elem.offsetTop;
 
     gId(camp).value = elem.cells[0].innerHTML;
     gId('x'+camp).value = elem.cells[1].innerHTML;

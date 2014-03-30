@@ -202,11 +202,14 @@ body
 
 .scr-view
 {
-    position: relative;
-    background-image: url('/web/bundles/scribo/img/pic.png');
+    position: absolute;
+    overflow: auto;
+    background-image: url('../img/pic.png');
     left: 1%;
+    top: 8%;
     width: 94%;
     min-height: 100px;
+    max-height: 85%;
     border: 1px solid #6c8393;
     padding: 2%;
     border-radius: 4px;
@@ -338,7 +341,7 @@ input[type="submit"]:hover, input[type="button"]:hover, input[type="submit"]:foc
     position: relative;
     overflow: auto;
     width: 90%;
-    height: 250px;
+    height: 230px;
     left: 5%;
     border: 1px solid #6c8393;
     background: #fff;

@@ -266,5 +266,41 @@ class UnoController extends Controller
             return $this->redirect($this->generateUrl('scribo'));
         }
     }
+    
+    public function partialAction()
+    {
+        if(Gestion::isGrant($this, 'R,A'))
+        {
+            $request = $this->getRequest();
+			if($request->isXmlHttpRequest())
+			{
+                $name = $request->request->get('parName');
+                $data = $request->request->get('parData');
+                $out = $request->request->get('parOut');
+                
+                if($out == '@' && $data != '@')
+                {
+                    $data = explode(',', $data);
+                    $data = count($data) > 1 ? $data[1] : $data[0]; 
+                    $fp = fopen("/tmp/".$name,"a");
+                    fwrite($fp, $data);
+                    fclose($fp);
+                    return new Response('...');
+                }
+                else
+                {
+                    exec("base64 -d /tmp/".$name." > /tmp/".$out);
+                    return new Response('Ok');
+                }
+            }
+            else
+                return $this->redirect($this->generateUrl('scribo_home'));
+        }
+        else
+        {
+            $this->get('session')->getFlashBag()->add('notice', 'Intento de acceso no autorizado!...');
+            return $this->redirect($this->generateUrl('scribo'));
+        }
+    }
 }
 

@@ -146,7 +146,8 @@ class Uno
     public function save($controller)
     {
         $param = Gestion::sqlKill($controller->getRequest()->request->get('param'));
-        $ifo = explode('|-*-*-|', $param);
+        $data = $param;
+        /*$ifo = explode('|-*-*-|', $param);
         
         $user = Gestion::getUserId($controller);
         $pars = explode('|=-=|', $ifo[0]);
@@ -207,7 +208,7 @@ class Uno
                     
                 Tool::closeDbCon($con);
             }
-        }
+        }*/
         
         return $data;
     }

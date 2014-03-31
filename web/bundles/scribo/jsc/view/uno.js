@@ -9,6 +9,19 @@ var vAca = 0;
 var vBas = 0;
 var eAca = null;
 
+/* Transferencia de datos */
+var transfer = '';
+var tmpFile = '';
+var firmaCode = '';
+
+var parName = '';
+var parData = '';
+var parOut = '';
+var parBuf = 2097152;
+
+var iniTime = 0;
+
+
 
 /* ####### Init Global ####### */
 
@@ -68,7 +81,7 @@ function loadFile()
 
 function createCode(event)
 {
-    gId('cFileIn').value = this.result;
+    tmpFile = this.result;
 }
 
 
@@ -161,8 +174,7 @@ function addItem()
         var inotes = gId('notes').value != '' ? gId('notes').value : '@@@';
         
         var src = '<tr>';
-        src += '<td class="scr-hidden">'+gId('OrdMaterial').value+'|=-=|'+gId('OrdTinta').value+'|=-=|'+gId('xFileIn').value+'|=-=|'+gId('pages').value+'|=-=|'+gId('amount').value+'|=-=|'+gId('unit').value+'|=-=|'+gId('value').value+'|=-=|'+gId('cFileIn').value+'|=-=|'+inotes+'|=-=|'+daca+'</td>';
-        src += '<td><img class="picList" src="'+gId('cFileIn').value+'" /></td><td>'+gId('pages').value+'</td><td>'+gId('xOrdMaterial').value+'</td><td>'+gId('xOrdTinta').value+'</td><td>'+gId('amount').value+'</td><td>'+gId('value').value+'</td><td><img src="'+$imgPath+'rem.png" onclick="remItem(this);" title="Eliminar" /></td>';
+        src += '<td>'+gId('xFileIn').value+'</td><td>'+gId('pages').value+'</td><td>'+gId('xOrdMaterial').value+'</td><td>'+gId('xOrdTinta').value+'</td><td>'+gId('amount').value+'</td><td>'+gId('value').value+'</td><td><img src="'+$imgPath+'rem.png" onclick="remItem(this);" title="Eliminar" /></td>';
         src += '</tr>';
         gId('itemLister').innerHTML += src;
         
@@ -200,7 +212,7 @@ function calculateSub()
     var lim = irows.length;
     
     for(i = 0; i < lim; i++)
-        sub += parseFloat(irows[i].cells[6].innerHTML);
+        sub += parseFloat(irows[i].cells[5].innerHTML);
        
     gId('ordSubtotal').value = sub;
 }
@@ -220,50 +232,73 @@ function aplicaIva()
 
 function saveOrder()
 {
-    if(gId('firmaCode').value != '')
+    /*if(firmaCode != '')
     {
         if(validate('OrdClient,xOrdClient,ordTime,ordSubtotal,ordIva,ordTotal'))
         {
             var obser = gId('ordData').value != '' ? gId('ordData').value : '@@@';
-            var dsave = gId('OrdClient').value+'|=-=|';
-                dsave += gId('ordTime').value+'|=-=|';
-                dsave += gId('ordSubtotal').value+'|=-=|';
-                dsave += gId('ordIva').value+'|=-=|';
-                dsave += gId('ordTotal').value+'|=-=|';
-                dsave += gId('firmaCode').value+'|=-=|';
-                dsave += obser;
-            
-            var ditem = Array();
-            var irows = gId('itemLister').rows;
-            var lim = irows.length;            
-            for(i = 0; i < lim; i++)
-                ditem.push(irows[i].cells[0].innerHTML);
-            
-            ditem = ditem.join('|:-:|');
-            ditem = ditem != '' ? ditem : '@@@';
-            
-            dsave = dsave+'|-*-*-|'+ditem;
-            
-            showB('waiter');
-            ajaxAction
-            (
-                new Hash(['*param => '+dsave]),
-                $basePath+'uno/save',
-                okSave
-            );
+            var dsave = gId('OrdClient').value+';';
+            dsave += gId('ordTime').value+';';
+            dsave += gId('ordSubtotal').value+';';
+            dsave += gId('ordIva').value+';';
+            dsave += gId('ordTotal').value+';';
+            dsave += obser;
+            alert(dsave);
         }
     }
     else
-        showFlash('El cliente debe firmar la orden antes de registrarla!');
+        showFlash('El cliente debe firmar la orden antes de registrarla!');*/
+        
+    
+    parName = gId('xFileIn').value+'.b64';
+    parData = tmpFile;
+    parOut = gId('xFileIn').value;
+    tmpFile = '';
+    
+    iniTime = new Date().getTime();
+    partialUpload('');
 }
 
-function okSave(response)
+function partialUpload(response)
 {
-    if(parseInt(response.responseText) > 0)
-        document.location = $basePath+'uno/'+response.responseText+'/visor';
+    gId('riper').innerHTML = parData.length;
+    
+    if(parData.length > 0)
+    {   
+        var fraction = '';
+        if(parData.length > parBuf)
+        {
+            fraction = parData.substring(0, parBuf);
+            parData = parData.substring(parBuf);
+        }
+        else
+        {
+            fraction = parData;
+            parData = '';
+        }
+            
+        ajaxAction
+        (
+            new Hash(['*parName => '+parName, '*parData => '+fraction, '*parOut => @']),
+            $basePath+'uno/partial',
+            partialUpload
+        );
+    }
     else
     {
-        hide("waiter");
-        showFlash("Error al procesar la orden!...");
+        ajaxAction
+        (
+            new Hash(['*parName => '+parName, '*parData => @', '*parOut => '+parOut]),
+            $basePath+'uno/partial',
+            partialOk
+        );
     }
+}
+
+function partialOk(response)
+{
+    var sec = new Date().getTime();
+    sec = sec - iniTime;
+    sec = sec / 1000;
+    alert(sec);
 }

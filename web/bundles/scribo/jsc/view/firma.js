@@ -86,7 +86,7 @@ function moveFirma(evt)
 function getFirma()
 {
     code = canvas.toDataURL();
-    document.getElementById('firmaCode').value = code;
+    firmaCode = code;
     hide('ctFirma');
 }
 

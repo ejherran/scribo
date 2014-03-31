@@ -285,13 +285,14 @@ class UnoController extends Controller
                     $fp = fopen("/tmp/".$name,"a");
                     fwrite($fp, $data);
                     fclose($fp);
-                    return new Response('...');
                 }
-                else
+                /*else
                 {
                     exec("base64 -d /tmp/".$name." > /tmp/".$out);
                     return new Response('Ok');
-                }
+                }*/
+                
+                return new Response('...');
             }
             else
                 return $this->redirect($this->generateUrl('scribo_home'));

@@ -17,7 +17,8 @@ var firmaCode = '';
 var parName = '';
 var parData = '';
 var parOut = '';
-var parBuf = 2097152;
+var parBuf = 1048576;
+var mpars = 0;
 
 var iniTime = 0;
 
@@ -251,12 +252,32 @@ function saveOrder()
         
     
     parName = gId('xFileIn').value+'.b64';
-    parData = tmpFile;
     parOut = gId('xFileIn').value;
-    tmpFile = '';
     
+    var xkill = parseInt(tmpFile.length/5);
+    
+    var p1 = tmpFile.substring(0, xkill);
+    tmpFile = tmpFile.substring(xkill);
+    var p2 = tmpFile.substring(0, xkill);
+    tmpFile = tmpFile.substring(xkill);
+    var p3 = tmpFile.substring(0, xkill);
+    tmpFile = tmpFile.substring(xkill);
+    var p4 = tmpFile.substring(0, xkill);
+    tmpFile = tmpFile.substring(xkill);
+    var p5 = tmpFile.substring(0, xkill);
+    tmpFile = tmpFile.substring(xkill);
+    tmpFile = '';
     iniTime = new Date().getTime();
-    partialUpload('');
+    multiLoad1('', p1);
+    multiLoad2('', p2);
+    multiLoad3('', p3);
+    multiLoad4('', p4);
+    multiLoad5('', p5);
+    
+    /*iniTime = new Date().getTime();
+    parData = tmpFile;
+    tmpFile = '';
+    partialUpload('');*/
 }
 
 function partialUpload(response)
@@ -302,3 +323,185 @@ function partialOk(response)
     sec = sec / 1000;
     alert(sec);
 }
+
+function multiLoad1(response, cup)
+{
+    var mulData = cup;
+    //gId('riper').innerHTML = mulData.length;
+    
+    if(mulData.length > 0)
+    {   
+        var fraction = '';
+        if(mulData.length > parBuf)
+        {
+            fraction = mulData.substring(0, parBuf);
+            mulData = mulData.substring(parBuf);
+        }
+        else
+        {
+            fraction = mulData;
+            mulData = '';
+        }
+            
+        ajaxAction
+        (
+            new Hash(['*parName => '+parName+'.1', '*parData => '+fraction, '*parOut => @']),
+            $basePath+'uno/partial',
+            multiLoad1,
+            mulData
+        );
+    }
+    else
+    {
+        mpars += 1;
+        isReady();
+    }
+}
+
+function multiLoad2(response, cup)
+{
+    var mulData = cup;
+    //gId('riper').innerHTML = mulData.length;
+    
+    if(mulData.length > 0)
+    {   
+        var fraction = '';
+        if(mulData.length > parBuf)
+        {
+            fraction = mulData.substring(0, parBuf);
+            mulData = mulData.substring(parBuf);
+        }
+        else
+        {
+            fraction = mulData;
+            mulData = '';
+        }
+            
+        ajaxAction
+        (
+            new Hash(['*parName => '+parName+'.2', '*parData => '+fraction, '*parOut => @']),
+            $basePath+'uno/partial',
+            multiLoad2,
+            mulData
+        );
+    }
+    else
+    {
+        mpars += 1;
+        isReady();
+    }
+}
+
+function multiLoad3(response, cup)
+{
+    var mulData = cup;
+    //gId('riper').innerHTML = mulData.length;
+    
+    if(mulData.length > 0)
+    {   
+        var fraction = '';
+        if(mulData.length > parBuf)
+        {
+            fraction = mulData.substring(0, parBuf);
+            mulData = mulData.substring(parBuf);
+        }
+        else
+        {
+            fraction = mulData;
+            mulData = '';
+        }
+            
+        ajaxAction
+        (
+            new Hash(['*parName => '+parName+'.3', '*parData => '+fraction, '*parOut => @']),
+            $basePath+'uno/partial',
+            multiLoad3,
+            mulData
+        );
+    }
+    else
+    {
+        mpars += 1;
+        isReady();
+    }
+}
+
+function multiLoad4(response, cup)
+{
+    var mulData = cup;
+    //gId('riper').innerHTML = mulData.length;
+    
+    if(mulData.length > 0)
+    {   
+        var fraction = '';
+        if(mulData.length > parBuf)
+        {
+            fraction = mulData.substring(0, parBuf);
+            mulData = mulData.substring(parBuf);
+        }
+        else
+        {
+            fraction = mulData;
+            mulData = '';
+        }
+            
+        ajaxAction
+        (
+            new Hash(['*parName => '+parName+'.4', '*parData => '+fraction, '*parOut => @']),
+            $basePath+'uno/partial',
+            multiLoad4,
+            mulData
+        );
+    }
+    else
+    {
+        mpars += 1;
+        isReady();
+    }
+}
+
+function multiLoad5(response, cup)
+{
+    var mulData = cup;
+    //gId('riper').innerHTML = mulData.length;
+    
+    if(mulData.length > 0)
+    {   
+        var fraction = '';
+        if(mulData.length > parBuf)
+        {
+            fraction = mulData.substring(0, parBuf);
+            mulData = mulData.substring(parBuf);
+        }
+        else
+        {
+            fraction = mulData;
+            mulData = '';
+        }
+            
+        ajaxAction
+        (
+            new Hash(['*parName => '+parName+'.5', '*parData => '+fraction, '*parOut => @']),
+            $basePath+'uno/partial',
+            multiLoad5,
+            mulData
+        );
+    }
+    else
+    {
+        mpars += 1;
+        isReady();
+    }
+}
+
+function isReady()
+{
+    if(mpars == 5)
+    {
+        var sec = new Date().getTime();
+        sec = sec - iniTime;
+        sec = sec / 1000;
+        alert(sec);
+    }  
+}
+

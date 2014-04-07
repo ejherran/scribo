@@ -208,28 +208,55 @@ class Gestion
         return $flag;
     }
     
-    public static function getRegistro($controller)
+    public static function getConfiguracion($controller)
     {
-        $reg = null;
+        $cfg = null;
         
-       $lic = Gestion::getLicencia(Gestion::getDomain($controller));
+        $lic = Gestion::getLicencia(Gestion::getDomain($controller));
             
         if($lic)
         {
             $con = Tool::newDbCon($lic);
             if($con)
             {
-                $reg = mysql_query("select * from registro where id = '1' limit 1", $con);
+                $cfg = mysql_query("select * from configuracion where id = '1' limit 1", $con);
                 
-                if($reg)
-                    $reg = Gestion::utf8Fix(mysql_fetch_assoc($reg));
+                if($cfg)
+                    $cfg = Gestion::utf8Fix(mysql_fetch_assoc($cfg));
                     
                 Tool::closeDbCon($con);
             }
         }
             
         
-        return $reg;
+        return $cfg;
+    }
+    
+    public static function getStorage($domain)
+    {
+        $sto = '';
+        
+        $lic = Gestion::getLicencia($domain);
+            
+        if($lic)
+        {
+            $con = Tool::newDbCon($lic);
+            if($con)
+            {
+                $sto = mysql_query("select storage from configuracion where id = '1' limit 1", $con);
+                
+                if($sto)
+                {
+                    $sto = Gestion::utf8Fix(mysql_fetch_assoc($sto));
+                    $sto = $sto['storage'];
+                }
+                   
+                Tool::closeDbCon($con);
+            }
+        }
+            
+        
+        return $sto;
     }
     
     public static function sqlKill($str)

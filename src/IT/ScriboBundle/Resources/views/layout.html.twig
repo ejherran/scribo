@@ -6,6 +6,11 @@
 
 
 
+{% set storage = app.session.get('storage') %}
+{% set role = app.session.get('quick') %}
+
+
+
 {% block header %}
 
     <link rel="stylesheet" href="{{ asset('bundles/scribo/css/tema.css') }}" />
@@ -19,10 +24,7 @@
     
 {% endblock %}
 
-
 {% block body %}
-
-    {% set role = app.session.get('quick') %}
 
     <nav class="scr-nav">
         
@@ -106,7 +108,7 @@
         
         <input class="scr-fll" id="wgCambiar" name="wgCambiar" type="button" value="Cambiar" />
         <input class="scr-flr" id="wgCancelar" name="wgCancelar" type="button" value="Cancelar" />
-            
+        
     </section>
     
 {% endblock %}
@@ -120,11 +122,12 @@
 
     
 {% block script %}
-    
+
     <script type="text/javascript">
         
         var $basePath = "{{ path('scribo') }}";
         var $imgPath = "{{ asset('bundles/scribo/img/') }}";
+        var $storage = '{{ storage }}';
     
         {% block uscript %}
 

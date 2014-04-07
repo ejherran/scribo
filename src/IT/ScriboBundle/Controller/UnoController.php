@@ -158,14 +158,14 @@ class UnoController extends Controller
             $ord = $obj->getOrder($this, $id);
             $firma = null;
             
-            $reg = Gestion::getRegistro($this);
-            $logo = Gestion::creaImg($reg['logo']);
+            $cfg = Gestion::getConfiguracion($this);
+            $logo = Gestion::creaImg($cfg['logo']);
             
             $pdf = new \Tcpdf_Tcpdf('P', 'mm', 'LETTER', true, 'UTF-8', false);
-            $pdf->emp_name = $reg['name'];
-            $pdf->emp_reg = $reg['type'].': '.$reg['document'];
-            $pdf->emp_ubi = $reg['address'].' - '.$reg['phone'];
-            $pdf->emp_web = $reg['web'].' - '.$reg['mail'];
+            $pdf->emp_name = $cfg['name'];
+            $pdf->emp_reg = $cfg['type'].': '.$cfg['document'];
+            $pdf->emp_ubi = $cfg['address'].' - '.$cfg['phone'];
+            $pdf->emp_web = $cfg['web'].' - '.$cfg['mail'];
             $pdf->SetCreator(PDF_CREATOR);
             $pdf->SetAuthor('IT Sribo');
             $pdf->SetTitle('Comprobante De Ordenes Tipo I');
@@ -218,7 +218,7 @@ class UnoController extends Controller
                     $html = '<b>DETALLE DE ITEMS</b><br /><br />';
                     
                     $html .= '<table border="1" style="font-weight: bold; background-color: #D6D9F4;">';
-                    $html .= '<tr><td colspan="2">FICHERO</td><td>MATERIAL</td><td>TINTA</td></tr>';
+                    $html .= '<tr><td>FICHERO</td><td>EXPIRACIÓN</td><td>MATERIAL</td><td>TINTA</td></tr>';
                     $html .= '<tr><td>PAGINAS</td><td>CANTIDAD</td><td>V. UNITARIO</td><td>VALOR</td></tr>';
                     $html .= '<tr><td colspan="4">ACABADOS</td></tr>';
                     $html .= '<tr><td colspan="4">NOTAS</td></tr>';
@@ -231,9 +231,10 @@ class UnoController extends Controller
                         $iac = $obj->getAcabados($this, $it['idx']);
                         $iac = $iac != null ? $iac : 'Sin Acabados!';
                         $ino = $it['notas'] != '' ? $it['notas'] : 'Sin Notas!';
+                        $cad = $it['caduca'] != '@' ? $it['caduca'] : 'Al Entregar!';
                         
                         $html = '<table border="1">';
-                        $html .= '<tr><td colspan="2">'.$it['fichero'].'</td><td>'.$it['material'].'</td><td>'.$it['tinta'].'</td></tr>';
+                        $html .= '<tr><td>'.$it['fichero'].'</td><td>'.$cad.'</td><td>'.$it['material'].'</td><td>'.$it['tinta'].'</td></tr>';
                         $html .= '<tr><td>'.$it['paginas'].'</td><td>'.$it['cantidad'].'</td><td>$ '.floatval($it['unitario']).'</td><td>$ '.floatval($it['valor']).'</td></tr>';
                         $html .= '<tr><td colspan="4">'.$iac.'</td></tr>';
                         $html .= '<tr><td colspan="4">'.$ino.'</td></tr>';
@@ -259,42 +260,6 @@ class UnoController extends Controller
                 unlink("/tmp/".$firma);
             
             $pdf->Output('comprobante.pdf', 'I');
-        }
-        else
-        {
-            $this->get('session')->getFlashBag()->add('notice', 'Intento de acceso no autorizado!...');
-            return $this->redirect($this->generateUrl('scribo'));
-        }
-    }
-    
-    public function partialAction()
-    {
-        if(Gestion::isGrant($this, 'R,A'))
-        {
-            $request = $this->getRequest();
-			if($request->isXmlHttpRequest())
-			{
-                $name = $request->request->get('parName');
-                $data = $request->request->get('parData');
-                $out = $request->request->get('parOut');
-                
-                if($out == '@' && $data != '@')
-                {
-                    $data = explode(',', $data);
-                    $data = count($data) > 1 ? $data[1] : $data[0]; 
-                    $fp = fopen("/tmp/".$name,"a");
-                    fwrite($fp, $data);
-                    fclose($fp);
-                    return new Response('1');
-                }
-                else
-                {
-                    exec("base64 -d /tmp/".$name." > /tmp/".$out);
-                    return new Response('0');
-                }
-            }
-            else
-                return $this->redirect($this->generateUrl('scribo_home'));
         }
         else
         {

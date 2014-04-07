@@ -1,9 +1,13 @@
 function setUrl(url)
 {
-	if(url[0] == '/')
-		url = url.substr(1);
-	url = location.protocol+'//'+location.host+'/'+url;
-	return url;
+    if(url.substr(0, 7) != 'http://')
+    {
+        if(url[0] == '/')
+            url = url.substr(1);
+        url = location.protocol+'//'+location.host+'/'+url;
+	}
+    
+    return url;
 }
 
 function inicializa_xhr() 
@@ -159,6 +163,30 @@ function ajaxField(url, data, token)
 				}
 				else
 					creaFlot('ajaxInfo'+Math.random(), peticion_http.responseText);
+			}
+		};
+		
+		peticion_http.open("POST", url, true);
+		peticion_http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		peticion_http.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+		var query = creaQuery(data);
+		peticion_http.send(query);
+	}
+}
+
+function ajaxTest(data, url, action)
+{	
+	url = setUrl(url);
+	var peticion_http = inicializa_xhr();
+		
+	if(peticion_http) 
+	{
+		peticion_http.onreadystatechange = function()
+		{
+			if(peticion_http.readyState == 4)
+			{
+				if(typeof action != "undefined")
+                    action(peticion_http);
 			}
 		};
 		

@@ -44,6 +44,7 @@ class DefaultController extends Controller
         {
             $session->set("userActive", base64_encode($domain."|:|".$user."|:|".$role));
             $session->set("quick", $role);
+            $session->set("storage", Gestion::getStorage($domain));
             return $this->redirect($this->generateUrl('scribo_home'));
         }
     }

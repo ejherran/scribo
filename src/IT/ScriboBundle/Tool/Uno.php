@@ -146,13 +146,12 @@ class Uno
     public function save($controller)
     {
         $param = Gestion::sqlKill($controller->getRequest()->request->get('param'));
-        $data = $param;
-        /*$ifo = explode('|-*-*-|', $param);
+        $param = explode('|:|', $param);
+        $data = '-1';
         
         $user = Gestion::getUserId($controller);
-        $pars = explode('|=-=|', $ifo[0]);
         
-        $data = '-1';
+        $dO = explode('|-|', $param[0]);
         
         $lic = Gestion::getLicencia(Gestion::getDomain($controller));
             
@@ -162,32 +161,32 @@ class Uno
             
             if($con)
             {
-                $obs = $pars[6] != '@@@' ? $pars[6] : '';
+                $obs = $dO[5] != '@' ? $dO[5] : '';
                 $fech = date('Y-m-d');
                 $init = date('H:i:s');
-                $sql = "insert into orden values ('0', '".$pars[0]."', '".$user."', '".$fech."', '".$init."', '0', '".$pars[1]."', '".$pars[2]."', '".$pars[3]."', '".$pars[4]."', '".$pars[5]."', '".$obs."');";
+                $sql = "insert into orden values ('0', '".$dO[0]."', '".$user."', '".$fech."', '".$init."', '0', '".$dO[1]."', '".$dO[2]."', '".$dO[3]."', '".$dO[4]."', '".$param[count($param)-1]."', '".$obs."');";
                 $r = mysql_query($sql, $con);
                 if($r)
                 {
-                    $oid = mysql_insert_id();
-                    
+                   $oid = mysql_insert_id();
+                   
                     if(intval($oid) > 0)
                     {
-                        $items = explode('|:-:|', $ifo[1]);
+                        $items = array_slice($param, 1, count($param)-2);
                         
                         foreach($items as $it)
                         {
+                            $dit = explode('|-|', $it);
+                            $diobs = $dit[10] != '@' ? $dit[10] : '';
                             
-                            $dit = explode('|=-=|', $it);
-                            $diobs = $dit[8] != '@@@' ? $dit[8] : '';
-                            $sql = "insert into papel values('0', '".$oid."', '".$dit[0]."', '".$dit[1]."', '".$dit[2]."', '".$dit[3]."', '".$dit[4]."', '".$dit[5]."', '".$dit[6]."', '".$dit[7]."', '".$diobs."');";
+                            $sql = "insert into papel values('0', '".$oid."', '".$dit[0]."', '".$dit[1]."', '".$dit[2]."', '".$dit[3]."', '".$dit[4]."', '".$dit[5]."', '".$dit[6]."', '".$dit[7]."', '".$dit[8]."', '".$dit[9]."', '".$diobs."');";
                             $r = mysql_query($sql, $con);
                             
                             $iid = mysql_insert_id();
                             
-                            if(intval($iid) > 0 && $dit[9] != '@@@')
+                            if(intval($iid) > 0 && $dit[11] != '@')
                             {
-                                $daca = explode('|-|', $dit[9]);
+                                $daca = explode(';', $dit[11]);
                                 
                                 foreach($daca as $dc)
                                 {
@@ -208,7 +207,7 @@ class Uno
                     
                 Tool::closeDbCon($con);
             }
-        }*/
+        }
         
         return $data;
     }
@@ -277,7 +276,7 @@ class Uno
             
             if($con)
             {
-                $sql = "select papel.id as idx, papel.name as fichero, material.name as material, tinta.name as tinta, pages as paginas, amount as cantidad, unit as unitario, papel.value as valor, papel.data as notas, papel.content as code from papel, material, tinta where material.id = papel.material_id and tinta.id = papel.tinta_id and orden_id='$id';";
+                $sql = "select papel.id as idx, papel.name as fichero, material.name as material, tinta.name as tinta, pages as paginas, amount as cantidad, unit as unitario, papel.value as valor, papel.data as notas, papel.expiry as caduca from papel, material, tinta where material.id = papel.material_id and tinta.id = papel.tinta_id and orden_id='$id';";
                 $r = mysql_query($sql, $con);
                 if($r)
                 {

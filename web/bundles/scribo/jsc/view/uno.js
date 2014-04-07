@@ -9,20 +9,18 @@ var vAca = 0;
 var vBas = 0;
 var eAca = null;
 
+var ctItem = 0;
+
 /* Transferencia de datos */
-var transfer = '';
 var tmpFile = '';
 var firmaCode = '';
+var upLimit = '';
+var transfer = new Hash([]);
+var transferId = -1;
 
-var parName = '';
-var parData = '';
-var parOut = '';
-var parBuf = 131072;
-var mpars = 0;
+/* Acumulador Global */
 
-var iniTime = 0;
-
-
+var dSave = '';
 
 /* ####### Init Global ####### */
 
@@ -52,6 +50,22 @@ function $_init()
     gId('ordTotal').onfocus = aplicaIva;
     
     gId('save').onclick = saveOrder;
+    
+    ajaxTest
+    (
+        new Hash(['*action => test']),
+        $storage+'/scribo/repository.php',
+        testStorage
+    );
+}
+
+function testStorage(response)
+{
+    if(response.status != 200 || response.responseText != 'Ok!')
+    {
+        hide('save');
+        showFlash("Imposible conectar con el servidor de almacenamiento local!");
+    }
 }
 
 /* ####### Archivos ####### */
@@ -70,6 +84,7 @@ function inFile(event)
     magnaFile = event.target.files[0];
     gId('xFileIn').value = magnaFile.name;
     
+    gId('xFileIn').focus();
     loadFile();
 }
 
@@ -169,13 +184,31 @@ function addItem()
         for(i = 0; i < crows; i++)
             daca.push(rows[i].cells[0].innerHTML);
         
-        daca = daca.join('|-|');
-        daca = daca != '' ? daca : '@@@';
+        daca = daca.join(';');
+        daca = daca != '' ? daca : '@';
         
-        var inotes = gId('notes').value != '' ? gId('notes').value : '@@@';
+        var inotes = gId('notes').value != '' ? gId('notes').value : '@';
+        var iexpiry = gId('expiry').value != '' ? gId('expiry').value : '@';
         
-        var src = '<tr>';
-        src += '<td>'+gId('xFileIn').value+'</td><td>'+gId('pages').value+'</td><td>'+gId('xOrdMaterial').value+'</td><td>'+gId('xOrdTinta').value+'</td><td>'+gId('amount').value+'</td><td>'+gId('value').value+'</td><td><img src="'+$imgPath+'rem.png" onclick="remItem(this);" title="Eliminar" /></td>';
+        ctItem += 1;
+        
+        transfer.put('itm'+ctItem+' => '+tmpFile);
+        tmpFile = '';
+        
+        var src = '<tr id="itm'+ctItem+'">';
+        src += '<td class="scr-hidden">'+gId('OrdMaterial').value+'</td>';
+        src += '<td class="scr-hidden">'+gId('OrdTinta').value+'</td>';
+        src += '<td style="width: 59%;">'+gId('xFileIn').value+'</td>';
+        src += '<td style="width: 10%;">'+gId('pages').value+'</td>';
+        src += '<td style="width: 10%;">'+gId('amount').value+'</td>';
+        src += '<td style="width: 10%;">'+gId('unit').value+'</td>';
+        src += '<td style="width: 10%;">'+gId('value').value+'</td>';
+        src += '<td class="scr-hidden">STORAGE</td>';
+        src += '<td class="scr-hidden">SIGNATURE</td>';
+        src += '<td class="scr-hidden">'+iexpiry+'</td>';
+        src += '<td class="scr-hidden">'+inotes+'</td>';
+        src += '<td class="scr-hidden">'+daca+'</td>';
+        src += '<td style="width: 1%;"><img src="'+$imgPath+'rem.png" onclick="remItem(this);" title="Eliminar" /></td>';
         src += '</tr>';
         gId('itemLister').innerHTML += src;
         
@@ -187,7 +220,7 @@ function addItem()
 
 function clrItem()
 {
-    clear("fileIn,xFileIn,pages,OrdMaterial,xOrdMaterial,OrdTinta,xOrdTinta,amount,unit,value,xOrdAcabado,OrdAcabado,notes");
+    clear("fileIn,xFileIn,pages,OrdMaterial,xOrdMaterial,OrdTinta,xOrdTinta,amount,unit,value,xOrdAcabado,OrdAcabado,notes,expiry");
     gId('acabadosList').innerHTML = '';
     
     magnaFile = '';
@@ -203,6 +236,8 @@ function remItem(elem)
     var rrow = elem.parentNode.parentNode;
     rrow.parentNode.removeChild(rrow);
     
+    transfer.pop(rrow.id);
+    
     calculateSub();
 }
 
@@ -213,7 +248,7 @@ function calculateSub()
     var lim = irows.length;
     
     for(i = 0; i < lim; i++)
-        sub += parseFloat(irows[i].cells[5].innerHTML);
+        sub += parseFloat(irows[i].cells[6].innerHTML);
        
     gId('ordSubtotal').value = sub;
 }
@@ -233,72 +268,103 @@ function aplicaIva()
 
 function saveOrder()
 {
-    /*if(firmaCode != '')
+    if(firmaCode != '')
     {
         if(validate('OrdClient,xOrdClient,ordTime,ordSubtotal,ordIva,ordTotal'))
         {
-            var obser = gId('ordData').value != '' ? gId('ordData').value : '@@@';
-            var dsave = gId('OrdClient').value+';';
-            dsave += gId('ordTime').value+';';
-            dsave += gId('ordSubtotal').value+';';
-            dsave += gId('ordIva').value+';';
-            dsave += gId('ordTotal').value+';';
-            dsave += obser;
-            alert(dsave);
+            var obser = gId('ordData').value != '' ? gId('ordData').value : '@';
+            
+            dSave = gId('OrdClient').value+'|-|';
+            dSave += gId('ordTime').value+'|-|';
+            dSave += gId('ordSubtotal').value+'|-|';
+            dSave += gId('ordIva').value+'|-|';
+            dSave += gId('ordTotal').value+'|-|';
+            dSave += obser;
+            
+            transferId = 0;
+            uploader();
         }
     }
     else
-        showFlash('El cliente debe firmar la orden antes de registrarla!');*/
-        
-    iniTime = new Date().getTime();
-    parName = gId('xFileIn').value+'.b64';
-    parOut = gId('xFileIn').value;
-    parData = tmpFile;
-    tmpFile = '';
-    partialUpload('');
+        showFlash('El cliente debe firmar la orden antes de registrarla!');
 }
 
-function partialUpload(response)
+function proSave()
 {
-    gId('riper').innerHTML = parData.length;
+    var rows = gId('itemLister').rows;
+    var crows = rows.length;
+    var dite = Array();
     
-    if(parData.length > 0)
-    {   
-        var fraction = '';
-        if(parData.length > parBuf)
-        {
-            fraction = parData.substring(0, parBuf);
-            parData = parData.substring(parBuf);
-        }
-        else
-        {
-            fraction = parData;
-            parData = '';
-        }
-            
-        ajaxAction
-        (
-            new Hash(['*parName => '+parName, '*parData => '+fraction, '*parOut => @']),
-            $basePath+'uno/partial',
-            partialUpload
-        );
+    for(i = 0; i < crows; i++)
+    {
+        var tite = [rows[i].cells[0].innerHTML, rows[i].cells[1].innerHTML, rows[i].cells[2].innerHTML, rows[i].cells[3].innerHTML, rows[i].cells[4].innerHTML, rows[i].cells[5].innerHTML, rows[i].cells[6].innerHTML, rows[i].cells[7].innerHTML, rows[i].cells[8].innerHTML, rows[i].cells[9].innerHTML, rows[i].cells[10].innerHTML, rows[i].cells[11].innerHTML];
+        dite.push(tite.join('|-|'));
+    }
+    
+    dite = dite.join('|:|');
+    
+    dSave = dSave+'|:|'+dite+'|:|'+firmaCode;
+    sendSave();
+}
+
+function sendSave()
+{
+    ajaxAction
+    (
+        new Hash(['*param => '+dSave]),
+        $basePath+"uno/save",
+        okSave
+    );
+}
+
+function okSave(response)
+{
+    if(parseInt(response.responseText) > '')
+        document.location = $basePath+"uno/"+response.responseText+"/visor";
+    else
+        showFlash("Imposible procesar la orden!.");
+}
+
+function uploader()
+{
+    if(transferId < transfer.len && transferId > -1)
+    {
+        var tK = transfer.listKeys()[transferId];
+        
+        upUrl = $storage+'/scribo/repository.php';
+        upTime = new Date().getTime();
+        upName = gId(tK).cells[2].innerHTML;
+        upOut = '@';
+        upData = transfer.getValue(tK);
+        upLimit = upData.length;
+        transfer.fixV(tK, '');
+        upAction = okUp;
+        
+        gId('upLabel').innerHTML = upName;
+        
+        showB('uploader');
+        
+        partialUpload('');
     }
     else
     {
-        ajaxAction
-        (
-            new Hash(['*parName => '+parName, '*parData => @', '*parOut => '+parOut]),
-            $basePath+'uno/partial',
-            partialOk
-        );
+        hide('uploader');
+        proSave();
     }
 }
 
-function partialOk(response)
+function okUp()
 {
-    var sec = new Date().getTime();
-    sec = sec - iniTime;
-    sec = sec / 1000;
-    alert(sec);
+    var porcen = parseInt((1-(upData.length / upLimit))*100);
+    gId('upBar').style.width = porcen+'%';
+    
+    if(upHash != '')
+    {
+        var tK = transfer.listKeys()[transferId];
+        gId(tK).cells[7].innerHTML = upOut;
+        gId(tK).cells[8].innerHTML = upHash;
+        partialClear();
+        transferId += 1;
+        uploader();
+    }
 }
-

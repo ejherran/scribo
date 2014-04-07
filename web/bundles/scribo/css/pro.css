@@ -159,6 +159,11 @@
     border: 1px solid #0B556D;
 }
 
+.scr-orditem img
+{
+    vertical-align: middle;
+}
+
 /* --- FIRMA --- */
 
 .scr-firma
@@ -252,4 +257,45 @@
     height: 40px;
     padding: 5px;
     vertical-align: bottom;
+}
+
+
+/*---- UPLOADER ----*/
+
+.scr-uploader
+{
+    display: none;
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    width: 35%;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px #505050;
+    color: #FFF;
+    text-align: left;
+}
+
+.scr-uploader table
+{
+    width: 100%;
+    font-size: 0.7em;
+    font-weight: bold;
+}
+
+.scr-uploader table td
+{
+    width: 75%;
+    height: 20px;
+    border: 1px solid #FFF;
+}
+
+.scr-uploader table b
+{
+    background: #1E90FF;
+    height: 20px;
+    width: 100%;
+    vertical-align: middle;
+    display: inline-block;
 }

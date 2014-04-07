@@ -191,7 +191,7 @@ function Hash(array, token)
 
     if(typeof array == "undefined")
         array = new Array();
-
+    
     for(var i = 0; i < array.length; i++)
     {
         var temp = array[i].split(token);
@@ -227,6 +227,7 @@ function Hash(array, token)
             if(this.keys[i] == key)
             {
                 val = this.values[i];
+                break;
             }
         }
 
@@ -244,6 +245,7 @@ function Hash(array, token)
             if(this.values[i] == val)
             {
                 key = this.keys[i];
+                break;
             }
         }
 
@@ -258,5 +260,86 @@ function Hash(array, token)
     this.listValues = function()
     {
         return this.values;
+    }
+    
+    this.put = function(elem)
+    {
+        var temp = elem.split(token);
+        if(temp.length < 2)
+        {
+            this.keys.push('');
+            this.values.push(temp[0]);
+        }
+        else if(temp.length == 2)
+        {
+            this.keys.push(temp[0]);
+            this.values.push(temp[1]);
+        }
+        else
+        {
+            this.keys.push(temp[0]);
+            var val = '';
+            for(j = 1; j < temp.length; j++)
+                val = val+temp[j];
+        }
+        
+        this.len = this.values.length;
+    }
+    
+    this.pop = function(key)
+    {
+        if(typeof key == "undefined")
+            key = '';
+        
+        var pix = -1;
+        
+        for(var i = 0; i < this.values.length; i++)
+        {
+            if(this.keys[i] == key)
+            {
+                pix = i;
+                break;
+            }
+        }
+        
+        var val = this.keys[pix]+token+this.values[pix];
+        this.keys.splice(pix, 1);
+        this.values.splice(pix, 1);
+        
+        this.len = this.values.length;
+        
+        return val;
+    }
+    
+    this.fixK = function(oK, nK)
+    {
+        var pix = -1;
+        
+        for(var i = 0; i < this.values.length; i++)
+        {
+            if(this.keys[i] == oK)
+            {
+                pix = i;
+                break;
+            }
+        }
+        
+        this.keys[pix] = nK;
+    }
+    
+    this.fixV = function(k, v)
+    {
+        var pix = -1;
+        
+        for(var i = 0; i < this.values.length; i++)
+        {
+            if(this.keys[i] == k)
+            {
+                pix = i;
+                break;
+            }
+        }
+        
+        this.values[pix] = v;
     }
 }

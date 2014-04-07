@@ -11,6 +11,7 @@
     <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/uno.js') }}">/*--- Include ---*/ </script>
     <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/findhelper.js') }}">/*--- Include ---*/ </script>
     <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/firma.js') }}">/*--- Include ---*/ </script>
+    <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/upload.js') }}">/*--- Include ---*/ </script>
 {% endblock %}
 
 
@@ -125,6 +126,8 @@
                             <th>TOTAL:</th>
                             <th>$</th>
                             <td><input id="value" type="text" readonly="readonly" /></td>
+                            <th>EXPIRACIÓN:</th>
+                            <td><input id="expiry" type="date" /></td>
                         </tr>
                     </table>
                 </td>
@@ -160,8 +163,8 @@
                 <td><input id="ordSubtotal" type="text" readonly="readonly" /></td>
                 
                 <th>IVA:</th>
-                <th>$</th>
                 <td><input id="ordIva" type="text" /></td>
+                <td>%</td>
                 
                 <th>TOTAL:</th>
                 <th>$</th>
@@ -213,6 +216,12 @@
             </tr>
         </table>
     
+    </div>
+    
+    <div id="uploader" class="scr-uploader">
+        <table>
+            <tr><th id="upLabel">&nbsp;</th><td><b id="upBar"></b></td></tr>
+        </table>
     </div>
     
 {% endblock %}

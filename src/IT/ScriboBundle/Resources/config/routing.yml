@@ -172,6 +172,3 @@ scribo_uno_visor:
 scribo_uno_docu:
     pattern:  /uno/{id}/docu
     defaults: { _controller: ScriboBundle:Uno:docu }
-scribo_uno_partial:
-    pattern:  /uno/partial
-    defaults: { _controller: ScriboBundle:Uno:partial }

@@ -82,7 +82,7 @@ class Usuario
             }
         }
         
-        return $data;
+        return Gestion::utf8Fix($data);
     }
     
     public function get($controller)
@@ -123,7 +123,7 @@ class Usuario
             }
         }
             
-        return $data;
+        return Gestion::utf8Fix($data);
     }
     
     public function del($controller)

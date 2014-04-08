@@ -74,7 +74,7 @@ class Cliente
                     $data = array();
                     
                     while($row = mysql_fetch_assoc($r))
-                        $data[] = $row['id'].'=>'.$this->tipos[$row['type']].'=>'.$row['document'].'=>'.$row['name'];
+                        $data[] = $row['id'].'=>'.utf8_decode($this->tipos[$row['type']]).'=>'.$row['document'].'=>'.$row['name'];
                     
                     $data = count($data) > 0 ? join('|:|', $data) : '_NONE_';
                 }
@@ -85,7 +85,7 @@ class Cliente
             }
         }
         
-        return $data;
+        return Gestion::utf8Fix($data);
     }
     
     public function get($controller)
@@ -112,7 +112,7 @@ class Cliente
                     foreach($r as $k => $v)
                         $data[] = $k.'=>'.$v;
                     
-                    $data[] = 'xtype=>'.$this->tipos[$r['type']];
+                    $data[] = 'xtype=>'.utf8_decode($this->tipos[$r['type']]);
                     
                     $data = count($data) > 0 ? join('|:|', $data) : '_NONE_';
                 }
@@ -123,7 +123,7 @@ class Cliente
             }
         }
         
-        return $data;
+        return Gestion::utf8Fix($data);
     }
     
     public function del($controller)

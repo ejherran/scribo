@@ -85,7 +85,7 @@ class Material
             }
         }
         
-        return $data;
+        return Gestion::utf8Fix($data);
     }
     
     public function get($controller)
@@ -123,7 +123,7 @@ class Material
             }
         }
         
-        return $data;
+        return Gestion::utf8Fix($data);
     }
     
     public function del($controller)

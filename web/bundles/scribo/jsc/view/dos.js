@@ -1,6 +1,6 @@
 /* ####### Variables ####### */
 
-var ctlUrl = 'uno'                                          // Url del controlador base.
+var ctlUrl = 'dos'                                          // Url del controlador base.
 var magnaFile = '';
 
 var vMat = 0;
@@ -152,8 +152,11 @@ function calculateAcabado()
 
 function calculateBase()
 {
-    var nPag = parseFloat(gId('pages').value);
-    vBas = nPag*(vMat+vTin+vAca);
+    var dW = (parseFloat(gId('width').value)/100);
+    var dH = (parseFloat(gId('height').value)/100);
+    var dMen = dW*dH;
+    dMen = Math.round(dMen * Math.pow(10,2))/Math.pow(10,2);
+    vBas = dMen*(vMat+vTin+vAca);
     vBas = Math.round(vBas * Math.pow(10,2))/Math.pow(10,2);
     vBas = parseFloat(1.0*vBas.toFixed(2));
     gId('unit').value = vBas;
@@ -177,7 +180,7 @@ function calculateValor()
 
 function addItem()
 {
-    if(validate("fileIn,xFileIn,pages,OrdMaterial,xOrdMaterial,OrdTinta,xOrdTinta,amount,unit,value"))
+    if(validate("fileIn,xFileIn,width,height,OrdMaterial,xOrdMaterial,OrdTinta,xOrdTinta,amount,unit,value"))
     {   
         var rows = gId('acabadosList').rows;
         var crows = rows.length;
@@ -200,8 +203,9 @@ function addItem()
         var src = '<tr id="itm'+ctItem+'">';
         src += '<td class="scr-hidden">'+gId('OrdMaterial').value+'</td>';
         src += '<td class="scr-hidden">'+gId('OrdTinta').value+'</td>';
-        src += '<td style="width: 39%;">'+gId('xFileIn').value+'</td>';
-        src += '<td style="width: 10%;">'+gId('pages').value+'</td>';
+        src += '<td style="width: 29%;">'+gId('xFileIn').value+'</td>';
+        src += '<td style="width: 10%;">'+gId('width').value+'</td>';
+        src += '<td style="width: 10%;">'+gId('height').value+'</td>';
         src += '<td style="width: 10%;">'+gId('amount').value+'</td>';
         src += '<td style="width: 10%;">'+gId('unit').value+'</td>';
         src += '<td style="width: 10%;">'+gId('value').value+'</td>';
@@ -224,7 +228,7 @@ function addItem()
 
 function clrItem()
 {
-    clear("fileIn,xFileIn,pages,OrdMaterial,xOrdMaterial,OrdTinta,xOrdTinta,amount,unit,value,xOrdAcabado,OrdAcabado,notes,expiry");
+    clear("fileIn,xFileIn,width,height,OrdMaterial,xOrdMaterial,OrdTinta,xOrdTinta,amount,unit,value,xOrdAcabado,OrdAcabado,notes,expiry");
     gId('acabadosList').innerHTML = '';
     
     magnaFile = '';
@@ -252,7 +256,7 @@ function calculateSub()
     var lim = irows.length;
     
     for(i = 0; i < lim; i++)
-        sub += parseFloat(irows[i].cells[6].innerHTML);
+        sub += parseFloat(irows[i].cells[7].innerHTML);
        
     gId('ordSubtotal').value = sub;
 }
@@ -307,7 +311,7 @@ function proSave()
     
     for(i = 0; i < crows; i++)
     {
-        var tite = [rows[i].cells[0].innerHTML, rows[i].cells[1].innerHTML, rows[i].cells[2].innerHTML, rows[i].cells[3].innerHTML, rows[i].cells[4].innerHTML, rows[i].cells[5].innerHTML, rows[i].cells[6].innerHTML, rows[i].cells[7].innerHTML, rows[i].cells[8].innerHTML, rows[i].cells[9].innerHTML, rows[i].cells[10].innerHTML, rows[i].cells[11].innerHTML];
+        var tite = [rows[i].cells[0].innerHTML, rows[i].cells[1].innerHTML, rows[i].cells[2].innerHTML, rows[i].cells[3].innerHTML, rows[i].cells[4].innerHTML, rows[i].cells[5].innerHTML, rows[i].cells[6].innerHTML, rows[i].cells[7].innerHTML, rows[i].cells[8].innerHTML, rows[i].cells[9].innerHTML, rows[i].cells[10].innerHTML, rows[i].cells[11].innerHTML, rows[i].cells[12].innerHTML];
         dite.push(tite.join('|-|'));
     }
     
@@ -322,7 +326,7 @@ function sendSave()
     ajaxAction
     (
         new Hash(['*param => '+dSave]),
-        $basePath+"uno/save",
+        $basePath+"dos/save",
         okSave
     );
 }
@@ -330,7 +334,7 @@ function sendSave()
 function okSave(response)
 {
     if(parseInt(response.responseText) > '')
-        document.location = $basePath+"uno/"+response.responseText+"/visor";
+        document.location = $basePath+"dos/"+response.responseText+"/visor";
     else
         showFlash("Imposible procesar la orden!.");
 }
@@ -371,8 +375,8 @@ function okUp()
     if(upHash != '')
     {
         var tK = transfer.listKeys()[transferId];
-        gId(tK).cells[7].innerHTML = upOut;
-        gId(tK).cells[8].innerHTML = upHash;
+        gId(tK).cells[8].innerHTML = upOut;
+        gId(tK).cells[9].innerHTML = upHash;
         partialClear();
         transferId += 1;
         uploader();

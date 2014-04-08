@@ -82,7 +82,7 @@ class Tinta
             }
         }
         
-        return $data;
+        return Gestion::utf8Fix($data);
     }
     
     public function get($controller)
@@ -120,7 +120,7 @@ class Tinta
             }
         }
         
-        return $data;
+        return Gestion::utf8Fix($data);
     }
     
     public function del($controller)

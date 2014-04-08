@@ -172,3 +172,30 @@ scribo_uno_visor:
 scribo_uno_docu:
     pattern:  /uno/{id}/docu
     defaults: { _controller: ScriboBundle:Uno:docu }
+#
+# Orden Tipo 2
+#
+scribo_dos:
+    pattern:  /dos
+    defaults: { _controller: ScriboBundle:Dos:index }
+scribo_dos_findcli:
+    pattern:  /dos/ordclient
+    defaults: { _controller: ScriboBundle:Dos:fcli }
+scribo_dos_findmate:
+    pattern:  /dos/ordmaterial
+    defaults: { _controller: ScriboBundle:Dos:fmate }
+scribo_dos_findtinta:
+    pattern:  /dos/ordtinta
+    defaults: { _controller: ScriboBundle:Dos:ftinta }
+scribo_dos_findacabado:
+    pattern:  /dos/ordacabado
+    defaults: { _controller: ScriboBundle:Dos:facabado }
+scribo_dos_save:
+    pattern:  /dos/save
+    defaults: { _controller: ScriboBundle:Dos:save }
+scribo_dos_visor:
+    pattern:  /dos/{id}/visor
+    defaults: { _controller: ScriboBundle:Dos:visor }
+scribo_dos_docu:
+    pattern:  /dos/{id}/docu
+    defaults: { _controller: ScriboBundle:Dos:docu }

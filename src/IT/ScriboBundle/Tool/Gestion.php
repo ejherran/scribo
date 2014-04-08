@@ -173,6 +173,9 @@ class Gestion
     {
         $flag = false;
         
+        $oldpass = Gestion::sqlKill($oldpass);
+        $newpass = Gestion::sqlKill($newpass);
+        
         $user = Gestion::getUser($controller);
         if($user)
         {
@@ -222,14 +225,14 @@ class Gestion
                 $cfg = mysql_query("select * from configuracion where id = '1' limit 1", $con);
                 
                 if($cfg)
-                    $cfg = Gestion::utf8Fix(mysql_fetch_assoc($cfg));
+                    $cfg = mysql_fetch_assoc($cfg);
                     
                 Tool::closeDbCon($con);
             }
         }
             
         
-        return $cfg;
+        return Gestion::utf8Fix($cfg);
     }
     
     public static function getStorage($domain)
@@ -247,7 +250,7 @@ class Gestion
                 
                 if($sto)
                 {
-                    $sto = Gestion::utf8Fix(mysql_fetch_assoc($sto));
+                    $sto = mysql_fetch_assoc($sto);
                     $sto = $sto['storage'];
                 }
                    
@@ -256,7 +259,7 @@ class Gestion
         }
             
         
-        return $sto;
+        return Gestion::utf8Fix($sto);
     }
     
     public static function sqlKill($str)
@@ -264,19 +267,21 @@ class Gestion
         $str = str_ireplace("\\", "\\\\", $str);
         $str = str_ireplace("'", "\\'", $str);
         
-        return $str;
+        return utf8_decode($str);
     }
     
-    public static function utf8Fix($arr)
+    public static function utf8Fix($src)
     {
-        if(is_array($arr))
+        if(is_array($src))
         {
             $res = array();
-            foreach($arr as $k => $v)
+            foreach($src as $k => $v)
                 $res[$k] = utf8_encode($v);
             
             return $res;
         }
+        else if(is_string($src))
+            return utf8_encode($src);
         else
             return null;
     }

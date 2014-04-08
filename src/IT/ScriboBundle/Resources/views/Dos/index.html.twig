@@ -2,13 +2,13 @@
 
 
 
-{% block title %}Ordenes Tipo 1{% endblock %}
+{% block title %}Ordenes Tipo 2{% endblock %}
 
 
 
 {% block uheader %}
     <link rel="stylesheet" href="{{ asset('bundles/scribo/css/pro.css') }}" />
-    <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/uno.js') }}">/*--- Include ---*/ </script>
+    <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/dos.js') }}">/*--- Include ---*/ </script>
     <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/findhelper.js') }}">/*--- Include ---*/ </script>
     <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/firma.js') }}">/*--- Include ---*/ </script>
     <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/upload.js') }}">/*--- Include ---*/ </script>
@@ -19,7 +19,7 @@
 {% block view %}
 
 
-    <h1>GESTIÓN DE ORDENES TIPO 1</h1><b id='riper'></b><br />
+    <h1>GESTIÓN DE ORDENES TIPO 2</h1><b id='riper'></b><br />
 
     <div class="scr-pro">
         
@@ -44,7 +44,7 @@
             
             <tr>
                 <th>ARCHIVO</th>
-                <th>Nº PAGINAS</th>
+                <th>DIMENSIONES</th>
                 <th>MATERIAL</th>
                 <th>TINTA</th>
                 <th>CANTIDAD</th>
@@ -67,7 +67,15 @@
                     </table>
                 </td>
                 
-                <td><input id="pages" type="number" /></td>
+                <td>
+                    <table>
+                        <tr>
+                            <td><input id="width" type="number" placeholder="W (cm)" /></td>
+                            <td>X</td>
+                            <td><input id="height" type="number" placeholder="H (cm)" /></td>
+                        </tr>
+                    </table>
+                </td>
                 
                 <td>
                     <input id="OrdMaterial" class="scr-hidden" type="text" readonly="readonly" />
@@ -146,8 +154,9 @@
         
         <table>
             <tr>
-                <th style="width: 39%;">ARCHIVO</th>
-                <th style="width: 10%;">Nº PAGINAS</th>
+                <th style="width: 29%;">ARCHIVO</th>
+                <th style="width: 10%;">ANCHO (cm)</th>
+                <th style="width: 10%;">ALTO (cm)</th>
                 <th style="width: 10%;">CANTIDAD</th>
                 <th style="width: 10%;">V. UNITARIO</th>
                 <th style="width: 10%;">TOTAL</th>

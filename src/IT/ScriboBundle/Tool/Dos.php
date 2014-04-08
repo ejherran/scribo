@@ -5,7 +5,7 @@ namespace IT\ScriboBundle\Tool;
 use IT\ScriboBundle\Tool\Tool;
 use IT\ScriboBundle\Tool\Gestion;
 
-class Uno
+class Dos
 {
     public function findCli($controller)
     {
@@ -55,7 +55,7 @@ class Uno
             
             if($con)
             {
-                $r = mysql_query("select id, name, value from material where name like '%$param%' and type = 'P' order by name;", $con);
+                $r = mysql_query("select id, name, value from material where name like '%$param%' and type = 'S' order by name;", $con);
                 if($r)
                 {
                     $data = array();
@@ -89,7 +89,7 @@ class Uno
             
             if($con)
             {
-                $r = mysql_query("select id, name, value from tinta where name like '%$param%' and type = 'P' order by name;", $con);
+                $r = mysql_query("select id, name, value from tinta where name like '%$param%' and type = 'S' order by name;", $con);
                 if($r)
                 {
                     $data = array();
@@ -123,7 +123,7 @@ class Uno
             
             if($con)
             {
-                $r = mysql_query("select id, name, value from acabado where name like '%$param%' and type = 'P' order by name;", $con);
+                $r = mysql_query("select id, name, value from acabado where name like '%$param%' and type = 'S' order by name;", $con);
                 if($r)
                 {
                     $data = array();
@@ -164,7 +164,7 @@ class Uno
                 $obs = $dO[5] != '@' ? $dO[5] : '';
                 $fech = date('Y-m-d');
                 $init = date('H:i:s');
-                $sql = "insert into orden values ('0', 'A', '".$dO[0]."', '".$user."', '".$fech."', '".$init."', '0', '".$dO[1]."', '".$dO[2]."', '".$dO[3]."', '".$dO[4]."', '".$param[count($param)-1]."', '".$obs."');";
+                $sql = "insert into orden values ('0', 'B', '".$dO[0]."', '".$user."', '".$fech."', '".$init."', '0', '".$dO[1]."', '".$dO[2]."', '".$dO[3]."', '".$dO[4]."', '".$param[count($param)-1]."', '".$obs."');";
                 $r = mysql_query($sql, $con);
                 if($r)
                 {
@@ -177,26 +177,26 @@ class Uno
                         foreach($items as $it)
                         {
                             $dit = explode('|-|', $it);
-                            $diobs = $dit[10] != '@' ? $dit[10] : '';
+                            $diobs = $dit[11] != '@' ? $dit[11] : '';
                             
-                            $sql = "insert into papel values('0', '".$oid."', '".$dit[0]."', '".$dit[1]."', '".$dit[2]."', '".$dit[3]."', '".$dit[4]."', '".$dit[5]."', '".$dit[6]."', '".$dit[7]."', '".$dit[8]."', '".$dit[9]."', '".$diobs."');";
+                            $sql = "insert into sustrato values('0', '".$oid."', '".$dit[0]."', '".$dit[1]."', '".$dit[2]."', '".$dit[3]."', '".$dit[4]."', '".$dit[5]."', '".$dit[6]."', '".$dit[7]."', '".$dit[8]."', '".$dit[9]."', '".$dit[10]."', '".$diobs."');";
                             $r = mysql_query($sql, $con);
                             
                             $iid = mysql_insert_id();
                             
-                            if(intval($iid) > 0 && $dit[11] != '@')
+                            if(intval($iid) > 0 && $dit[12] != '@')
                             {
-                                $daca = explode(';', $dit[11]);
+                                $daca = explode(';', $dit[12]);
                                 
                                 foreach($daca as $dc)
                                 {
-                                    $sql = "insert into papelAcabado values('0', '".$iid."', '".$dc."');";
+                                    $sql = "insert into sustratoAcabado values('0', '".$iid."', '".$dc."');";
                                     $r = mysql_query($sql, $con);
                                 }
                             }
                         }
                         
-                        $sql = "insert into proceso values('0', '".$oid."', '".$user."', '".$user."', 'C', 'Nueva orden de tipo 1');";
+                        $sql = "insert into proceso values('0', '".$oid."', '".$user."', '".$user."', 'C', 'Nueva orden de tipo 2');";
                         $r = mysql_query($sql, $con);
                         
                         $data = $oid;
@@ -276,7 +276,7 @@ class Uno
             
             if($con)
             {
-                $sql = "select papel.id as idx, papel.name as fichero, material.name as material, tinta.name as tinta, pages as paginas, amount as cantidad, unit as unitario, papel.value as valor, papel.data as notas, papel.expiry as caduca from papel, material, tinta where material.id = papel.material_id and tinta.id = papel.tinta_id and orden_id='$id' order by idx asc;";
+                $sql = "select sustrato.id as idx, sustrato.name as fichero, material.name as material, tinta.name as tinta, sustrato.width as ancho, sustrato.height as largo, amount as cantidad, unit as unitario, sustrato.value as valor, sustrato.data as notas, sustrato.expiry as caduca from sustrato, material, tinta where material.id = sustrato.material_id and tinta.id = sustrato.tinta_id and orden_id='$id' order by idx asc;";
                 $r = mysql_query($sql, $con);
                 if($r)
                 {
@@ -309,7 +309,7 @@ class Uno
             
             if($con)
             {
-                $sql = "select acabado.name as acabado from papelAcabado, acabado where acabado.id = papelAcabado.acabado_id and papelAcabado.papel_id='$id' order by acabado asc;";
+                $sql = "select acabado.name as acabado from sustratoAcabado, acabado where acabado.id = sustratoAcabado.acabado_id and sustratoAcabado.sustrato_id='$id' order by acabado asc;";
                 $r = mysql_query($sql, $con);
                 if($r)
                 {
@@ -344,7 +344,7 @@ class Uno
             
             if($con)
             {
-                $sql = "select personal.name, personal.surname, personal.document from usuario, personal where personal.id = usuario.personal_id and usuario.id='$id' limit 1;";
+                $sql = "select personal.name, personal.surname, personal.document from usuario, personal where personal.id = usuario.personal_id and usuario.id='$id';";
                 $r = mysql_query($sql, $con);
                 if($r)
                     $per = mysql_fetch_assoc($r);

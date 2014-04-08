@@ -198,7 +198,7 @@ function addItem()
         var src = '<tr id="itm'+ctItem+'">';
         src += '<td class="scr-hidden">'+gId('OrdMaterial').value+'</td>';
         src += '<td class="scr-hidden">'+gId('OrdTinta').value+'</td>';
-        src += '<td style="width: 59%;">'+gId('xFileIn').value+'</td>';
+        src += '<td style="width: 39%;">'+gId('xFileIn').value+'</td>';
         src += '<td style="width: 10%;">'+gId('pages').value+'</td>';
         src += '<td style="width: 10%;">'+gId('amount').value+'</td>';
         src += '<td style="width: 10%;">'+gId('unit').value+'</td>';
@@ -208,6 +208,8 @@ function addItem()
         src += '<td class="scr-hidden">'+iexpiry+'</td>';
         src += '<td class="scr-hidden">'+inotes+'</td>';
         src += '<td class="scr-hidden">'+daca+'</td>';
+        src += '<td style="width: 10%;">'+gId('xOrdMaterial').value+'</td>';
+        src += '<td style="width: 10%;">'+gId('xOrdTinta').value+'</td>';
         src += '<td style="width: 1%;"><img src="'+$imgPath+'rem.png" onclick="remItem(this);" title="Eliminar" /></td>';
         src += '</tr>';
         gId('itemLister').innerHTML += src;
@@ -268,25 +270,31 @@ function aplicaIva()
 
 function saveOrder()
 {
-    if(firmaCode != '')
+    
+    if(validate('OrdClient,xOrdClient,ordTime,ordSubtotal,ordIva,ordTotal'))
     {
-        if(validate('OrdClient,xOrdClient,ordTime,ordSubtotal,ordIva,ordTotal'))
+        if(transfer.len > 0)
         {
-            var obser = gId('ordData').value != '' ? gId('ordData').value : '@';
-            
-            dSave = gId('OrdClient').value+'|-|';
-            dSave += gId('ordTime').value+'|-|';
-            dSave += gId('ordSubtotal').value+'|-|';
-            dSave += gId('ordIva').value+'|-|';
-            dSave += gId('ordTotal').value+'|-|';
-            dSave += obser;
-            
-            transferId = 0;
-            uploader();
+            if(firmaCode != '')
+            {
+                var obser = gId('ordData').value != '' ? gId('ordData').value : '@';
+                
+                dSave = gId('OrdClient').value+'|-|';
+                dSave += gId('ordTime').value+'|-|';
+                dSave += gId('ordSubtotal').value+'|-|';
+                dSave += gId('ordIva').value+'|-|';
+                dSave += gId('ordTotal').value+'|-|';
+                dSave += obser;
+                
+                transferId = 0;
+                uploader();
+            }
+            else
+                showFlash('El cliente debe firmar la orden antes de registrarla!');
         }
+        else
+            showFlash('Es necesario definir un ítem para registrar la orden!.');
     }
-    else
-        showFlash('El cliente debe firmar la orden antes de registrarla!');
 }
 
 function proSave()

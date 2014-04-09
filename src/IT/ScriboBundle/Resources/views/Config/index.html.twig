@@ -1,0 +1,83 @@
+{% extends 'ScriboBundle::layout.html.twig' %}
+
+
+
+{% block title %}Clientes{% endblock %}
+
+
+
+{% block uheader %}
+    <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/config.js') }}">/*--- Include ---*/ </script>
+{% endblock %}
+
+
+
+{% block view %}
+
+
+    <h1>CONFIGURACÓN GENERAL</h1><br />
+
+    <table class="scr-tabOne">
+        
+        <tr><th>TIPO DE DOCUMENTO:</th><th>NÚMERO DE DOCUMENTO:</th></tr>
+        <tr>
+            <td>
+                
+                <input id="type" name="type" class="scr-hidden" type="text" value="{{ act.type }}" readonly />
+                <table class="scr-wgcont">
+                    <tr>
+                        <td>
+                            <input id="xtype" name="xtype" type="text" value="{{ act.xtype }}" readonly />
+                            
+                            <div id="ltype" class="scr-wglist">
+                                <table>
+                                    <tr><th>@</th><td>Seleccione...</td></tr>
+                                    <tr><th>CC</th><td>Cédula de Ciudadanía</td></tr>
+                                    <tr><th>CE</th><td>Cédula de Extranjería</td></tr>
+                                    <tr><th>NT</th><td>NIT</td></tr>
+                                    <tr><th>RC</th><td>Registro Civil</td></tr>
+                                    <tr><th>RM</th><td>Registro Mercantil</td></tr>
+                                </table>
+                            </div>
+                            
+                        </td>
+                        <th>
+                            <img id="ktype" src="{{ asset('bundles/scribo/img/adown.png') }}" />
+                        </th>
+                    </tr>
+                </table>
+            
+            </td>
+            <td><input id="document" name="document" type="text" value="{{ act.document }}" maxlength="25"/></td>
+        </tr>
+        
+        <tr><th>NOMBRE:</th><th>CONTACTO:</th></tr>
+        <tr><td><input id="name" name="name" type="text" maxlength="100" value="{{ act.name }}" /></td><td><input id="contact" name="contact" type="text" value="{{ act.contact }}" maxlength="250"/></td></tr>
+        
+        <tr><th>DIRECCIÓN:</th><th>TELEFONO:</th></tr>
+        <tr><td><input id="address" name="address" type="text" value="{{ act.address }}" maxlength="250" /></td><td><input id="phone" name="phone" type="text" value="{{ act.phone }}" maxlength="25"/></td></tr>
+        
+        <tr><th>WEB:</th><th>CORREO:</th></tr>
+        <tr><td><input id="web" name="web" type="text" value="{{ act.web }}" maxlength="250" /></td><td><input id="mail" name="mail" type="text" value="{{ act.mail }}" maxlength="250" /></td></tr>
+        
+        <tr><th>ALMACENAMIENTO LOCAL:</th><th>REPORTES:</th></tr>
+        <tr><td><input id="storage" name="storage" type="text" value="{{ act.storage }}" maxlength="250" placeholder="EJ: http://192.168.0.1" /></td><td><textarea id="report" name="report" placeholder="EJ: user1@mail.com,03:30;user2@mail.com,23:55...">{{ act.report }}</textarea></td></tr>
+        
+        <tr><th colspan="2">LOGO:</th></tr>
+        <tr>
+            <td colspan= "2">
+                <input id="logo" class="scr-hidden" type="file" />
+                <img id="bLogo" src="{{ asset('bundles/scribo/img/file.png') }}" title="Seleccionar archivo..." style="cursor: pointer; vertical-align: top;" />
+                <div style="display: inline-block; width: 100%; height: 150px; background: #fff; text-align: center; overflow: auto; border: 1px solid #0000FF;">
+                    <img id="vLogo" src="{{ act.logo }}" style="max-width: 100%;" />
+                </div>
+            </td>
+        </tr>
+        
+        <tr><td colspan="2"><input id="btnSave" class="scr-flr" type="button" value="Guardar" /><input id="btnTest" class="scr-fll" type="button" value="Probar Almacenamiento Local" /></td></tr>
+        
+    </table>
+
+{% endblock %}
+
+

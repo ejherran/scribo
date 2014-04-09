@@ -25,9 +25,6 @@ scribo_personal:
 scribo_personal_save:
     pattern:  /pers/save
     defaults: { _controller: ScriboBundle:Personal:save }
-scribo_personal_save:
-    pattern:  /pers/save
-    defaults: { _controller: ScriboBundle:Personal:save }
 scribo_personal_list:
     pattern:  /pers/enum
     defaults: { _controller: ScriboBundle:Personal:enum }
@@ -49,9 +46,6 @@ scribo_usuario:
 scribo_usuario_save:
     pattern:  /usua/save
     defaults: { _controller: ScriboBundle:Usuario:save }
-scribo_usuario_save:
-    pattern:  /usua/save
-    defaults: { _controller: ScriboBundle:Usuario:save }
 scribo_usuario_list:
     pattern:  /usua/enum
     defaults: { _controller: ScriboBundle:Usuario:enum }
@@ -67,9 +61,6 @@ scribo_usuario_del:
 scribo_cliente:
     pattern:  /clie
     defaults: { _controller: ScriboBundle:Cliente:index }
-scribo_cliente_save:
-    pattern:  /clie/save
-    defaults: { _controller: ScriboBundle:Cliente:save }
 scribo_cliente_save:
     pattern:  /clie/save
     defaults: { _controller: ScriboBundle:Cliente:save }
@@ -91,9 +82,6 @@ scribo_material:
 scribo_material_save:
     pattern:  /mate/save
     defaults: { _controller: ScriboBundle:Material:save }
-scribo_material_save:
-    pattern:  /mate/save
-    defaults: { _controller: ScriboBundle:Material:save }
 scribo_material_list:
     pattern:  /mate/enum
     defaults: { _controller: ScriboBundle:Material:enum }
@@ -109,9 +97,6 @@ scribo_material_del:
 scribo_acabado:
     pattern:  /acab
     defaults: { _controller: ScriboBundle:Acabado:index }
-scribo_acabado_save:
-    pattern:  /acab/save
-    defaults: { _controller: ScriboBundle:Acabado:save }
 scribo_acabado_save:
     pattern:  /acab/save
     defaults: { _controller: ScriboBundle:Acabado:save }
@@ -133,9 +118,6 @@ scribo_tinta:
 scribo_tinta_save:
     pattern:  /tint/save
     defaults: { _controller: ScriboBundle:Tinta:save }
-scribo_tinta_save:
-    pattern:  /tint/save
-    defaults: { _controller: ScriboBundle:Tinta:save }
 scribo_tinta_list:
     pattern:  /tint/enum
     defaults: { _controller: ScriboBundle:Tinta:enum }
@@ -145,6 +127,21 @@ scribo_tinta_get:
 scribo_tinta_del:
     pattern:  /tint/del
     defaults: { _controller: ScriboBundle:Tinta:del }
+#
+# Configuración
+#
+scribo_config:
+    pattern:  /conf
+    defaults: { _controller: ScriboBundle:Config:index }
+scribo_config_save:
+    pattern:  /conf/save
+    defaults: { _controller: ScriboBundle:Config:save }
+#
+# Configuración
+#
+scribo_filer:
+    pattern:  /filer
+    defaults: { _controller: ScriboBundle:Filer:index }
 #
 # Orden Tipo 1
 #

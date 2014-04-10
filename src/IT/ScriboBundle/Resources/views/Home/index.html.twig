@@ -7,33 +7,37 @@
 
 
 {% block uheader %}
-    
+    <link rel="stylesheet" href="{{ asset('bundles/scribo/css/homer.css') }}" />
+    <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/homer.js') }}">/*--- Include ---*/ </script>
 {% endblock %}
 
 
 
 {% block view %}
     
-    <table>
-        {% for l in lis %}
-            <tr>
-                <td>{{ l.orden }}</td>
-                <td>{{ l.tipo }}</td>
-                <td>{{ l.inicio }}</td>
-                <td>
-                    {% set espace = (l.tiempo - l.lapso) %}
-                    {% if espace >= 0%}
-                        {{ (espace/3600)|number_format(2, '.', '.') }} Hr. Restantes
-                    {% else %}
-                        {{ (-1*espace/3600)|number_format(2, '.', '.') }} Hr. De Retrazo
-                    {% endif %}
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
-    
-
-    
+    {% if role != 'R' %}
+        <div class="scr-pullOrd">
+            <table id="lOrder">
+                <tr><th>ORDEN</th><th>CLIENTE</th><th>F. DE REGISTRO</th><th>T. PARA ENTREGA</th></tr>
+                {% for l in lis %}
+                    <tr>
+                        <td class="scr-hidden">{{ l.pid }}</td>
+                        <td>{{ l.tipo }}_{{ l.orden }}</td>
+                        <td>{{ l.cliente }}</td>
+                        <td>{{ l.inicio }}</td>
+                        <td>
+                            {% set espace = (l.tiempo - l.lapso) %}
+                            {% if espace >= 0%}
+                                {{ (espace/3600)|number_format(2, '.', '.') }} Hr. Restantes
+                            {% else %}
+                                {{ (-1*espace/3600)|number_format(2, '.', '.') }} Hr. De Retrazo
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    {% endif %}
 {% endblock %}
 
 

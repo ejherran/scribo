@@ -14,6 +14,8 @@
                     save();
                 else if($_POST['action'] == 'hash')
                     getHash();
+                else if($_POST['action'] == 'delete')
+					delete();
                 else
                     crossMsg('No Action!...');
             }    
@@ -61,6 +63,18 @@
         crossMsg($res);
     }
     
+    function delete()
+	{
+		$dir = './files/';
+        $target = $_POST['target'];
+        $target = explode(',', $target);
+        
+        foreach($target as $t)
+			unlink($dir.$t);
+			
+		crossMsg('0');
+	}
+	
     function crossMsg($msg)
     {
         if (isset($_SERVER['HTTP_ORIGIN'])) 

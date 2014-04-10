@@ -5,3 +5,35 @@
 {% block title %}Home{% endblock %}
 
 
+
+{% block uheader %}
+    
+{% endblock %}
+
+
+
+{% block view %}
+    
+    <table>
+        {% for l in lis %}
+            <tr>
+                <td>{{ l.orden }}</td>
+                <td>{{ l.tipo }}</td>
+                <td>{{ l.inicio }}</td>
+                <td>
+                    {% set espace = (l.tiempo - l.lapso) %}
+                    {% if espace >= 0%}
+                        {{ (espace/3600)|number_format(2, '.', '.') }} Hr. Restantes
+                    {% else %}
+                        {{ (-1*espace/3600)|number_format(2, '.', '.') }} Hr. De Retrazo
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    
+
+    
+{% endblock %}
+
+

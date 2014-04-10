@@ -137,11 +137,20 @@ scribo_config_save:
     pattern:  /conf/save
     defaults: { _controller: ScriboBundle:Config:save }
 #
-# Configuración
+# G. De Ficheros
 #
 scribo_filer:
     pattern:  /filer
     defaults: { _controller: ScriboBundle:Filer:index }
+scribo_filer_purge:
+    pattern:  /filer/purge
+    defaults: { _controller: ScriboBundle:Filer:purge }
+scribo_filer_update:
+    pattern:  /filer/update
+    defaults: { _controller: ScriboBundle:Filer:update }
+scribo_filer_delete:
+    pattern:  /filer/delete
+    defaults: { _controller: ScriboBundle:Filer:delete }
 #
 # Orden Tipo 1
 #

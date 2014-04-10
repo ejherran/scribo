@@ -13,7 +13,7 @@ class UnoController extends Controller
     
     public function indexAction()
     {
-        if(Gestion::isGrant($this, 'R,A'))
+        if(Gestion::isGrant($this, 'A'))
         {
             return $this->render('ScriboBundle:Uno:index.html.twig');
         }
@@ -26,7 +26,7 @@ class UnoController extends Controller
     
     public function visorAction($id)
     {
-        if(Gestion::isGrant($this, 'R,A'))
+        if(Gestion::isGrant($this, 'A'))
         {
             return $this->render('ScriboBundle:Uno:visor.html.twig', array('URL' => $this->generateUrl('scribo_uno_docu', array('id' => $id))));
         }
@@ -39,7 +39,7 @@ class UnoController extends Controller
     
     public function fcliAction()
     {
-        if(Gestion::isGrant($this, 'R,A'))
+        if(Gestion::isGrant($this, 'A'))
         {
             $request = $this->getRequest();
 			if($request->isXmlHttpRequest())
@@ -61,7 +61,7 @@ class UnoController extends Controller
     
     public function fmateAction()
     {
-        if(Gestion::isGrant($this, 'R,A'))
+        if(Gestion::isGrant($this, 'A'))
         {
             $request = $this->getRequest();
 			if($request->isXmlHttpRequest())
@@ -83,7 +83,7 @@ class UnoController extends Controller
     
     public function ftintaAction()
     {
-        if(Gestion::isGrant($this, 'R,A'))
+        if(Gestion::isGrant($this, 'A'))
         {
             $request = $this->getRequest();
 			if($request->isXmlHttpRequest())
@@ -105,7 +105,7 @@ class UnoController extends Controller
     
     public function facabadoAction()
     {
-        if(Gestion::isGrant($this, 'R,A'))
+        if(Gestion::isGrant($this, 'A'))
         {
             $request = $this->getRequest();
 			if($request->isXmlHttpRequest())
@@ -127,7 +127,7 @@ class UnoController extends Controller
     
     public function saveAction()
     {
-        if(Gestion::isGrant($this, 'R,A'))
+        if(Gestion::isGrant($this, 'A'))
         {
             $request = $this->getRequest();
 			if($request->isXmlHttpRequest())
@@ -152,7 +152,7 @@ class UnoController extends Controller
     
     public function docuAction($id)
     {
-        if(Gestion::isGrant($this, 'R,A'))
+        if(Gestion::isGrant($this, 'A'))
         {
             $obj = new Uno();
             $ord = $obj->getOrder($this, $id);
@@ -248,7 +248,7 @@ class UnoController extends Controller
                 $html = '<table style="text-align: left;"><tr><th><b>OBSERVACIONES:</b></th></tr><tr><th>&nbsp;</th></tr><tr><td>'.$ord['data'].'</td></tr></table><br /><br /><br />';
                 $pdf->autoCell(0, 0, 20, $pdf->GetY(), $html, 0, 1, 0, true, 'C', true);
                 
-                $html = '<table style="text-align: left;"><tr><th><b>FIRMA DE ACEPTACIÓN:</b></th></tr><tr><th>&nbsp;</th></tr><tr><td style="border: 3px solid #000000;"><img src="/tmp/'.$firma.'" height="55.03mm" width="73.38mm"/></td></tr></table>';
+                $html = '<table style="text-align: center;"><tr><th><b>FIRMA DE ACEPTACIÓN:</b></th></tr><tr><th>&nbsp;</th></tr><tr><td style="border: 3px solid #000000;"><img src="/tmp/'.$firma.'" height="55.03mm" width="73.38mm"/></td></tr></table>';
                 $pdf->autoCell(0, 0, 20, $pdf->GetY(), $html, 0, 1, 0, true, 'C', true, 90);
             }
             else

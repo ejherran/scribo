@@ -162,9 +162,7 @@ class Uno
             if($con)
             {
                 $obs = $dO[5] != '@' ? $dO[5] : '';
-                $fech = date('Y-m-d');
-                $init = date('H:i:s');
-                $sql = "insert into orden values ('0', 'A', '".$dO[0]."', '".$user."', '".$fech."', '".$init."', '0', '".$dO[1]."', '".$dO[2]."', '".$dO[3]."', '".$dO[4]."', '".$param[count($param)-1]."', '".$obs."');";
+                $sql = "insert into orden values ('0', 'A', '".$dO[0]."', '".$user."', now(), 'A', '".$dO[1]."', '".$dO[2]."', '".$dO[3]."', '".$dO[4]."', '".$param[count($param)-1]."', '".$obs."');";
                 $r = mysql_query($sql, $con);
                 if($r)
                 {
@@ -196,7 +194,7 @@ class Uno
                             }
                         }
                         
-                        $sql = "insert into proceso values('0', '".$oid."', '".$user."', '".$user."', 'C', 'Nueva orden de tipo 1');";
+                        $sql = "insert into proceso values('0', now(), '".$oid."', '".$user."', '".$user."', 'O', 'C', 'Nueva orden de tipo 1');";
                         $r = mysql_query($sql, $con);
                         
                         $data = $oid;

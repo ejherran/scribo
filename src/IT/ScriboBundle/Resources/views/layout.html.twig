@@ -40,6 +40,9 @@
                     
                     {% if role == 'A' or role == 'R' %}
                         <li><a href="{{ path('scribo_cliente') }}">CLIENTES</a></li>
+                    {% endif %}
+                    
+                    {% if role == 'A' %}
                         <li><a href="{{ path('scribo_uno') }}">O. TIPO 1 <sub>(Papel)</sub></a></li>
                         <li><a href="{{ path('scribo_dos') }}">O. TIPO 2 <sub>(Sustrato)</sub></a></li>
                     {% endif %}

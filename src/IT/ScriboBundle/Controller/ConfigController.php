@@ -11,7 +11,7 @@ class ConfigController extends Controller
 {
     public function indexAction()
     {
-        if(Gestion::isGrant($this, 'R,A'))
+        if(Gestion::isGrant($this, 'R'))
         {
             $cnf = new Config();
             $act = $cnf->get($this, '1');
@@ -26,7 +26,7 @@ class ConfigController extends Controller
     
     public function saveAction()
     {
-        if(Gestion::isGrant($this, 'R,A'))
+        if(Gestion::isGrant($this, 'R'))
         {
             $request = $this->getRequest();
 			if($request->isXmlHttpRequest())

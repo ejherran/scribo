@@ -7,6 +7,7 @@
 
 
 {% block uheader %}
+    <link rel="stylesheet" href="{{ asset('bundles/scribo/css/filer.css') }}" />
     <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/filer.js') }}">/*--- Include ---*/ </script>
 {% endblock %}
 
@@ -16,7 +17,46 @@
 
 
     <h1>GESTIÓN DE ARCHIVOS</h1><br />
-
+    
+    <table style="width: 100%; text-align: center;">
+        <tr>
+            <td><input id="purge" type="button" value="PURGAR" /></td>
+            <td style="width: 40%;">
+                <table style="width: 100%; text-align: center;">
+                    <tr>
+                        <td><input id="date" type="date" /></td>
+                        <td><input id="update" type="button" value="ACTUALIZAR" /></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input id="delete" type="button" value="ELIMINAR" /></td>
+        </tr>
+    </table>
+    
+    <br />
+    
+    <table id="flist" class="scr-flist">
+        <tr><th><input id="checker" type="checkbox" /></th><th>ID</th><th>CLIENTE</th><th>NOMBRE ORIGINAL</th><th>FECHA DE CREACIÓN</th><th>FECHA DE EXPIRACIÓN</th><th>&nbsp;</th></tr>
+        {% for f in files %}
+            <tr>
+                <td><input type="checkbox" /><br></td>
+                <td>{{ f.tipo }}_{{ f.id }}</td>
+                <td>{{ f.cliente }}</td>
+                <td>{{ f.original }}</td>
+                <td>{{ f.inicio|date("Y-m-d") }}</td>
+                <td>
+                    {% if f.fin == 'EXPIRED' %}
+                        <b style="color: red;">{{ f.fin }}</b>
+                    {% elseif f.fin == '@' %}
+                        <b style="color: blue;">TO DELIVER</b>
+                    {% else %}
+                        {{ f.fin }}
+                    {% endif %}
+                </td>
+                <td><a href="{{ storage }}/scribo/files/{{ f.archivo }}" target="_blank"></a></td>
+            </tr>
+        {% endfor %}
+    </table>
     
 
 {% endblock %}

@@ -1,0 +1,41 @@
+.scr-flist
+{
+    border-collapse: collapse;
+    background-color: #fff;
+    width: 100%;
+}
+
+.scr-flist tr
+{
+    cursor: default;
+}
+
+.scr-flist tr:hover
+{
+    background: #ADD8E6;
+}
+
+.scr-flist td
+{
+    border: 1px solid #0000FF;
+    padding: 2px 5px 2px 5px;
+    font-weight: bold;
+    font-family: monospace;
+    font-size: 0.8em;
+    text-align: center;
+}
+
+.scr-flist th
+{
+    border: 1px solid #0000FF;
+    font-weight: bold;
+}
+
+.scr-flist a
+{
+    width: 24px;
+    height: 24px;
+    display: block;
+    background-image: url('../img/fdown.png');
+    margin: auto;
+}

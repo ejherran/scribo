@@ -13,9 +13,18 @@ scribo_logout:
 scribo_chpass:
     pattern:  /chpass
     defaults: { _controller: ScriboBundle:Default:chpass }
+#
+# Procesos
+#
 scribo_home:
     pattern:  /home
     defaults: { _controller: ScriboBundle:Home:index }
+scribo_home_proc:
+    pattern:  /home/proc
+    defaults: { _controller: ScriboBundle:Home:proc }
+scribo_home_reciv:
+    pattern:  /home/reciv
+    defaults: { _controller: ScriboBundle:Home:reciv }
 #
 # Personal
 #

@@ -178,6 +178,7 @@ function ajaxTest(data, url, action)
 {	
 	url = setUrl(url);
 	var peticion_http = inicializa_xhr();
+    peticion_http.timeout = 1000;
 		
 	if(peticion_http) 
 	{

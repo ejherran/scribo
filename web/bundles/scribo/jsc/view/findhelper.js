@@ -31,13 +31,26 @@ function FindHelp(event)
 
 function aFindHelp(camp)
 {
-    ajaxAction
-    (
-        new Hash(['*param => '+gId('x'+camp).value]),
-        $basePath+ctlUrl+'/'+camp.toLowerCase(),
-        bFindHelp,
-        camp
-    );
+    if( typeof gId("x"+camp).extraInfo != "undefined" )
+    {
+        ajaxAction
+        (
+            new Hash(['*param => '+gId('x'+camp).value, '*extra => '+gId(gId('x'+camp).extraInfo).value]),
+            $basePath+ctlUrl+'/'+camp.toLowerCase(),
+            bFindHelp,
+            camp
+        );
+    }
+    else
+    {
+        ajaxAction
+        (
+            new Hash(['*param => '+gId('x'+camp).value]),
+            $basePath+ctlUrl+'/'+camp.toLowerCase(),
+            bFindHelp,
+            camp
+        );
+    }
 }
 
 function bFindHelp(response, camp)

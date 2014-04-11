@@ -6,6 +6,21 @@ function $_init()
     gId('purge').onclick = purgeAll;
     gId('update').onclick = updater;
     gId('delete').onclick = deleter;
+    
+    ajaxTest
+    (
+        new Hash(['*action => test']),
+        $storage+'/scribo/repository.php',
+        testStorage
+    );
+}
+
+function testStorage(response)
+{
+    if(response.status != 200 || response.responseText != 'Ok!')
+        showFlash("Imposible conectar con el servidor de almacenamiento local!");
+    else if(response.responseText == 'Ok!')
+        gId('control').style.display = 'table';
 }
 
 function listSelect()

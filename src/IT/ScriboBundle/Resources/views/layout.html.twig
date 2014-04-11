@@ -134,6 +134,14 @@
         var $basePath = "{{ path('scribo') }}";
         var $imgPath = "{{ asset('bundles/scribo/img/') }}";
         var $storage = '{{ storage }}';
+        
+        {% if role == 'R' %}
+            var $mode = '0';
+        {% elseif role == 'C' %}
+            var $mode = '1';
+        {% else %}
+            var $mode = '2';
+        {% endif %}
     
         {% block uscript %}
 

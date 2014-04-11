@@ -62,10 +62,9 @@ function $_init()
 function testStorage(response)
 {
     if(response.status != 200 || response.responseText != 'Ok!')
-    {
-        hide('save');
         showFlash("Imposible conectar con el servidor de almacenamiento local!");
-    }
+    else if(response.responseText == 'Ok!')
+        gId('save').style.display = 'inline-block';
 }
 
 /* ####### Archivos ####### */

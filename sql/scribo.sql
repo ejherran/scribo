@@ -290,10 +290,10 @@ CREATE TABLE IF NOT EXISTS `proceso` (
 --
 
 INSERT INTO `proceso` (`id`, `date`, `orden_id`, `emite_id`, `recibe_id`, `status`, `action`, `data`) VALUES
-(28, '2014-04-09 17:42:33', 72, 8, 8, 'O', 'C', 'Nueva orden de tipo 1'),
+(28, '2014-04-09 17:42:33', 72, 8, 8, 'C', 'C', 'Nueva orden de tipo 1'),
 (29, '2014-04-09 17:45:21', 73, 8, 8, 'O', 'C', 'Nueva orden de tipo 1'),
 (30, '2014-04-09 17:47:22', 74, 8, 8, 'O', 'C', 'Nueva orden de tipo 1'),
-(31, '2014-04-09 18:30:55', 75, 8, 8, 'O', 'C', 'Nueva orden de tipo 2'),
+(31, '2014-04-09 18:30:55', 75, 8, 8, 'C', 'C', 'Nueva orden de tipo 2'),
 (32, '2014-04-09 18:32:32', 76, 8, 8, 'O', 'C', 'Nueva orden de tipo 2'),
 (33, '2014-04-09 18:34:51', 77, 8, 8, 'O', 'C', 'Nueva orden de tipo 2');
 
@@ -404,12 +404,12 @@ CREATE TABLE IF NOT EXISTS `usuario` (
 
 INSERT INTO `usuario` (`id`, `personal_id`, `role`, `user`, `pass`, `data`) VALUES
 (1, 1, 'R', 'root', 'ce482c0ad4781ca77cd22c43d971b1ecfe13b2b9dd5442f67464a035722d843844447bf5b63b4f91f4effaf46333ef8a3b7f39bb33a689dd68507ae5a74d84b6', 'System user.'),
-(2, 5, 'A', 'd04', '12375efbfb0f1725cda0c0cef1224b09e75d67a3d2d9e36e3e6795d9441256cd70d4a45332aa414af104d742c6f2b02cd1bae5b1b45d4348d9dc1f1828427ea1', ''),
-(3, 2, 'P', 'm01', '12375efbfb0f1725cda0c0cef1224b09e75d67a3d2d9e36e3e6795d9441256cd70d4a45332aa414af104d742c6f2b02cd1bae5b1b45d4348d9dc1f1828427ea1', ''),
-(4, 7, 'I', 'm06', '12375efbfb0f1725cda0c0cef1224b09e75d67a3d2d9e36e3e6795d9441256cd70d4a45332aa414af104d742c6f2b02cd1bae5b1b45d4348d9dc1f1828427ea1', ''),
-(5, 6, 'T', 'm05', '12375efbfb0f1725cda0c0cef1224b09e75d67a3d2d9e36e3e6795d9441256cd70d4a45332aa414af104d742c6f2b02cd1bae5b1b45d4348d9dc1f1828427ea1', ''),
-(6, 3, 'D', 'p02', '12375efbfb0f1725cda0c0cef1224b09e75d67a3d2d9e36e3e6795d9441256cd70d4a45332aa414af104d742c6f2b02cd1bae5b1b45d4348d9dc1f1828427ea1', ''),
-(7, 4, 'C', 's03', '12375efbfb0f1725cda0c0cef1224b09e75d67a3d2d9e36e3e6795d9441256cd70d4a45332aa414af104d742c6f2b02cd1bae5b1b45d4348d9dc1f1828427ea1', ''),
+(2, 5, 'A', 'as1', '12375efbfb0f1725cda0c0cef1224b09e75d67a3d2d9e36e3e6795d9441256cd70d4a45332aa414af104d742c6f2b02cd1bae5b1b45d4348d9dc1f1828427ea1', ''),
+(3, 2, 'P', 'jp1', '12375efbfb0f1725cda0c0cef1224b09e75d67a3d2d9e36e3e6795d9441256cd70d4a45332aa414af104d742c6f2b02cd1bae5b1b45d4348d9dc1f1828427ea1', ''),
+(4, 7, 'I', 'op1', '12375efbfb0f1725cda0c0cef1224b09e75d67a3d2d9e36e3e6795d9441256cd70d4a45332aa414af104d742c6f2b02cd1bae5b1b45d4348d9dc1f1828427ea1', ''),
+(5, 6, 'T', 'ja1', '12375efbfb0f1725cda0c0cef1224b09e75d67a3d2d9e36e3e6795d9441256cd70d4a45332aa414af104d742c6f2b02cd1bae5b1b45d4348d9dc1f1828427ea1', ''),
+(6, 3, 'D', 'oa1', '12375efbfb0f1725cda0c0cef1224b09e75d67a3d2d9e36e3e6795d9441256cd70d4a45332aa414af104d742c6f2b02cd1bae5b1b45d4348d9dc1f1828427ea1', ''),
+(7, 4, 'C', 'en1', '12375efbfb0f1725cda0c0cef1224b09e75d67a3d2d9e36e3e6795d9441256cd70d4a45332aa414af104d742c6f2b02cd1bae5b1b45d4348d9dc1f1828427ea1', ''),
 (8, 1, 'A', 'ase', '3593686f0791afc2f13ccb2e96aa99eb96f110171c7181dea9770fe515b690564e6e71f9e46fc0539000dc1a2f1beaa8d9e6627b5cd8be5cbc2967369dd7ad15', 'Asesor\n');
 
 --

@@ -8,6 +8,7 @@
 
 {% block uheader %}
     <link rel="stylesheet" href="{{ asset('bundles/scribo/css/homer.css') }}" />
+    <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/findhelper.js') }}">/*--- Include ---*/ </script>
     <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/homer.js') }}">/*--- Include ---*/ </script>
 {% endblock %}
 
@@ -16,13 +17,56 @@
 {% block view %}
     
     {% if role != 'R' %}
+        <table class="scr-procon">
+            <tr>
+                <td>
+                    <select id='action'>
+                        <option value=''>ACCIÓN...</option>
+                        
+                        <option value='A'>ANOTAR</option>
+                        
+                        {% if role != 'C' %}
+                            <option value='F'>AVANZAR</option>
+                        {% endif %}
+                        
+                        {% if role != 'A' %}
+                            <option value='B'>RETROCEDER</option>
+                        {% endif %}
+                        
+                        {% if role == 'A' or role == 'P' or role == 'T' or role == 'C' %}
+                            <option value='T'>TRANSFERIR</option>
+                        {% endif %}
+                        
+                    </select>
+                </td>
+                <td>
+                    <input id="reciv" class="scr-hidden" type="text" readonly="readonly" />
+                    <input id="xreciv" type="text" placeholder="Usuario Receptor..." />
+                    <div id="lreciv" class="scr-hlpList" ></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"><textarea id="data" rows='5' placeholder="Descripción Del Proceso..."></textarea></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input id="proce" type="button" value="PROCESAR" /></td>
+            </tr>
+        </table>
+        
         <div class="scr-pullOrd">
             <table id="lOrder">
-                <tr><th>ORDEN</th><th>CLIENTE</th><th>F. DE REGISTRO</th><th>T. PARA ENTREGA</th></tr>
+                <tr><th>ORDEN</th><th>TIPO</th><th>CLIENTE</th><th>F. DE REGISTRO</th><th>T. PARA ENTREGA</th></tr>
                 {% for l in lis %}
                     <tr>
                         <td class="scr-hidden">{{ l.pid }}</td>
-                        <td>{{ l.tipo }}_{{ l.orden }}</td>
+                        <td>{{ l.orden }}</td>
+                        <td>
+                            {% if l.tipo == 'A' %}
+                                PAPEL
+                            {% else %}
+                                SUSTRATO
+                            {% endif %}
+                        </td>
                         <td>{{ l.cliente }}</td>
                         <td>{{ l.inicio }}</td>
                         <td>
@@ -30,7 +74,7 @@
                             {% if espace >= 0%}
                                 {{ (espace/3600)|number_format(2, '.', '.') }} Hr. Restantes
                             {% else %}
-                                {{ (-1*espace/3600)|number_format(2, '.', '.') }} Hr. De Retrazo
+                                <b style="color: red;">{{ (-1*espace/3600)|number_format(2, '.', '.') }} Hr. De Retrazo</b>
                             {% endif %}
                         </td>
                     </tr>

@@ -65,7 +65,7 @@ class Usuario
             
             if($con)
             {                    
-                $r = mysql_query("select usuario.id, usuario.personal_id, usuario.user, personal.id as pid, personal.surname, personal.name from usuario, personal where usuario.personal_id=personal.id order by surname;", $con);
+                $r = mysql_query("select usuario.id, usuario.personal_id, usuario.user, personal.id as pid, personal.surname, personal.name from usuario, personal where usuario.personal_id=personal.id order by surname, usuario.user;", $con);
                 if($r)
                 {
                     $data = array();

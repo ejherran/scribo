@@ -300,12 +300,12 @@ class Gestion
     public static function perRole($controller, $action)
     {
         $permit = array();
-        $permit["A"] = array("F" => "usuario.role='P'", "B" => "usuario.role='N'", "T" => "usuario.role='A'");
-        $permit["P"] = array("F" => "usuario.role='I'", "B" => "usuario.role='A'", "T" => "usuario.role='P'");
-        $permit["I"] = array("F" => "usuario.role='T'", "B" => "usuario.role='P'", "T" => "usuario.role='N'");
-        $permit["T"] = array("F" => "usuario.role='D'", "B" => "usuario.role='I'", "T" => "usuario.role='T'");
-        $permit["D"] = array("F" => "usuario.role='C'", "B" => "usuario.role='T'", "T" => "usuario.role='N'");
-        $permit["C"] = array("F" => "usuario.role='N'", "B" => "(usuario.role like '%%' and usuario.role <> 'R')", "T" => "usuario.role='C'");
+        $permit["A"] = array("F" => "usuario.role='P'", "R" => "usuario.id=0", "B" => "usuario.role='N'", "T" => "usuario.role='A'");
+        $permit["P"] = array("F" => "usuario.role='I'", "R" => "usuario.id=proceso.emite_id", "B" => "usuario.role='A'", "T" => "usuario.role='P'");
+        $permit["I"] = array("F" => "usuario.role='T'", "R" => "usuario.id=proceso.emite_id", "B" => "usuario.role='N'", "T" => "usuario.role='N'");
+        $permit["T"] = array("F" => "usuario.role='D'", "R" => "usuario.id=proceso.emite_id", "B" => "usuario.role='I'", "T" => "usuario.role='T'");
+        $permit["D"] = array("F" => "usuario.role='C'", "R" => "usuario.id=proceso.emite_id", "B" => "usuario.role='N'", "T" => "usuario.role='N'");
+        $permit["C"] = array("F" => "usuario.role='N'", "R" => "usuario.id=proceso.emite_id", "B" => "((usuario.role='A' or usuario.role='P' or usuario.role='T') and usuario.role<>'R' and usuario.role<>'C')", "T" => "usuario.role='C'");
         
         return $permit[Gestion::getRole($controller)][$action];
     }

@@ -122,3 +122,179 @@
 {
     background: #ADD8E6
 }
+
+/*--- TIME LINE ---*/
+
+#visor
+{
+    display: none;
+    position: absolute;
+    top: 2%;
+    left: 2%;
+    width: 96%;
+    height: 96%;
+    background: #DCE5FB;
+    z-index: 900;
+    text-align: center;
+    overflow: auto;
+    border: 1px solid #0000FF;
+    border-radius: 20px;
+}
+
+#space
+{
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    width: 90%;
+    height: 90%;
+    z-index: 900;
+    text-align: center;
+    overflow: auto;
+    border: 1px solid #ccc;
+}
+
+#pres
+{
+    position: relative;
+    width: 750px;
+    padding: 25px;
+    min-height: 100px;
+    background: #fff;
+    margin: auto;
+    border: 2px solid #000;
+    border-radius: 10px;
+}
+
+#pcA, #pcP, #pcI, #pcT, #pcD, #pcC, #pA, #pP, #pI, #pT, #pD, #pC
+{
+    display: block;
+    position: absolute;
+    top: 25px;
+    width: 125px;
+    min-height: 100px;
+    height: auto;
+}
+
+#pcA, #pcP, #pcI, #pcT, #pcD, #pcC
+{
+    z-index: 901;
+}
+
+#pA, #pP, #pI, #pT, #pD, #pC
+{
+    z-index: 903;
+}
+
+#pcA
+{
+    left: 25px;
+    background: #CCFFB3;
+}
+
+#pcP
+{
+    left: 150px;
+    background: #B3FFE6;
+}
+
+#pcI
+{
+    left: 275px;
+    background: #B3CDFF;
+}
+
+#pcT
+{
+    left: 400px;
+    background: #E6B3FF;
+}
+
+#pcD
+{
+    left: 525px;
+    background: #FFB3CD;
+}
+
+#pcC
+{
+    left: 650px;
+    background: #FFE6B3;
+}
+
+#pA
+{
+    left: 25px;
+}
+
+#pP
+{
+    left: 150px;
+}
+
+#pI
+{
+    left: 275px;
+}
+
+#pT
+{
+    left: 400px;
+}
+
+#pD
+{
+    left: 525px;
+}
+
+#pC
+{
+    left: 650px;
+}
+
+#rower
+{
+    position: relative;
+    margin: auto;
+    border: 1px solid #000;
+    z-index: 902;
+}
+
+.scr-obj
+{
+    position: relative;
+    margin: 25px 8px 25px 8px;
+    width: 105px;
+    height: 25x;
+    background: #fff;
+    border: 1px solid #000;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: monospace;
+    font-size: 0.7em;
+    overflow: hidden;
+}
+
+.scr-obj:hover
+{
+    background: red;
+}
+
+.scr-obj b
+{
+    height: 15px;
+    width: 95px;
+    display: block;
+    margin: 5px;
+    overflow: hidden;
+}
+
+.scr-null
+{
+    position: relative;
+    margin: 25px 8px 25px 8px;
+    width: 107px;
+    height: 27px;
+    border-radius: 5px;
+}

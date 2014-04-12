@@ -183,3 +183,17 @@ function getConsecutive(data)
     
     return parseInt(parts[0]);
 }
+
+function toHours(seconds)
+{
+    var hours = parseInt(seconds/3600);
+    seconds = seconds%3600;
+    var minuts = parseInt(seconds/60);
+    seconds = parseInt(seconds%60);
+    
+    hours = hours < 10 ? '0'+hours : ''+hours;
+    minuts = minuts < 10 ? '0'+minuts : ''+minuts;
+    seconds = seconds < 10 ? '0'+seconds : ''+seconds;
+    
+    return hours+':'+minuts+':'+seconds;
+}

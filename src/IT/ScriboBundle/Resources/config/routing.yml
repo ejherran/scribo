@@ -25,6 +25,9 @@ scribo_home_proc:
 scribo_home_reciv:
     pattern:  /home/reciv
     defaults: { _controller: ScriboBundle:Home:reciv }
+scribo_home_cicle:
+    pattern:  /home/cicle
+    defaults: { _controller: ScriboBundle:Home:cicle }
 #
 # Personal
 #

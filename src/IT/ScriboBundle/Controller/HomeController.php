@@ -67,4 +67,26 @@ class HomeController extends Controller
             return $this->redirect($this->generateUrl('scribo'));
         }
     }
+    
+    public function cicleAction()
+    {
+        if(Gestion::isGrant($this, '*'))
+        {
+            $request = $this->getRequest();
+			if($request->isXmlHttpRequest())
+			{
+                $obj = new Home();
+                $res = $obj->cicle($this);
+                
+                return new Response($res);
+            }
+            else
+                return $this->redirect($this->generateUrl('scribo_home'));
+        }
+        else
+        {
+            $this->get('session')->getFlashBag()->add('notice', 'Intento de acceso no autorizado!...');
+            return $this->redirect($this->generateUrl('scribo'));
+        }
+    }
 }

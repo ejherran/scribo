@@ -29,8 +29,12 @@
                             <option value='F'>AVANZAR</option>
                         {% endif %}
                         
-                        {% if role != 'A' %}
+                        {% if role != 'A' and role != 'I' and role != 'D' %}
                             <option value='B'>RETROCEDER</option>
+                        {% endif %}
+                        
+                        {% if role != 'A' %}
+                            <option value='R'>DEVOLVER</option>
                         {% endif %}
                         
                         {% if role == 'A' or role == 'P' or role == 'T' or role == 'C' %}
@@ -49,7 +53,10 @@
                 <td colspan="2"><textarea id="data" rows='5' placeholder="Descripción Del Proceso..."></textarea></td>
             </tr>
             <tr>
-                <td colspan="2"><input id="proce" type="button" value="PROCESAR" /></td>
+                <td colspan="2">
+                    <input id="cicle" type="button" value="VER PROCESO" />
+                    <input id="proce" type="button" value="PROCESAR" />
+                </td>
             </tr>
         </table>
         
@@ -71,7 +78,7 @@
                         <td>{{ l.inicio }}</td>
                         <td>
                             {% set espace = (l.tiempo - l.lapso) %}
-                            {% if espace >= 0%}
+                            {% if espace >= 0 %}
                                 {{ (espace/3600)|number_format(2, '.', '.') }} Hr. Restantes
                             {% else %}
                                 <b style="color: red;">{{ (-1*espace/3600)|number_format(2, '.', '.') }} Hr. De Retrazo</b>
@@ -81,7 +88,37 @@
                 {% endfor %}
             </table>
         </div>
+        
     {% endif %}
+{% endblock %}
+
+
+{% block outview %}
+    
+    <div id="visor">
+        <div id="space">
+            <br /><br />
+            <div id="pres">
+                <div id="pA"></div>
+                <div id="pP"></div>
+                <div id="pI"></div>
+                <div id="pT"></div>
+                <div id="pD"></div>
+                <div id="pC"></div>
+                <div id="pcA"></div>
+                <div id="pcP"></div>
+                <div id="pcI"></div>
+                <div id="pcT"></div>
+                <div id="pcD"></div>
+                <div id="pcC"></div>
+                
+                <canvas id='rower'></canvas>
+                
+            </div>
+            <br /><br />
+        </div>
+    </div>
+
 {% endblock %}
 
 

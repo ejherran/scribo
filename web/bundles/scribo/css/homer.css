@@ -32,7 +32,7 @@
 {
     background: #E5E5E5;
     width: 100%;
-    height: 150px;
+    height: 400px;
     overflow: auto;
     border: 2px inset #6c8393;
     text-align: center;
@@ -48,7 +48,6 @@
     font-weight: bold;
     font-family: monospace;
     font-size: 0.8em;
-    cursor: pointer;
     margin: auto;
 }
 
@@ -61,6 +60,7 @@
 {
     border: 1px solid #6c8393;
     padding: 5px;
+    cursor: pointer;
 }
 
 .scr-pullOrd th
@@ -69,6 +69,12 @@
     color: #fff;
     border: 1px solid #6c8393;
     padding: 5px;
+    cursor: default;
+}
+
+.scr-pullOrd img
+{
+    cursor: pointer;
 }
 
 .scr-procon
@@ -125,6 +131,56 @@
 
 /*--- TIME LINE ---*/
 
+#oDet
+{
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0%;
+    left: 0%;
+    z-index: 905;
+    cursor: default;
+}
+
+#oDet .ex
+{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+#oDet .in
+{
+    min-width: 500px;
+    padding: 20px;
+    border: 2px solid #44729E;
+    border-radius: 10px;
+    background: #fff;
+    margin: auto;
+    font-weight: bold;
+    font-size: 0.8em;
+    border-spacing: 5px;
+    border-collapse: separate;
+    box-shadow: 10px 10px 10px #44729E;
+}
+
+#oDet .in td, #oDet .in th 
+{
+    padding: 5px;
+}
+
+#oDet .in th 
+{
+    background: #44729E;
+    color: #fff;
+}
+
+#oDet .in textarea
+{
+    min-height: 100px;
+}
+
 #visor
 {
     display: none;
@@ -133,12 +189,28 @@
     left: 2%;
     width: 96%;
     height: 96%;
-    background: #DCE5FB;
+    background-image: url('../img/pic.png');
     z-index: 900;
     text-align: center;
     overflow: auto;
-    border: 1px solid #0000FF;
+    border: 2px solid #44729E;
     border-radius: 20px;
+}
+
+#closer
+{
+    position: absolute;
+    right: 0%;
+    top: 0%;
+    width: 40px;
+    height: 40px;
+    background-image: url('../img/exit.png');
+    cursor: pointer;
+}
+
+#closer:hover
+{
+    opacity: 0.8;
 }
 
 #space
@@ -151,7 +223,7 @@
     z-index: 900;
     text-align: center;
     overflow: auto;
-    border: 1px solid #ccc;
+    border: 1px solid #fff;
 }
 
 #pres
@@ -162,8 +234,16 @@
     min-height: 100px;
     background: #fff;
     margin: auto;
-    border: 2px solid #000;
+    border: 2px solid #44729E;
     border-radius: 10px;
+}
+
+#rower
+{
+    position: relative;
+    margin: auto;
+    border: 1px solid #000;
+    z-index: 902;
 }
 
 #pcA, #pcP, #pcI, #pcT, #pcD, #pcC, #pA, #pP, #pI, #pT, #pD, #pC
@@ -189,37 +269,37 @@
 #pcA
 {
     left: 25px;
-    background: #CCFFB3;
+    background: #99B3FF;
 }
 
 #pcP
 {
     left: 150px;
-    background: #B3FFE6;
+    background: #DCE5FF;
 }
 
 #pcI
 {
     left: 275px;
-    background: #B3CDFF;
+    background: #99B3FF;
 }
 
 #pcT
 {
     left: 400px;
-    background: #E6B3FF;
+    background: #DCE5FF;
 }
 
 #pcD
 {
     left: 525px;
-    background: #FFB3CD;
+    background: #99B3FF;
 }
 
 #pcC
 {
     left: 650px;
-    background: #FFE6B3;
+    background: #DCE5FF;
 }
 
 #pA
@@ -252,14 +332,6 @@
     left: 650px;
 }
 
-#rower
-{
-    position: relative;
-    margin: auto;
-    border: 1px solid #000;
-    z-index: 902;
-}
-
 .scr-obj
 {
     position: relative;
@@ -278,7 +350,7 @@
 
 .scr-obj:hover
 {
-    background: red;
+    background: #ADD8E6;
 }
 
 .scr-obj b
@@ -297,4 +369,55 @@
     width: 107px;
     height: 27px;
     border-radius: 5px;
+}
+
+.scr-marker
+{
+    width: 90%;
+    background: #44729E;
+    color: #fff;
+    margin: auto;
+}
+
+.scr-marker td, .scr-marker th
+{
+    border: 2px solid #fff;
+    padding: 5px;
+    width: 25%;
+    font-weight: bold;
+    font-size: 0.8em;
+    text-align: left;
+    cursor: default;
+}
+
+/* --- FIRMA --- */
+
+.scr-firma
+{
+    display: none;
+    position: absolute;
+    background: #ADCCEC;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    padding: 0%;
+    opacity: 0.8;
+    overflow: auto;
+    text-align: center;
+    z-index: 300;
+}
+
+.scr-firma table
+{
+   width: 100%;
+   height: 100%;
+}
+
+.scr-firma canvas
+{
+    background: #fff; 
+    border:4px solid #000; 
+    border-radius: 10px; 
+    cursor: crosshair; 
 }

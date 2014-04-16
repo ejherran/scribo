@@ -46,6 +46,11 @@
     padding: 5px;: bold;
 }
 
+.scr-flist img
+{
+    cursor: pointer;
+}
+
 .scr-flist a
 {
     width: 24px;

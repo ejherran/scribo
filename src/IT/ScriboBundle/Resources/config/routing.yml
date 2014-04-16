@@ -19,6 +19,9 @@ scribo_chpass:
 scribo_home:
     pattern:  /home
     defaults: { _controller: ScriboBundle:Home:index }
+scribo_home_list:
+    pattern:  /home/list
+    defaults: { _controller: ScriboBundle:Home:list }
 scribo_home_proc:
     pattern:  /home/proc
     defaults: { _controller: ScriboBundle:Home:proc }
@@ -28,6 +31,18 @@ scribo_home_reciv:
 scribo_home_cicle:
     pattern:  /home/cicle
     defaults: { _controller: ScriboBundle:Home:cicle }
+scribo_home_veri:
+    pattern:  /home/veri
+    defaults: { _controller: ScriboBundle:Home:veri }
+scribo_home_entrega:
+    pattern:  /home/entrega
+    defaults: { _controller: ScriboBundle:Home:entrega }
+scribo_home_visor:
+    pattern:  /home/{id}/visor
+    defaults: { _controller: ScriboBundle:Home:visor }
+scribo_home_docu:
+    pattern:  /home/{id}/docu
+    defaults: { _controller: ScriboBundle:Home:docu }
 #
 # Personal
 #
@@ -154,6 +169,9 @@ scribo_config_save:
 scribo_filer:
     pattern:  /filer
     defaults: { _controller: ScriboBundle:Filer:index }
+scribo_filer_list:
+    pattern:  /filer/list
+    defaults: { _controller: ScriboBundle:Filer:list }
 scribo_filer_purge:
     pattern:  /filer/purge
     defaults: { _controller: ScriboBundle:Filer:purge }

@@ -332,7 +332,7 @@ function sendSave()
 
 function okSave(response)
 {
-    if(parseInt(response.responseText) > '')
+    if(parseInt(response.responseText) > 0)
         document.location = $basePath+"dos/"+response.responseText+"/visor";
     else
         showFlash("Imposible procesar la orden!.");

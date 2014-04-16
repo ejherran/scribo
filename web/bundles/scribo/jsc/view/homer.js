@@ -1,25 +1,66 @@
 var ctlUrl = 'home'                                          // Url del controlador base.
 
+var uDek = null;
+
 var pId = '';
 var oId = '';
+var firmaCode = '';
+
+var srcLoader = '';
+var cabs = '';
 
 function $_init()
 {
-    if($mode != '0')
-    {
-        gId('lOrder').onclick = fixPid;
+    srcLoader = '<tr><th colspan="6" style="background: #fff; height: 345px;"><img src="'+$imgPath+'/loader.gif" /></th></tr>';
+    cabs = '<tr><th>ORDEN</th><th>TIPO</th><th>CLIENTE</th><th>F. DE REGISTRO</th><th>T. PARA ENTREGA</th><th><img src="'+$imgPath+'/refresh.png" onclick="getList();" title="Atualizar..." /></th></tr>';
+    
+    gId('lOrder').onclick = fixPid;
+    gId('cicle').onclick = getCicle;
+    gId('closer').onclick = closeCicle;
+    gId('detCloser').onclick = closeDet;
+    
+    if(gId('ctFirma') != null)
+        iniCanvas();
+    
+    if(gId('proce') != null)
         gId('proce').onclick = procesar;
+    
+    if(gId('xreciv') != null)
+    {
         gId('xreciv').onkeydown = FindHelp;
         gId('xreciv').beforeAction = prevCon;
-        gId('action').onchange = sameUser;
-        gId('cicle').onclick = getCicle;
     }
+    
+    if(gId('action') != null)
+        gId('action').onchange = sameUser;
+    
+    if(gId('entrega') != null)
+        gId('entrega').onclick = verifyEnt;
+    
+    getList();
+}
+
+function showLoader()
+{
+    gId("lOrder").innerHTML = cabs+srcLoader;
+}
+
+function getList()
+{
+    showLoader();
+    
+    ajaxAction
+    (
+        new Hash(['*param => *']),
+        $basePath+"home/list",
+        refresh
+    );
 }
 
 function fixPid(event)
 {
     var obj = event.target;
-    if(obj.nodeName == 'TD')
+    if(obj.nodeName == 'TD' && obj.firstChild.nodeName != 'IMG')
     {
         var rows = obj.parentNode.parentNode.rows;
         var limit = rows.length;
@@ -49,7 +90,7 @@ function fixPid(event)
 
 function sameUser()
 {
-    if(this.value == 'A')
+    if(this.value == 'A' || this.value == 'O')
     {
         gId('reciv').value = '$';
         gId('xreciv').value = 'Same User!';
@@ -93,7 +134,7 @@ function procesar()
             (
                 new Hash(['*pid => '+pId, '*oid => '+oId, 'action', 'reciv', 'data']),
                 $basePath+"home/proc",
-                refresh
+                getList
             );
         }
         else
@@ -103,7 +144,7 @@ function procesar()
 
 function getCicle()
 {
-    if(pId != '' && oId != '' && gId('reciv').value != '@')
+    if(oId != '')
     {
         ajaxAction
         (
@@ -131,6 +172,15 @@ function showCicle(response)
 function drawCicle(dek)
 {
     showB('visor');
+    
+    gId('vId').innerHTML = dek[0][0];
+    gId('vTy').innerHTML = dek[0][1] == 'A' ? 'PAPEL' : 'SUSTRATO';
+    gId('vCl').innerHTML = dek[0][2];
+    gId('vPr').innerHTML = dek[0][3];
+    gId('vFc').innerHTML = dek[0][4];
+    gId('vEs').innerHTML = getEstado(dek[0][5]);
+    gId('vDu').innerHTML = dek[0][6];
+    gId('vVl').innerHTML = '$ '+dek[0][7];
     
     var roles = ['A', 'P', 'I', 'T', 'D', 'C'];
     var nule = '<div class="scr-null"></div>';
@@ -162,12 +212,9 @@ function drawCicle(dek)
             rd = date;
         }
         
-        var obj = '<div class="scr-obj">';
+        var obj = '<div id="dk_'+i+'" class="scr-obj" onclick="meta(this)">';
         obj += '<b>'+demora+'</b>';
         obj += '</div>';
-        
-        
-        
         
         for(var j = 0; j < 6; j++)
         {
@@ -237,6 +284,51 @@ function drawCicle(dek)
         cxt.closePath();
         cxt.fill();
     }
+    
+    uDek = dek;
+}
+
+function closeCicle()
+{
+    hide('visor');
+    gId('pA').innerHTML = '';
+    gId('pP').innerHTML = '';
+    gId('pI').innerHTML = '';
+    gId('pT').innerHTML = '';
+    gId('pD').innerHTML = '';
+    gId('pC').innerHTML = '';
+    gId('pcA').innerHTML = '';
+    gId('pcP').innerHTML = '';
+    gId('pcI').innerHTML = '';
+    gId('pcT').innerHTML = '';
+    gId('pcD').innerHTML = '';
+    gId('pcC').innerHTML = '';
+}
+
+function closeDet()
+{
+    hide('oDet');
+}
+
+function meta(elem)
+{
+    
+    var dur = elem.firstChild.innerHTML;
+    var ik = parseInt(elem.id.split('_')[1]);
+    
+    gId('odPid').innerHTML = uDek[ik][0];
+    gId('odFec').innerHTML = uDek[ik][1];
+    gId('odDur').innerHTML = dur;
+    gId('odAct').innerHTML = getAction(uDek[ik][9]);
+    gId('odEmiRol').innerHTML = getEstado(uDek[ik][2]);
+    gId('odEmiUse').innerHTML = uDek[ik][3];
+    gId('odEmiPer').innerHTML = uDek[ik][4];
+    gId('odRecRol').innerHTML = getEstado(uDek[ik][5]);
+    gId('odRecUse').innerHTML = uDek[ik][6];
+    gId('odRecPer').innerHTML = uDek[ik][7];
+    gId('odDes').value = uDek[ik][10];
+    
+    showB('oDet');
 }
 
 function getColor(action)
@@ -247,11 +339,144 @@ function getColor(action)
     res = action == 'B' ? '#ffff00': res;
     res = action == 'R' ? '#ff0000': res;
     res = action == 'T' ? '#800080': res;
+    res = action == 'O' ? '#000000': res;
     
     return res;
 }
 
+function getEstado(ind)
+{
+    var res = '';
+    res = ind == 'A' ? 'Asesoria' : res;
+    res = ind == 'P' ? 'Jefatura De Impresión' : res;
+    res = ind == 'I' ? 'Impresión' : res;
+    res = ind == 'T' ? 'Jefatura De Acabados' : res;
+    res = ind == 'D' ? 'Acabados' : res;
+    res = ind == 'C' ? 'Entregas' : res;
+    
+    return res;
+}
+
+function getAction(ind)
+{
+    var res = '';
+    res = ind == 'C' ? 'Crear' : res;
+    res = ind == 'A' ? 'Anotar' : res;
+    res = ind == 'F' ? 'Avanzar' : res;
+    res = ind == 'B' ? 'Retroceder' : res;
+    res = ind == 'R' ? 'Devolver' : res;
+    res = ind == 'T' ? 'Transferir' : res;
+    res = ind == 'O' ? 'Aceptar' : res;
+    
+    return res;
+}
+
+function getDeta(elem)
+{
+    alert(elem.parentNode.parentNode.cells[1].innerHTML);
+}
+
 function refresh(response)
 {
-    document.location.reload();
+    prClear();
+    
+    if(response.responseText != '')
+    {
+        var src = '';
+        var rows = response.responseText.split('|:|');
+        var lr = rows.length;
+        
+        for(var i = 0; i < lr; i++)
+        {
+            src += '<tr>';
+            
+            var cells = rows[i].split('=>');
+            var lc = cells.length;
+            
+            var otip = cells[2] == 'A' ? 'PAPEL' : 'SUSTRATO';
+            
+            var tmod = parseInt(cells[5])-parseInt(cells[6]);
+            tmod = tmod > 0 ? toHours(tmod)+' Restantes.' : '<b style="color: red;">'+toHours(-1*tmod)+' De Restraso.</b>'; 
+            
+            src += '<td class="scr-hidden">'+cells[0]+'</td>';
+            src += '<td>'+cells[1]+'</td>';
+            src += '<td>'+otip+'</td>';
+            src += '<td>'+cells[3]+'</td>';
+            src += '<td>'+cells[4]+'</td>';
+            src += '<td>'+tmod+'</td>';
+            src += '<td><img src="'+$imgPath+'/det.png" onclick="getDeta(this);" title="Ver Detalles!." /></td>';
+            src += '</tr>';
+        }
+        
+        idTim = setTimeout(function(){ gId('lOrder').innerHTML = cabs+src; clearTimeout(idTim); }, 250);
+    }
+    else
+    {
+        idTim = setTimeout(function(){ gId('lOrder').innerHTML = cabs+'<tr><td colspan="6">NO DATA</td></tr>'; clearTimeout(idTim); }, 250);
+    }
 }
+
+function prClear()
+{
+    if(gId('xreciv') != null)
+    {
+        gId('xreciv').value = '';
+        gId('reciv').value = '';
+    }
+    
+    if(gId('action') != null)
+        gId('action').value = '';
+    
+    if(gId('data') != null)
+        gId('data').value = '';
+    
+    firmaCode = '';
+    
+    if(gId('showFirma') != null)
+        hide('showFirma');
+}
+
+function verifyEnt()
+{
+    if(oId != '')
+    {
+        ajaxAction
+        (
+            new Hash(['*oid => '+oId]),
+            $basePath+"home/veri",
+            confEnt
+        );
+    }
+    else
+        showFlash('Debe seleccionar una orden!.');
+}
+
+function confEnt(response)
+{
+    if(response.responseText == 'Y')
+    {
+        showFlash('Registre la firma del cliente para completar la entrega!...');
+        show('showFirma');
+    }
+    else
+        showFlash('La orden debe registrar un procesos de "Aceptación" antes de ser entregada!.');
+}
+
+function firmaApply()
+{
+    ajaxAction
+    (
+        new Hash(['*pid => '+pId, '*oid => '+oId, '*firma => '+firmaCode, '*data => '+gId('obsEntre').value]),
+        $basePath+"home/entrega",
+        pic
+    );
+}
+
+function pic(response)
+{
+    if(parseInt(response.responseText) > 0)
+        document.location = $basePath+"home/"+response.responseText+"/visor";
+    else
+        showFlash("Imposible procesar la entrega!.");
+}
+

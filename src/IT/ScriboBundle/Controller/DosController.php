@@ -248,7 +248,7 @@ class DosController extends Controller
                 $html = '<table style="text-align: left;"><tr><th><b>OBSERVACIONES:</b></th></tr><tr><th>&nbsp;</th></tr><tr><td>'.$ord['data'].'</td></tr></table><br /><br /><br />';
                 $pdf->autoCell(0, 0, 20, $pdf->GetY(), $html, 0, 1, 0, true, 'C', true);
                 
-                $html = '<table style="text-align: center;"><tr><th><b>FIRMA DE ACEPTACIÓN:</b></th></tr><tr><th>&nbsp;</th></tr><tr><td style="border: 3px solid #000000;"><img src="/tmp/'.$firma.'" height="55.03mm" width="73.38mm"/></td></tr></table>';
+                $html = '<table style="text-align: left;"><tr><th><b>FIRMA DE ACEPTACIÓN:</b></th></tr><tr><th>&nbsp;</th></tr><tr><td style="border: 3px solid #000000;" align="center;"><img src="/tmp/'.$firma.'" height="55.03mm" width="73.38mm"/></td></tr></table>';
                 $pdf->autoCell(0, 0, 20, $pdf->GetY(), $html, 0, 1, 0, true, 'C', true, 90);
             }
             else

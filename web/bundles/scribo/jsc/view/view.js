@@ -153,6 +153,31 @@ function toTable(res, cfun, mark)
         return '<table><tr><td style="display:none;">@</td><td>NO DATA</td></table>';
 }
 
+function createRows(res)
+{
+    var src = '';
+    var rows = res.split('|:|');
+    var lr = rows.length;
+    
+    for(var i = 0; i < lr; i++)
+    {
+        src += '<tr>';
+        
+        var cells = rows[i].split('=>');
+        var lc = cells.length;
+        
+        for(var j = 0; j < lc; j++)
+        {
+            var hidden = j == 0 ? ' class="scr-hidden" ' : '';
+            src += '<td'+hidden+'>'+cells[j]+'</td>';
+        }
+        
+        src += '</tr>';
+    }
+    
+    return src;
+}
+
 function toForm(res)
 {
     if(res != '_NONE_')

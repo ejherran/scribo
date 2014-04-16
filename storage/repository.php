@@ -42,9 +42,8 @@
             
         $data = explode(',', $data);
         $data = count($data) > 1 ? $data[1] : $data[0];
-        $data = base64_decode($data);
         
-        $fp = fopen($dir.$name,"a");
+        $fp = fopen($dir.$name.'.b64',"ab");
         fwrite($fp, $data);
         fclose($fp);
         
@@ -57,8 +56,21 @@
         $name = $_POST['upName'];
         $res = '-1';
         
-        if(file_exists($dir.$name))
+        if(file_exists($dir.$name.'.b64'))
+        {
+            $chunkSize = 1048576;
+			$src = fopen($dir.$name.'.b64', 'rb');
+			$dst = fopen($dir.$name, 'wb');
+			while (!feof($src)) 
+			{
+				fwrite($dst, base64_decode(fread($src, $chunkSize)));
+			}
+			fclose($dst);
+			fclose($src);
+            unlink($dir.$name.'.b64');
+            
             $res = sha1_file($dir.$name);
+        }
         
         crossMsg($res);
     }

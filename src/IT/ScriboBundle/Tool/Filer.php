@@ -19,20 +19,20 @@ class Filer
             
             if($con)
             {    
-                $r = mysql_query("select orden.type as tipo, papel.id as id, orden.id as orden, cliente.name as cliente, papel.name as original, papel.storage as archivo, orden.date as inicio, papel.expiry as fin from papel, orden, cliente where papel.expiry<>'ERASED' and papel.orden_id=orden.id and cliente.id=orden.cliente_id order by papel.id asc;", $con);
+                $r = mysql_query("select orden.type as tipo, papel.id as id, orden.id as orden, cliente.name as cliente, papel.name as original, papel.storage as archivo, orden.date as inicio, papel.expiry as fin, IF(STR_TO_DATE(papel.expiry, '%Y-%m-%d')<=curdate(), 'W', 'N') as status from papel, orden, cliente where papel.expiry<>'ERASED' and papel.orden_id=orden.id and cliente.id=orden.cliente_id order by papel.id asc;", $con);
                 if($r)
                 {
                     while($row = mysql_fetch_assoc($r))
-                        $data[] = Gestion::utf8Fix($row);
+                        $data[] = join('=>', Gestion::utf8Fix($row));
                 }
                 else
                     Tool::getDbError($con);
                     
-                $r = mysql_query("select orden.type as tipo, sustrato.id as id, orden.id as orden, cliente.name as cliente, sustrato.name as original, sustrato.storage as archivo, orden.date as inicio, sustrato.expiry as fin from sustrato, orden, cliente where sustrato.expiry<>'ERASED' and sustrato.orden_id=orden.id and cliente.id=orden.cliente_id order by sustrato.id asc;", $con);
+                $r = mysql_query("select orden.type as tipo, sustrato.id as id, orden.id as orden, cliente.name as cliente, sustrato.name as original, sustrato.storage as archivo, orden.date as inicio, sustrato.expiry as fin, IF(STR_TO_DATE(sustrato.expiry, '%Y-%m-%d')<=curdate(), 'W', 'N') as status from sustrato, orden, cliente where sustrato.expiry<>'ERASED' and sustrato.orden_id=orden.id and cliente.id=orden.cliente_id order by sustrato.id asc;", $con);
                 if($r)
                 {
                     while($row = mysql_fetch_assoc($r))
-                        $data[] = Gestion::utf8Fix($row);
+                        $data[] = join('=>', Gestion::utf8Fix($row));
                 }
                 else
                     Tool::getDbError($con);
@@ -41,7 +41,7 @@ class Filer
             }
         }
         
-        return $data;
+        return join('|:|', $data);
     }
     
     public function checkExpiry($controller)

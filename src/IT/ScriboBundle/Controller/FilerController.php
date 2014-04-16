@@ -13,10 +13,30 @@ class FilerController extends Controller
     {
         if(Gestion::isGrant($this, 'R'))
         {
-            $obj = new Filer();
-            $obj->checkExpiry($this);
-            $files = $obj->getList($this);
-            return $this->render('ScriboBundle:Filer:index.html.twig', array('files' => $files));
+            return $this->render('ScriboBundle:Filer:index.html.twig');
+        }
+        else
+        {
+            $this->get('session')->getFlashBag()->add('notice', 'Intento de acceso no autorizado!...');
+            return $this->redirect($this->generateUrl('scribo'));
+        }
+    }
+    
+    public function listAction()
+    {
+        if(Gestion::isGrant($this, '*'))
+        {
+            $request = $this->getRequest();
+			if($request->isXmlHttpRequest())
+			{
+                $obj = new Filer();
+                $obj->checkExpiry($this);
+                $res = $obj->getList($this);
+                
+                return new Response($res);
+            }
+            else
+                return $this->redirect($this->generateUrl('scribo_home'));
         }
         else
         {

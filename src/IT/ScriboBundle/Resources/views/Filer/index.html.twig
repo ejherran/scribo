@@ -37,27 +37,8 @@
     
     <div class="scr-flist">
         <table id="flist">
-            <tr><th><input id="checker" type="checkbox" /></th><th>ORDEN</th><th>CLIENTE</th><th>NOMBRE ORIGINAL</th><th>FECHA DE CREACIÓN</th><th>FECHA DE EXPIRACIÓN</th><th>&nbsp;</th></tr>
-            {% for f in files %}
-                <tr>
-                    <td><input type="checkbox" /><br></td>
-                    <td class="scr-hidden">{{ f.tipo }}_{{ f.id }}</td>
-                    <td>{{ f.orden }}</td>
-                    <td>{{ f.cliente }}</td>
-                    <td>{{ f.original }}</td>
-                    <td>{{ f.inicio|date("Y-m-d") }}</td>
-                    <td>
-                        {% if f.fin == 'EXPIRED' %}
-                            <b style="color: red;">{{ f.fin }}</b>
-                        {% elseif f.fin == '@' %}
-                            <b style="color: blue;">TO DELIVER</b>
-                        {% else %}
-                            {{ f.fin }}
-                        {% endif %}
-                    </td>
-                    <td><a href="{{ storage }}/scribo/files/{{ f.archivo }}" target="_blank"></a></td>
-                </tr>
-            {% endfor %}
+            <tr><th><input id="checker" type="checkbox" /></th><th>ORDEN</th><th>CLIENTE</th><th>NOMBRE ORIGINAL</th><th>FECHA DE CREACIÓN</th><th>FECHA DE EXPIRACIÓN</th><th><img src="{{ asset('bundles/scribo/img/refresh.png') }}" onclick="getList();" title="Atualizar..." /></th></tr>
+            <tr><th colspan="7" style="background: #fff; height: 359px;"><img src="{{ asset('bundles/scribo/img/loader.gif') }}" /></th></tr>
         </table>
     </div>
 

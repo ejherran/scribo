@@ -8,6 +8,7 @@
 
 {% block uheader %}
     <link rel="stylesheet" href="{{ asset('bundles/scribo/css/homer.css') }}" />
+    <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/firma.js') }}">/*--- Include ---*/ </script>
     <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/findhelper.js') }}">/*--- Include ---*/ </script>
     <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/homer.js') }}">/*--- Include ---*/ </script>
 {% endblock %}
@@ -41,6 +42,10 @@
                             <option value='T'>TRANSFERIR</option>
                         {% endif %}
                         
+                        {% if role == 'C' %}
+                            <option value='O'>ACEPTAR</option>
+                        {% endif %}
+                        
                     </select>
                 </td>
                 <td>
@@ -52,52 +57,107 @@
             <tr>
                 <td colspan="2"><textarea id="data" rows='5' placeholder="Descripción Del Proceso..."></textarea></td>
             </tr>
+            
             <tr>
                 <td colspan="2">
-                    <input id="cicle" type="button" value="VER PROCESO" />
-                    <input id="proce" type="button" value="PROCESAR" />
+                    <input style="float: right; margin: 5px;" id="proce" type="button" value="PROCESAR" />
+                    <input style="float: left; margin: 5px;" id="cicle" type="button" value="VER PROCESO" />
+                    {% if role == 'C' %}
+                        <input style="float: right; margin: 5px;" id="entrega" type="button" value="ENTREGAR" />
+                        <img style="display: none; float: right; margin: 5px; cursor: pointer;" id="showFirma" src="{{ asset('bundles/scribo/img/firma.png') }}" title="Firmar Entrega..." />
+                    {% endif %}
                 </td>
             </tr>
         </table>
-        
-        <div class="scr-pullOrd">
-            <table id="lOrder">
-                <tr><th>ORDEN</th><th>TIPO</th><th>CLIENTE</th><th>F. DE REGISTRO</th><th>T. PARA ENTREGA</th></tr>
-                {% for l in lis %}
-                    <tr>
-                        <td class="scr-hidden">{{ l.pid }}</td>
-                        <td>{{ l.orden }}</td>
-                        <td>
-                            {% if l.tipo == 'A' %}
-                                PAPEL
-                            {% else %}
-                                SUSTRATO
-                            {% endif %}
-                        </td>
-                        <td>{{ l.cliente }}</td>
-                        <td>{{ l.inicio }}</td>
-                        <td>
-                            {% set espace = (l.tiempo - l.lapso) %}
-                            {% if espace >= 0 %}
-                                {{ (espace/3600)|number_format(2, '.', '.') }} Hr. Restantes
-                            {% else %}
-                                <b style="color: red;">{{ (-1*espace/3600)|number_format(2, '.', '.') }} Hr. De Retrazo</b>
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-            </table>
-        </div>
-        
+        <br />
+    {% else %}
+        <table class="scr-procon">
+            <tr>
+                <td>
+                    <input style="float: left;" id="cicle" type="button" value="VER PROCESO" />
+                </td>
+            </tr>
+        </table>
+        <br />
     {% endif %}
+    
+    <div class="scr-pullOrd">
+        <table id="lOrder">
+            <tr><th>ORDEN</th><th>TIPO</th><th>CLIENTE</th><th>F. DE REGISTRO</th><th>T. PARA ENTREGA</th></tr>
+            <tr><th colspan="5" style="background: #fff; height: 359px;"><img src="{{ asset('bundles/scribo/img/loader.gif') }}" /></th></tr>
+        </table>
+    </div>
+    
+    
 {% endblock %}
 
 
 {% block outview %}
     
+    {% if role == 'C' %}
+        <div id="ctFirma" class="scr-firma">
+
+            <table>
+                <tr>
+                    <td>
+                        <canvas id="firma" class="" width="640" height="480" style=""></canvas>
+                        
+                        <br />
+                        <textarea id="obsEntre" style="width: 640px; height: 50px;" placeholder="Observaciones..." ></textarea>
+                        <br />
+                        <br />
+                        
+                        <input id="clearFirma" type="button" value="LIMPIAR" />
+                        &nbsp;
+                        <input id="getFirma" type="button" value="COMPLETAR ENTREGA" />
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    {% endif %}
+    
+    <div id="oDet">
+        <table class="ex">
+            <tr>
+                <td>
+                    <table class="in">
+                        <tr><th>PID</th><th>ÚLTIMO CAMBIO</th><th>DURACIÓN</th><th>ACCIÓN</th></tr>
+                        <tr><td id="odPid"></td><td id="odFec"></td><td id="odDur" ></td><td id="odAct"></td></tr>
+                        <tr><th>&nbsp;</th><th>ROL</th><th>USUARIO</th><th>PERSONAL</th></tr>
+                        <tr><th>EMITE:</th><td id="odEmiRol"></td><td id="odEmiUse"></td><td id="odEmiPer"></td></tr>
+                        <tr><th>RECIBE:</th><td id="odRecRol"></td><td id="odRecUse"></td><td id="odRecPer"></td></tr>
+                        <tr><td colspan="4"><textarea id="odDes" readonly="readonly"></textarea></td></tr>
+                        <tr><td colspan="4"><input id="detCloser" type="button" value="CERRAR" /></td></tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    
     <div id="visor">
+        <div id="closer" title="Cerrar...">&nbsp;</div>
         <div id="space">
-            <br /><br />
+            <br />
+            <table class="scr-marker">
+                <tr>
+                    <th>Nº De Orden:</th><td id="vId"></td>
+                    <th>Tipo:</th><td id="vTy"></td>
+                </tr>
+                <tr>
+                    <th>Cliente:</th><td id="vCl"></td>
+                    <th>Creada Por:</th><td id="vPr"></td>
+                </tr>
+                <tr>
+                    <th>Fecha:</th><td id="vFc"></td>
+                    <th>Estado:</th><td id="vEs"></td>
+                </tr>
+                <tr>
+                    <th>Duración Estimada:</th><td id="vDu"></td>
+                    <th>Valor Registrado:</th><td id="vVl"></td>
+                </tr>
+            </table>
+            <br />
             <div id="pres">
                 <div id="pA"></div>
                 <div id="pP"></div>
@@ -117,8 +177,8 @@
             </div>
             <br /><br />
         </div>
+        
     </div>
-
 {% endblock %}
 
 

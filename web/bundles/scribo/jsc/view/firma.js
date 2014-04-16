@@ -88,6 +88,9 @@ function getFirma()
     code = canvas.toDataURL();
     firmaCode = code;
     hide('ctFirma');
+    
+    if(typeof firmaApply != 'undefined')
+        firmaApply();
 }
 
 function showFirma()

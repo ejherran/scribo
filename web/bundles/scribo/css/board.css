@@ -1,0 +1,161 @@
+* 
+{
+    font-weight: inherit;
+    font-family: inherit;
+    font-style: inherit;
+    font-size: 100%;
+    border: 0 none;
+    outline: 0;
+    padding: 0;
+    margin: 0;
+}
+
+body
+{
+    background: #DCE5FF;
+    font: 12pt monospace;
+}
+
+#r
+{
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+#z1
+{
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 28%;
+    height: 50px;
+    z-index: 104;
+    border-right: 3px solid #000;
+    border-bottom: 3px solid #000;
+    text-align: center;
+}
+
+#z2
+{
+    position: absolute;
+    top: 0%;
+    left: 28%;
+    width: 72%;
+    height: 50px;
+    z-index: 103;
+    border-bottom: 3px solid #000;
+}
+
+#z3
+{
+    position: absolute;
+    top: 50px;
+    left: 0%;
+    width: 28%;
+    min-height: 400px;
+    z-index: 102;
+    border-right: 3px solid #000;
+}
+
+#z4
+{
+    position: absolute;
+    top: 50px;
+    left: 28%;
+    width: 72%;
+    min-height: 400px;
+    z-index: 101;
+}
+
+.t
+{
+    display: block;
+    height: 35px;
+    padding-top: 15px;
+    font-size: 1.2em;
+    color: #fff;
+    text-shadow: 0px 0px 2px #000, 0px 0px 3px #000, 3px 3px 10px #000, 3px 3px 10px #000;
+}
+
+#c1, #c2, #c3, #c4
+{
+    position: absolute;
+    top: 0%;
+    z-index: 100;
+    width: 18%;
+    min-height: 450px;
+    font-weight: bold;
+    text-align: center;
+}
+
+#c1
+{
+    left: 28%;
+    background: #99B3FF;
+}
+
+#c2
+{
+    left: 46%;
+    background: #DCE5FF;
+}
+
+#c3
+{
+    left: 64%;
+    background: #99B3FF;
+}
+
+#c4
+{
+    left: 82%;
+    background: #DCE5FF;
+}
+
+#p
+{
+    position: absolute;
+    top: 50px;
+    left: 28%;
+    width: 72%;
+    min-height: 400px;
+    z-index: 110;
+}
+
+.bar
+{
+    position: relative;
+    margin: 35px 1% 60px 1%;
+    width: 0%;
+    height: 30px;
+    background: linear-gradient(to right, #FFFFFF, #4F4FFF);
+    border: 1px solid #44729E;
+    box-shadow: 3px 3px 5px #44729E;
+    border-radius: 10px;
+}
+
+.lab
+{
+    position: relative;
+    margin: 20px 5% 30px 5%;
+    font-weight: bold;
+    font-size: 0.8em;
+    width: 90%;
+    height: 60px;
+    background: #fff;
+    border: 1px solid #44729E;
+    box-shadow: 3px 3px 6px #44729E;
+    border-radius: 5px;
+}
+
+.lab table
+{
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    cursor: default;
+}

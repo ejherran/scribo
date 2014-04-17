@@ -37,6 +37,7 @@
                 <ul class="scr-mitem">
                     
                     <li><a href="{{ path('scribo_home') }}">INICIO</a></li>
+                    <li><a href="{{ path('scribo_board') }}" target="_blank" >BOARD</a></li>
                     
                     {% if role == 'A' or role == 'R' %}
                         <li><a href="{{ path('scribo_cliente') }}">CLIENTES</a></li>
@@ -135,14 +136,6 @@
         var $imgPath = "{{ asset('bundles/scribo/img/') }}";
         var $storage = '{{ storage }}';
         
-        {% if role == 'R' %}
-            var $mode = '0';
-        {% elseif role == 'C' %}
-            var $mode = '1';
-        {% else %}
-            var $mode = '2';
-        {% endif %}
-    
         {% block uscript %}
 
         {% endblock %}

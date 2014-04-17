@@ -1,0 +1,44 @@
+{% extends 'ScriboBundle::base.html.twig' %}
+
+
+
+{% block title %}BOARD{% endblock %}
+
+
+
+{% block header %}
+    <link rel="stylesheet" href="{{ asset('bundles/scribo/css/board.css') }}" />
+    <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/ice/dom.js') }}">/*--- Include ---*/ </script>
+    <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/ice/basico.js') }}">/*--- Include ---*/ </script>
+    <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/ice/ajax.js') }}">/*--- Include ---*/ </script>
+    <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/board.js') }}">/*--- Include ---*/ </script>
+{% endblock %}
+
+
+{% block body %}
+    <div id='r'>
+        <div id="z1"><b class="t">ORDENES</b></div>
+        <div id="z2"></div>
+        <div id="z3"></div>
+        <div id="z4"></div>
+        
+        <div id="c1"><b class="t">DISEÑO</b></div>
+        <div id="c2"><b class="t">IMPRESIÓN</b></div>
+        <div id="c3"><b class="t">ACABADOS</b></div>
+        <div id="c4"><b class="t">ENTREGAS</b></div>
+        
+        <div id="p"></div>
+    </div>
+{% endblock %}
+
+{% block script %}
+
+    <script type="text/javascript">
+        
+        var $basePath = "{{ path('scribo') }}";
+        var $imgPath = "{{ asset('bundles/scribo/img/') }}";
+        
+    </script>
+
+{% endblock %}
+

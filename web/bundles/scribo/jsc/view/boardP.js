@@ -15,6 +15,7 @@ function $init()
 function getList()
 {
     B += 1;
+    
     if((B % 10) == 0)
     {
         showB('bs');
@@ -30,7 +31,7 @@ function ajaxList()
     ajaxAction
     (
         new Hash(['*param => *']),
-        $basePath+"board/list",
+        $basePath+"board/listp",
         refresh
     );
 }
@@ -72,6 +73,8 @@ function refresh(response)
     gId('c2').style.height = H+'px';
     gId('c3').style.height = H+'px';
     gId('c4').style.height = H+'px';
+    gId('c5').style.height = H+'px';
+    gId('c6').style.height = H+'px';
     
     if(B % 10 == 0)
     {
@@ -87,12 +90,12 @@ function getWidth(est, act)
     var res = 1;
     
     res = est == 'A' ? 1 : res;
-    res = est == 'P' ? 25 : res;
-    res = est == 'I' ? 37.5 : res;
-    res = est == 'T' ? 50 : res;
-    res = est == 'D' ? 62.5 : res;
-    res = est == 'C' ? 75 : res;
-    res = (est == 'C' && act == 'O')  ? 98 : res;
+    res = est == 'P' ? 18 : res;
+    res = est == 'I' ? 35 : res;
+    res = est == 'T' ? 52 : res;
+    res = est == 'D' ? 69 : res;
+    res = est == 'C' ? 86 : res;
+    res = (est == 'C' && act == 'O')  ? 98: res;
     
     return res;
 }

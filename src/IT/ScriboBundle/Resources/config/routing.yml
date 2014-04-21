@@ -44,14 +44,20 @@ scribo_home_docu:
     pattern:  /home/{id}/docu
     defaults: { _controller: ScriboBundle:Home:docu }
 #
-# Procesos
+# Board
 #
 scribo_board:
     pattern:  /board
     defaults: { _controller: ScriboBundle:Board:index }
+scribo_board_pro:
+    pattern:  /board/pro
+    defaults: { _controller: ScriboBundle:Board:pro }
 scribo_board_list:
     pattern:  /board/list
     defaults: { _controller: ScriboBundle:Board:list }
+scribo_board_listp:
+    pattern:  /board/listp
+    defaults: { _controller: ScriboBundle:Board:listp }
 #
 # Personal
 #

@@ -37,7 +37,8 @@
                 <ul class="scr-mitem">
                     
                     <li><a href="{{ path('scribo_home') }}">INICIO</a></li>
-                    <li><a href="{{ path('scribo_board') }}" target="_blank" >BOARD</a></li>
+                    <li><a href="{{ path('scribo_board') }}" target="_blank" >BOARD I <sub>(Clientes)</sub></a></li>
+                    <li><a href="{{ path('scribo_board_pro') }}" target="_blank" >BOARD II <sub>(Operarios)</sub></a></li>
                     
                     {% if role == 'A' or role == 'R' %}
                         <li><a href="{{ path('scribo_cliente') }}">CLIENTES</a></li>

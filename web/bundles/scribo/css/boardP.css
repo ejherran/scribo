@@ -96,18 +96,18 @@ body
     display: block;
     height: 35px;
     padding-top: 15px;
-    font-size: 1.2em;
+    font-size: 1.0em;
     font-weight: bold;
     color: #fff;
     text-shadow: 0px 0px 2px #000, 0px 0px 3px #000, 3px 3px 10px #000, 3px 3px 10px #000;
 }
 
-#c1, #c2, #c3, #c4
+#c1, #c2, #c3, #c4, #c5, #c6
 {
     position: absolute;
     top: 0%;
     z-index: 100;
-    width: 18%;
+    width: 12%;
     min-height: 450px;
     text-align: center;
 }
@@ -120,19 +120,31 @@ body
 
 #c2
 {
-    left: 46%;
+    left: 40%;
     background: #DCE5FF;
 }
 
 #c3
 {
-    left: 64%;
+    left: 52%;
     background: #99B3FF;
 }
 
 #c4
 {
-    left: 82%;
+    left: 64%;
+    background: #DCE5FF;
+}
+
+#c5
+{
+    left: 76%;
+    background: #99B3FF;
+}
+
+#c6
+{
+    left: 88%;
     background: #DCE5FF;
 }
 
@@ -170,6 +182,7 @@ body
     border: 1px solid #44729E;
     box-shadow: 3px 3px 6px #44729E;
     border-radius: 5px;
+    overflow: hidden;
 }
 
 .lab table

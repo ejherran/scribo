@@ -271,3 +271,33 @@ scribo_repo_enyear:
 scribo_repo_endeca:
     pattern:  /repo/{D}/endeca
     defaults: { _controller: ScriboBundle:Repo:enDeca }
+scribo_repo_perday:
+    pattern:  /repo/{D}/perday
+    defaults: { _controller: ScriboBundle:Repo:perDay }
+scribo_repo_perweek:
+    pattern:  /repo/{D}/perweek
+    defaults: { _controller: ScriboBundle:Repo:perWeek }
+scribo_repo_permonth:
+    pattern:  /repo/{D}/permonth
+    defaults: { _controller: ScriboBundle:Repo:perMonth }
+scribo_repo_peryear:
+    pattern:  /repo/{D}/peryear
+    defaults: { _controller: ScriboBundle:Repo:perYear }
+scribo_repo_perdeca:
+    pattern:  /repo/{D}/perdeca
+    defaults: { _controller: ScriboBundle:Repo:perDeca }
+scribo_repo_conday:
+    pattern:  /repo/{D}/conday
+    defaults: { _controller: ScriboBundle:Repo:conDay }
+scribo_repo_conweek:
+    pattern:  /repo/{D}/conweek
+    defaults: { _controller: ScriboBundle:Repo:conWeek }
+scribo_repo_conmonth:
+    pattern:  /repo/{D}/conmonth
+    defaults: { _controller: ScriboBundle:Repo:conMonth }
+scribo_repo_conyear:
+    pattern:  /repo/{D}/conyear
+    defaults: { _controller: ScriboBundle:Repo:conYear }
+scribo_repo_condeca:
+    pattern:  /repo/{D}/condeca
+    defaults: { _controller: ScriboBundle:Repo:conDeca }

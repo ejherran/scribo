@@ -9,67 +9,83 @@
 {% block uheader %}
     <link rel="stylesheet" href="{{ asset('bundles/scribo/css/repo.css') }}" />
     <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/repo.js') }}">/*--- Include ---*/ </script>
+    <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/findhelper.js') }}">/*--- Include ---*/ </script>
 {% endblock %}
 
 
 {% block view %}
     
-    <h1>REPORTES</h1><br />
+    <h1>REPORTES</h1>
     
     <table class="scr-tabOne">
         <tr>
-            <th style="text-align: center;">AÑO</th>
-            <th style="text-align: center;">MES</th>
-            <th style="text-align: center;">DÍA</th>
-            <th style="text-align: center;">REPORTE</th>
-            <th style="text-align: center;" rowspan="2"><input id="gen" type="button" value="GENERAR" /></th>
+            {% if role == 'R' %}
+                <th style="text-align: center;">AÑO</th>
+                <th style="text-align: center;">MES</th>
+                <th style="text-align: center;">DÍA</th>
+            {% endif %}
+            <th style="text-align: center;" {% if role != 'R' %} colspan="4" {% endif %}>REPORTE</th>
         </tr>
         <tr>
-            <td>
-                <select id='year'>
-                    <option value=''>Seleccione...</option>
-                </select>
-            </td>
-            <td>
-                <select id='month'>
-                    <option value=''>Seleccione...</option>
-                    <option value='01'>Enero</option>
-                    <option value='02'>Febrero</option>
-                    <option value='03'>Marzo</option>
-                    <option value='04'>Abril</option>
-                    <option value='05'>Mayo</option>
-                    <option value='06'>Junio</option>
-                    <option value='07'>Julio</option>
-                    <option value='08'>Agosto</option>
-                    <option value='09'>Septiembre</option>
-                    <option value='10'>Octubre</option>
-                    <option value='11'>Noviembre</option>
-                    <option value='12'>Diciembre</option>
-                </select>
-            </td>
-            <td>
-                <input id='day' type="number" />
-            </td>
-            <td>
+            {% if role == 'R' %}
+                <td>
+                    <select id='year'>
+                        <option value=''>Seleccione...</option>
+                    </select>
+                </td>
+                <td>
+                    <select id='month'>
+                        <option value=''>Seleccione...</option>
+                        <option value='01'>Enero</option>
+                        <option value='02'>Febrero</option>
+                        <option value='03'>Marzo</option>
+                        <option value='04'>Abril</option>
+                        <option value='05'>Mayo</option>
+                        <option value='06'>Junio</option>
+                        <option value='07'>Julio</option>
+                        <option value='08'>Agosto</option>
+                        <option value='09'>Septiembre</option>
+                        <option value='10'>Octubre</option>
+                        <option value='11'>Noviembre</option>
+                        <option value='12'>Diciembre</option>
+                    </select>
+                </td>
+                <td>
+                    <input id='day' type="number" />
+                </td>
+            {% endif %}
+            <td {% if role != 'R' %} colspan="4" {% endif %}>
                 <select id='repo'>
                     <option value=''>Seleccione...</option>
-                    <option value='conday'>Con. Día</option>
-                    <option value='conweek'>Con. Semana</option>
-                    <option value='conmonth'>Con. Mes</option>
-                    <option value='conyear'>Con. Año</option>
-                    <option value='condeca'>Con. Década</option>
-                    <option value='enday'>Ent. Día</option>
-                    <option value='enweek'>Ent. Semana</option>
-                    <option value='enmonth'>Ent. Mes</option>
-                    <option value='enyear'>Ent. Año</option>
-                    <option value='endeca'>Ent. Década</option>
-                    <option value='perday'>Per. Día</option>
-                    <option value='perweek'>Per. Semana</option>
-                    <option value='permonth'>Per. Mes</option>
-                    <option value='peryear'>Per. Año</option>
-                    <option value='perdeca'>Per. Década</option>
+                    {% if role == 'R' %}
+                        <option value='conday'>Con. Día</option>
+                        <option value='conweek'>Con. Semana</option>
+                        <option value='conmonth'>Con. Mes</option>
+                        <option value='conyear'>Con. Año</option>
+                        <option value='condeca'>Con. Década</option>
+                        <option value='enday'>Ent. Día</option>
+                        <option value='enweek'>Ent. Semana</option>
+                        <option value='enmonth'>Ent. Mes</option>
+                        <option value='enyear'>Ent. Año</option>
+                        <option value='endeca'>Ent. Década</option>
+                        <option value='perday'>Per. Día</option>
+                        <option value='perweek'>Per. Semana</option>
+                        <option value='permonth'>Per. Mes</option>
+                        <option value='peryear'>Per. Año</option>
+                        <option value='perdeca'>Per. Década</option>
+                    {% endif %}
+                    <option value='logcat'>Logcat Por Orden</option>
                 </select>
             </td>
+        </tr>
+        
+        <tr>
+            <td colspan="3">
+                <input id='orden' class="scr-hidden" type="text"/>
+                <input id='xorden' type="text" placeholder="Escriba una porción del nombre del cliente o F: y una porción de la fecha..." />
+                <div id="lorden" class="scr-hlpList" ></div>
+            </td>
+            <td style="text-align: right;"><input id="gen" type="button" value="GENERAR" /></td>
         </tr>
     </table>
     

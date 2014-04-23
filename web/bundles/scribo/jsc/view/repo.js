@@ -1,15 +1,21 @@
+var ctlUrl = 'repo'                                          // Url del controlador base.
 
 function $_init()
 {
-    var opts = '';
-    var fecha = new Date();
-    var ay = parseInt(fecha.getFullYear());
+    if(gId('year') != null)
+    {
+        var opts = '';
+        var fecha = new Date();
+        var ay = parseInt(fecha.getFullYear());
+        
+        for(var i = ay; i >= 1975; i--)
+            opts += '<option value="'+i+'">'+i+'</option>';
+        
+        gId('year').innerHTML += opts;
+    }
     
-    for(var i = ay; i >= 1975; i--)
-        opts += '<option value="'+i+'">'+i+'</option>';
-    
-    gId('year').innerHTML += opts;
     gId('gen').onclick = gener;
+    gId('xorden').onkeydown = FindHelp;
 }
 
 function gener()
@@ -36,6 +42,13 @@ function gener()
             if(validate('year'))
             {
                 gId('visor').src = $basePath+'repo/'+gId('year').value+'/'+rp;
+            }
+        }
+        else if(rp == 'logcat')
+        {
+            if(validate('orden,xorden'))
+            {
+                gId('visor').src = $basePath+'repo/'+gId('orden').value+'/'+rp;
             }
         }
     }

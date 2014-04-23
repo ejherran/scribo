@@ -10,11 +10,37 @@ use IT\ScriboBundle\Tool\Repo;
 class RepoController extends Controller
 {
     private $NM = ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE'];
+    private $tipos = array("CC"=>"C.C.","CE"=>"C.E.","NT"=>"NIT","RC"=>"R. Civil","RM"=>"R. Mercantil");
+    private $acciones = array('C' => 'CREAR', 'A' => 'ANOTAR', 'F' => 'AVANZAR', 'B' => 'RETROCEDER', 'R' => 'DEVOLVER', 'T' => 'TRANSFERIR', 'O' => 'ACEPTAR', 'X' => 'ENTREGAR');
+    private $roles = array('R'=>'Administrador', 'A'=>'Asesor','P'=>'Jefe de Prensa','I'=>'Operario de Prensa','T'=>'Jefe de Acabados','D'=>'Operario de Acabados','C'=>'Entregas');
+    
     public function indexAction()
     {
-        if(Gestion::isGrant($this, 'R'))
+        if(Gestion::isGrant($this, 'R,A,C'))
         {
             return $this->render('ScriboBundle:Repo:index.html.twig');
+        }
+        else
+        {
+            $this->get('session')->getFlashBag()->add('notice', 'Intento de acceso no autorizado!...');
+            return $this->redirect($this->generateUrl('scribo'));
+        }
+    }
+    
+    public function getOrdenAction()
+    {
+        if(Gestion::isGrant($this, 'R,A,C'))
+        {
+            $request = $this->getRequest();
+			if($request->isXmlHttpRequest())
+			{
+                $obj = new Repo();
+                $res = $obj->filterOrden($this);
+                
+                return new Response($res);
+            }
+            else
+                return $this->redirect($this->generateUrl('scribo_home'));
         }
         else
         {
@@ -4750,6 +4776,279 @@ class RepoController extends Controller
             unlink("/tmp/".$logo);
             
             $pdf->Output('con_deca_report.pdf', 'I');
+        }
+        else
+        {
+            $this->get('session')->getFlashBag()->add('notice', 'Intento de acceso no autorizado!...');
+            return $this->redirect($this->generateUrl('scribo'));
+        }
+    }
+    
+    public function logCatAction($id)
+    {
+        if(Gestion::isGrant($this, 'R,A,C'))
+        {
+            $obj = new Repo();
+            $ord = $obj->getOrder($this, $id);
+            $firmac = null;
+            $firmae = null;
+            
+            $cfg = Gestion::getConfiguracion($this);
+            $logo = Gestion::creaImg($cfg['logo']);
+            
+            $pdf = new \Tcpdf_Tcpdf('P', 'mm', 'LETTER', true, 'UTF-8', false);
+            $pdf->emp_name = $cfg['name'];
+            $pdf->emp_reg = $cfg['type'].': '.$cfg['document'];
+            $pdf->emp_ubi = $cfg['address'].' - '.$cfg['phone'];
+            $pdf->emp_web = $cfg['web'].' - '.$cfg['mail'];
+            $pdf->SetCreator(PDF_CREATOR);
+            $pdf->SetAuthor('IT Sribo');
+            $pdf->SetTitle('Reporte Procesos Por Orden');
+            $pdf->SetSubject('Reporte');
+            $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, '', '');
+            $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+            $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+            $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+            $pdf->SetMargins(20, 40, 20);
+            $pdf->SetHeaderMargin(2);
+            $pdf->SetFooterMargin(15);
+            $pdf->SetAutoPageBreak(TRUE, 21);
+            $pdf->setImgLogo("/tmp/".$logo);
+            $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+            $pdf->setTabl(true);
+            $pdf->setMemoTitle("REPORTE DE PROCESOS POR ORDEN: ".$id);
+            
+            $pdf->AddPage();
+            
+            $pdf->SetFont('dejavusansmono','',10);
+            
+            if($ord != null)
+            {
+                $firmac = Gestion::creaImg($ord['signature']);
+                
+                $per = $obj->getPersonal($this, $ord['usuario_id']);
+                $cli = $obj->getCliente($this, $ord['cliente_id']);
+                
+                $html = '<table>';
+                $html .= '<tr><td style="text-align: left;"><b>Fecha De Registro: '.$ord['date'].'</b></td><td style="text-align: right;"><b>Nº: '.$ord['id'].'</b></td></tr>';
+                $html .= '<tr><td style="text-align: left;"><b>Generado Por: '.$per['surname'].' '.$per['name'].'</b></td><td style="text-align: right;"><b>Doc.: '.$per['document'].'</b></td></tr>';
+                $html .= '</table><br /><br />';
+                $html .= '<b>DATOS DEL CLIENTE</b><br /><br />';
+                $html .= '<table border="1" style="text-align: left;">';
+                $html .= '<tr><td colspan="2" style="text-align: center;"><b>'.$cli['name'].'</b></td><td colspan="2" style="text-align: center;"><b>'.$this->tipos[$cli['type']].': '.$cli['document'].'</b></td></tr>';
+                $html .= '<tr><th style="width: 15%;"><b>Contacto</b></th><td style="width: 35%;">'.$cli['contact'].'</td><th style="width: 15%;"><b>Diección</b></th><td style="width: 35%;">'.$cli['address'].'</td></tr>';
+                $html .= '<tr><th style="width: 15%;"><b>Telefono</b></th><td style="width: 35%;">'.$cli['phone'].'</td><th style="widh: 15%;"><b>Mail</b></th><td style="width: 35%;">'.$cli['mail'].'</td></tr>';
+                $html .= '</table>';
+                $html .= '<br /><br /><b>DATOS DE EJECUCIÓN</b><br /><br />';
+                $html .= '<table border="1">';
+                $html .= '<tr style="font-weight: bold;"><th>TIEMPO</th><th>SUBTOTAL</th><th>IVA</th><th>TOTAL</th></tr>';
+                $html .= '<tr><td>'.$ord['time'].' Hr.</td><td>$ '.floatval($ord['subtotal']).'</td><td>$ '.((floatval($ord['iva'])/100)*floatval($ord['subtotal'])).'</td><td>$ '.floatval($ord['total']).'</td></tr>';
+                $html .= '</table>';
+                $pdf->autoCell(0, 0, 20, $pdf->GetY(), $html, 0, 1, 0, true, 'C', true);
+                $pdf->Ln(5);
+                
+                if($ord['type'] == 'A')
+                {
+                    $itm = $obj->getItemsA($this, $id);
+                    if($itm != null && is_array($itm))
+                    {
+                        $html = '<b>DETALLE DE ITEMS</b><br /><br />';
+                        
+                        $html .= '<table border="1" style="font-weight: bold; background-color: #D6D9F4;">';
+                        $html .= '<tr><td>FICHERO</td><td>EXPIRACIÓN</td><td>MATERIAL</td><td>TINTA</td></tr>';
+                        $html .= '<tr><td>PAGINAS</td><td>CANTIDAD</td><td>V. UNITARIO</td><td>VALOR</td></tr>';
+                        $html .= '<tr><td colspan="4">ACABADOS</td></tr>';
+                        $html .= '<tr><td colspan="4">NOTAS</td></tr>';
+                        $html .= '</table>';
+                        $pdf->autoCell(0, 0, 20, $pdf->GetY(), $html, 0, 1, 0, true, 'C', true);
+                        $pdf->Ln(5);
+                        
+                        foreach($itm as $it)
+                        {
+                            $iac = $obj->getAcabadosA($this, $it['idx']);
+                            $iac = $iac != null ? $iac : 'Sin Acabados!';
+                            $ino = $it['notas'] != '' ? $it['notas'] : 'Sin Notas!';
+                            $cad = $it['caduca'] != '@' ? $it['caduca'] : 'Al Entregar!';
+                            
+                            $html = '<table border="1">';
+                            $html .= '<tr><td>'.$it['fichero'].'</td><td>'.$cad.'</td><td>'.$it['material'].'</td><td>'.$it['tinta'].'</td></tr>';
+                            $html .= '<tr><td>'.$it['paginas'].'</td><td>'.$it['cantidad'].'</td><td>$ '.floatval($it['unitario']).'</td><td>$ '.floatval($it['valor']).'</td></tr>';
+                            $html .= '<tr><td colspan="4">'.$iac.'</td></tr>';
+                            $html .= '<tr><td colspan="4">'.$ino.'</td></tr>';
+                            $html .= '</table>';
+                            $pdf->autoCell(0, 0, 20, $pdf->GetY(), $html, 0, 1, 0, true, 'C', true);
+                            $pdf->Ln(5);
+                        }
+                    }
+                }
+                else if($ord['type'] == 'B')
+                {
+                    $itm = $obj->getItemsB($this, $id);
+                    if($itm != null && is_array($itm))
+                    {
+                        $html = '<b>DETALLE DE ITEMS</b><br /><br />';
+                        
+                        $html .= '<table border="1" style="font-weight: bold; background-color: #D6D9F4;">';
+                        $html .= '<tr><td>FICHERO</td><td>EXPIRACIÓN</td><td>MATERIAL</td><td>TINTA</td></tr>';
+                        $html .= '<tr><td>DIMENSIONES (cm)</cm></td><td>CANTIDAD</td><td>V. UNITARIO</td><td>VALOR</td></tr>';
+                        $html .= '<tr><td colspan="4">ACABADOS</td></tr>';
+                        $html .= '<tr><td colspan="4">NOTAS</td></tr>';
+                        $html .= '</table>';
+                        $pdf->autoCell(0, 0, 20, $pdf->GetY(), $html, 0, 1, 0, true, 'C', true);
+                        $pdf->Ln(5);
+                        
+                        foreach($itm as $it)
+                        {
+                            $iac = $obj->getAcabadosB($this, $it['idx']);
+                            $iac = $iac != null ? $iac : 'Sin Acabados!';
+                            $ino = $it['notas'] != '' ? $it['notas'] : 'Sin Notas!';
+                            $cad = $it['caduca'] != '@' ? $it['caduca'] : 'Al Entregar!';
+                            
+                            $html = '<table border="1">';
+                            $html .= '<tr><td>'.$it['fichero'].'</td><td>'.$cad.'</td><td>'.$it['material'].'</td><td>'.$it['tinta'].'</td></tr>';
+                            $html .= '<tr><td>'.$it['ancho'].'x'.$it['largo'].'</td><td>'.$it['cantidad'].'</td><td>$ '.floatval($it['unitario']).'</td><td>$ '.floatval($it['valor']).'</td></tr>';
+                            $html .= '<tr><td colspan="4">'.$iac.'</td></tr>';
+                            $html .= '<tr><td colspan="4">'.$ino.'</td></tr>';
+                            $html .= '</table>';
+                            $pdf->autoCell(0, 0, 20, $pdf->GetY(), $html, 0, 1, 0, true, 'C', true);
+                            $pdf->Ln(5);
+                        }
+                    }
+                }
+                
+                $pdf->Ln(5);
+                $html = '<table style="text-align: left;"><tr><th><b>OBSERVACIONES:</b></th></tr><tr><th>&nbsp;</th></tr><tr><td>'.$ord['data'].'</td></tr></table><br /><br /><br />';
+                $pdf->autoCell(0, 0, 20, $pdf->GetY(), $html, 0, 1, 0, true, 'C', true);
+                
+                $html = '<table style="text-align: left;"><tr><th><b>FIRMA DE ACEPTACIÓN:</b></th></tr><tr><th>&nbsp;</th></tr><tr><td style="border: 3px solid #000000;" align="center;"><img src="/tmp/'.$firmac.'" height="55.03mm" width="73.38mm"/></td></tr></table>';
+                $pdf->autoCell(0, 0, 20, $pdf->GetY(), $html, 0, 1, 0, true, 'C', true, 90);
+                
+                if($ord['status'] == 'X')
+                {
+                    $ent = $obj->getEntrega($this, $id);
+                    
+                    $pdf->AddPage();
+                    $pdf->SetFont('dejavusansmono','',10);
+                    
+                    $firmae = Gestion::creaImg($ent['signature']);
+                
+                    $per = $obj->getPersonal($this, $ent['usuario_id']);
+                    $cli = $obj->getCliente($this, $ord['cliente_id']);
+                    
+                    $html = '<table>';
+                    $html .= '<tr><td style="text-align: left;"><b>Fecha De Entrega: '.$ent['date'].'</b></td><td style="text-align: right;"><b>Nº: '.$ord['id'].'</b></td></tr>';
+                    $html .= '<tr><td style="text-align: left;"><b>Entregado Por: '.$per['surname'].' '.$per['name'].'</b></td><td style="text-align: right;"><b>Doc.: '.$per['document'].'</b></td></tr>';
+                    $html .= '</table><br /><br />';
+                    $html .= '<b>DATOS DEL CLIENTE</b><br /><br />';
+                    $html .= '<table border="1" style="text-align: left;">';
+                    $html .= '<tr><td colspan="2" style="text-align: center;"><b>'.$cli['name'].'</b></td><td colspan="2" style="text-align: center;"><b>'.$this->tipos[$cli['type']].': '.$cli['document'].'</b></td></tr>';
+                    $html .= '<tr><th style="width: 15%;"><b>Contacto</b></th><td style="width: 35%;">'.$cli['contact'].'</td><th style="width: 15%;"><b>Diección</b></th><td style="width: 35%;">'.$cli['address'].'</td></tr>';
+                    $html .= '<tr><th style="width: 15%;"><b>Telefono</b></th><td style="width: 35%;">'.$cli['phone'].'</td><th style="widh: 15%;"><b>Mail</b></th><td style="width: 35%;">'.$cli['mail'].'</td></tr>';
+                    $html .= '</table>';
+                    $html .= '<br /><br /><b>DATOS DE EJECUCIÓN</b><br /><br />';
+                    $html .= '<table border="1">';
+                    $html .= '<tr style="font-weight: bold;"><th>TIEMPO</th><th>SUBTOTAL</th><th>IVA</th><th>TOTAL</th></tr>';
+                    $html .= '<tr><td>'.$ord['time'].' Hr.</td><td>$ '.floatval($ord['subtotal']).'</td><td>$ '.((floatval($ord['iva'])/100)*floatval($ord['subtotal'])).'</td><td>$ '.floatval($ord['total']).'</td></tr>';
+                    $html .= '</table>';
+                    $pdf->autoCell(0, 0, 20, $pdf->GetY(), $html, 0, 1, 0, true, 'C', true);
+                    $pdf->Ln(5);
+                    
+                    $html = '<table style="text-align: left;"><tr><th><b>OBSERVACIONES:</b></th></tr><tr><th>&nbsp;</th></tr><tr><td>'.$ent['data'].'</td></tr></table><br /><br /><br />';
+                    $pdf->autoCell(0, 0, 20, $pdf->GetY(), $html, 0, 1, 0, true, 'C', true);
+                    
+                    $html = '<table style="text-align: left;"><tr><th><b>FIRMA DE ACEPTACIÓN:</b></th></tr><tr><th>&nbsp;</th></tr><tr><td style="border: 3px solid #000000;" align="center;"><img src="/tmp/'.$firmae.'" height="55.03mm" width="73.38mm"/></td></tr></table>';
+                    $pdf->autoCell(0, 0, 20, $pdf->GetY(), $html, 0, 1, 0, true, 'C', true, 90);
+                }
+                
+                $log = $obj->logCat($this, $id);
+                if($log != '')
+                {
+                    $log = explode('|:|', $log);
+                    $pdf->AddPage();
+                    $pdf->SetFont('dejavusansmono','',8);
+                    
+                    $html = '<table border="1" style="background-color: #D6D9F4; font-weight: bold;">';
+                        
+                    $html .= '<tr>';
+                    $html .= '<td colspan="2">PID</td>';
+                    $html .= '<td colspan="2">FECHA</td>';
+                    $html .= '</tr>';
+                    
+                    $html .= '<tr>';
+                    $html .= '<td>R. EMITE</td>';
+                    $html .= '<td>U. Emite</td>';
+                    $html .= '<td colspan="2">P. EMITE</td>';
+                    $html .= '</tr>';
+                    
+                    $html .= '<tr>';
+                    $html .= '<td>R. RECIBE</td>';
+                    $html .= '<td>U. RECIBE</td>';
+                    $html .= '<td colspan="2">P. RECIBE</td>';
+                    $html .= '</tr>';
+                    
+                    $html .= '<tr>';
+                    $html .= '<td colspan="2">ESTADO</td>';
+                    $html .= '<td colspan="2">ACCIÓN</td>';
+                    $html .= '</tr>';
+                    
+                    $html .= '<tr>';
+                    $html .= '<td colspan="4">OBSERVACIONES</td>';
+                    $html .= '</tr>';
+                    
+                    $html .= '</table>';
+                    
+                    $pdf->autoCell(0, 0, 20, $pdf->GetY(), $html, 0, 1, 0, true, 'C', true);
+                    $pdf->Ln(5);
+                    
+                    foreach($log as $l)
+                    {
+                        $pls = explode('=>', $l);
+                        
+                        $html = '<table border="1">';
+                        
+                        $html .= '<tr style="background-color: #D6D9F4; font-weight: bold;">';
+                        $html .= '<td colspan="2">'.$pls[0].'</td>';
+                        $html .= '<td colspan="2">'.$pls[1].'</td>';
+                        $html .= '</tr>';
+                        
+                        $html .= '<tr>';
+                        $html .= '<td>'.$this->roles[$pls[2]].'</td>';
+                        $html .= '<td>'.$pls[3].'</td>';
+                        $html .= '<td colspan="2">'.$pls[4].'</td>';
+                        $html .= '</tr>';
+                        
+                        $html .= '<tr>';
+                        $html .= '<td>'.$this->roles[$pls[5]].'</td>';
+                        $html .= '<td>'.$pls[6].'</td>';
+                        $html .= '<td colspan="2">'.$pls[7].'</td>';
+                        $html .= '</tr>';
+                        
+                        $html .= '<tr>';
+                        $html .= '<td colspan="2">'.($pls[8] == 'C' ? 'CERRADO' : 'ABIERTO').'</td>';
+                        $html .= '<td colspan="2">'.$this->acciones[$pls[9]].'</td>';
+                        $html .= '</tr>';
+                        
+                        $html .= '<tr>';
+                        $html .= '<td colspan="4">'.$pls[10].'</td>';
+                        $html .= '</tr>';
+                        
+                        $html .= '</table>';
+                        
+                        $pdf->autoCell(0, 0, 20, $pdf->GetY(), $html, 0, 1, 0, true, 'C', true);
+                        $pdf->Ln(5);
+                    }
+                }
+            }
+            else
+                $pdf->autoCell(0, 0, 20, $pdf->GetY(), '<b>NO EXISTEN DATOS ASOCIADOS!.</b>', 0, 1, 0, true, 'C', true);
+            
+            unlink("/tmp/".$logo);
+            if($firmac != null)
+                unlink("/tmp/".$firmac);
+            if($firmae != null)
+                unlink("/tmp/".$firmae);
+            
+            $pdf->Output('logcat.pdf', 'I');
         }
         else
         {

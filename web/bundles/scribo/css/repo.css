@@ -27,3 +27,48 @@ select option
     font-weight: bold;
     font-size: 6pt;
 }
+
+/* --- Helpers ---*/
+
+.scr-inhelp
+{
+    color: #8698B9;
+}
+
+.scr-hlpList
+{
+    display: none;
+    position: absolute;
+    overflow: auto;
+    background: #E1E1E1;
+    left: 2%;
+    top: auto;
+    width: 96%;
+    max-height: 150px;
+    margin-top: 5px;
+    padding: 10px 0px 10px 0px;
+    border: 1px solid #6c8393;
+    font-weight: bold;
+    font-size: 0.8em;
+    opacity: 0.8;
+    z-index: 97;
+}
+
+.scr-hlpList table
+{
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+.scr-hlpList table td
+{
+    cursor: pointer;
+    text-align: center;
+    width: 1%;
+}
+
+.scr-hlpList table tr:hover
+{
+    background: #ADD8E6
+}

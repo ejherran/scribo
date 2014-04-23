@@ -7,6 +7,47 @@ use IT\ScriboBundle\Tool\Gestion;
 
 class Repo
 {
+    public function filterOrden($controller)
+    {
+        $param = Gestion::sqlKill($controller->getRequest()->request->get('param'));
+        $pic = strtoupper(substr($param, 0, 2));
+        $rule = '';
+        
+        if($pic == 'F:')
+            $rule = " and orden.date like '%".substr($param, 2)."%' ";
+        else
+            $rule = " and cliente.name like '%".$param."%' ";
+        
+        $data = '_NONE_';
+        
+        $lic = Gestion::getLicencia(Gestion::getDomain($controller));
+                
+        if($lic)
+        {
+            $con = Tool::newDbCon($lic);
+            
+            if($con)
+            {
+                $r = mysql_query("select orden.id as id, cliente.name as cliente, orden.date as fecha from orden, cliente where cliente.id=orden.cliente_id  $rule order by orden.date asc;", $con);
+                if($r)
+                {
+                    $data = array();
+                    
+                    while($row = mysql_fetch_assoc($r))
+                        $data[] = $row['id'].'=>'.$row['cliente'].'=>'.$row['fecha'];
+                    
+                    $data = count($data) > 0 ? join('|:|', $data) : '_NONE_';
+                }
+                else
+                    Tool::getDbError($con);
+                    
+                Tool::closeDbCon($con);
+            }
+        }
+        
+        return Gestion::utf8Fix($data);
+    }
+    
     public function getEnForDay($controller, $day)
     {
         $lic = Gestion::getLicencia(Gestion::getDomain($controller));
@@ -701,6 +742,280 @@ class Repo
                 else
                     Tool::getDbError($con);
                 
+                
+                Tool::closeDbCon($con);
+            }
+        }
+        
+        return $data;
+    }
+    
+    public function getOrder($controller, $id)
+    {
+        $order = null;
+        
+        $lic = Gestion::getLicencia(Gestion::getDomain($controller));
+            
+        if($lic)
+        {
+            $con = Tool::newDbCon($lic);
+            
+            if($con)
+            {
+                $sql = "select * from orden where id='$id' limit 1;";
+                $r = mysql_query($sql, $con);
+                if($r)
+                    $order = mysql_fetch_assoc($r);
+                else
+                    Tool::getDbError($con);
+                    
+                Tool::closeDbCon($con);
+            }
+        }
+        
+        return Gestion::utf8Fix($order);
+    }
+    
+    public function getCliente($controller, $id)
+    {
+        $cli = null;
+        
+        $lic = Gestion::getLicencia(Gestion::getDomain($controller));
+            
+        if($lic)
+        {
+            $con = Tool::newDbCon($lic);
+            
+            if($con)
+            {
+                $sql = "select * from cliente where id='$id' limit 1;";
+                $r = mysql_query($sql, $con);
+                if($r)
+                    $cli = mysql_fetch_assoc($r);
+                else
+                    Tool::getDbError($con);
+                    
+                Tool::closeDbCon($con);
+            }
+        }
+        
+        return Gestion::utf8Fix($cli);
+    }
+    
+    public function getPersonal($controller, $id)
+    {
+        $per = null;
+        
+        $lic = Gestion::getLicencia(Gestion::getDomain($controller));
+            
+        if($lic)
+        {
+            $con = Tool::newDbCon($lic);
+            
+            if($con)
+            {
+                $sql = "select personal.name, personal.surname, personal.document from usuario, personal where personal.id = usuario.personal_id and usuario.id='$id' limit 1;";
+                $r = mysql_query($sql, $con);
+                if($r)
+                    $per = mysql_fetch_assoc($r);
+                else
+                    Tool::getDbError($con);
+                    
+                Tool::closeDbCon($con);
+            }
+        }
+        
+        return Gestion::utf8Fix($per);
+    }
+    
+    public function getItemsA($controller, $id)
+    {
+        $item = null;
+        
+        $lic = Gestion::getLicencia(Gestion::getDomain($controller));
+            
+        if($lic)
+        {
+            $con = Tool::newDbCon($lic);
+            
+            if($con)
+            {
+                $sql = "select papel.id as idx, papel.name as fichero, material.name as material, tinta.name as tinta, pages as paginas, amount as cantidad, unit as unitario, papel.value as valor, papel.data as notas, papel.expiry as caduca from papel, material, tinta where material.id = papel.material_id and tinta.id = papel.tinta_id and orden_id='$id' order by idx asc;";
+                $r = mysql_query($sql, $con);
+                if($r)
+                {
+                    $data = array();
+                    
+                    while($row = mysql_fetch_assoc($r))
+                        $data[] = Gestion::utf8Fix($row);
+                    
+                    $item = count($data) > 0 ? $data : null;
+                }
+                else
+                    Tool::getDbError($con);
+                    
+                Tool::closeDbCon($con);
+            }
+        }
+        
+        return $item;
+    }
+    
+    public function getAcabadosA($controller, $id)
+    {
+        $item = null;
+        
+        $lic = Gestion::getLicencia(Gestion::getDomain($controller));
+            
+        if($lic)
+        {
+            $con = Tool::newDbCon($lic);
+            
+            if($con)
+            {
+                $sql = "select acabado.name as acabado from papelAcabado, acabado where acabado.id = papelAcabado.acabado_id and papelAcabado.papel_id='$id' order by acabado asc;";
+                $r = mysql_query($sql, $con);
+                if($r)
+                {
+                    $data = array();
+                    
+                    while($row = mysql_fetch_assoc($r))
+                        $data[] = Gestion::utf8Fix($row['acabado']);
+                    
+                    $data = join(';', $data);
+                    
+                    $item = $data != '' ? $data : null;
+                }
+                else
+                    Tool::getDbError($con);
+                    
+                Tool::closeDbCon($con);
+            }
+        }
+        
+        return $item;
+    }
+    
+    public function getItemsB($controller, $id)
+    {
+        $item = null;
+        
+        $lic = Gestion::getLicencia(Gestion::getDomain($controller));
+            
+        if($lic)
+        {
+            $con = Tool::newDbCon($lic);
+            
+            if($con)
+            {
+                $sql = "select sustrato.id as idx, sustrato.name as fichero, material.name as material, tinta.name as tinta, sustrato.width as ancho, sustrato.height as largo, amount as cantidad, unit as unitario, sustrato.value as valor, sustrato.data as notas, sustrato.expiry as caduca from sustrato, material, tinta where material.id = sustrato.material_id and tinta.id = sustrato.tinta_id and orden_id='$id' order by idx asc;";
+                $r = mysql_query($sql, $con);
+                if($r)
+                {
+                    $data = array();
+                    
+                    while($row = mysql_fetch_assoc($r))
+                        $data[] = Gestion::utf8Fix($row);
+                    
+                    $item = count($data) > 0 ? $data : null;
+                }
+                else
+                    Tool::getDbError($con);
+                    
+                Tool::closeDbCon($con);
+            }
+        }
+        
+        return $item;
+    }
+    
+    public function getAcabadosB($controller, $id)
+    {
+        $item = null;
+        
+        $lic = Gestion::getLicencia(Gestion::getDomain($controller));
+            
+        if($lic)
+        {
+            $con = Tool::newDbCon($lic);
+            
+            if($con)
+            {
+                $sql = "select acabado.name as acabado from sustratoAcabado, acabado where acabado.id = sustratoAcabado.acabado_id and sustratoAcabado.sustrato_id='$id' order by acabado asc;";
+                $r = mysql_query($sql, $con);
+                if($r)
+                {
+                    $data = array();
+                    
+                    while($row = mysql_fetch_assoc($r))
+                        $data[] = Gestion::utf8Fix($row['acabado']);
+                    
+                    $data = join(';', $data);
+                    
+                    $item = $data != '' ? $data : null;
+                }
+                else
+                    Tool::getDbError($con);
+                    
+                Tool::closeDbCon($con);
+            }
+        }
+        
+        return $item;
+    }
+    
+    public function getEntrega($controller, $id)
+    {
+        $entr = null;
+        
+        $lic = Gestion::getLicencia(Gestion::getDomain($controller));
+            
+        if($lic)
+        {
+            $con = Tool::newDbCon($lic);
+            
+            if($con)
+            {
+                $sql = "select * from entrega where entrega.orden_id='$id' limit 1;";
+                $r = mysql_query($sql, $con);
+                if($r)
+                    $entr = mysql_fetch_assoc($r);
+                else
+                    Tool::getDbError($con);
+                    
+                Tool::closeDbCon($con);
+            }
+        }
+        
+        return Gestion::utf8Fix($entr);
+    }
+    
+    public function logCat($controller, $id)
+    {
+        $oid = Gestion::sqlKill($id);
+        
+        $lic = Gestion::getLicencia(Gestion::getDomain($controller));
+        
+        $data = '';
+        
+        if($lic)
+        {
+            $con = Tool::newDbCon($lic);
+            
+            if($con)
+            {
+                $data = array();
+                
+                $r = mysql_query("select proceso.id as pid, proceso.date as date, (select concat(usuario.role,'=>',user,'=>',personal.surname,' ',personal.name) from personal, usuario where personal.id=usuario.personal_id and usuario.id=proceso.emite_id) as emite, (select concat(usuario.role,'=>',user,'=>',personal.surname,' ',personal.name) from personal, usuario where personal.id=usuario.personal_id and usuario.id=proceso.recibe_id) as recibe, proceso.status as estado, proceso.action as accion, proceso.data as datos from proceso, orden where proceso.orden_id=orden.id and orden_id='$oid' order by proceso.id asc;", $con);
+                if($r)
+                {
+                    while($row = mysql_fetch_assoc($r))
+                        $data[] = Gestion::utf8Fix($row['pid'].'=>'.$row['date'].'=>'.$row['emite'].'=>'.$row['recibe'].'=>'.$row['estado'].'=>'.$row['accion'].'=>'.$row['datos']);
+                    
+                    $data = count($data) > 0 ? join('|:|', $data) : '_NONE_';
+                }
+                else
+                    Tool::getDbError($con);
                 
                 Tool::closeDbCon($con);
             }

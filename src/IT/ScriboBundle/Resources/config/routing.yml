@@ -301,3 +301,9 @@ scribo_repo_conyear:
 scribo_repo_condeca:
     pattern:  /repo/{D}/condeca
     defaults: { _controller: ScriboBundle:Repo:conDeca }
+scribo_repo_logcat:
+    pattern:  /repo/{id}/logcat
+    defaults: { _controller: ScriboBundle:Repo:logCat }
+scribo_repo_orden:
+    pattern:  /repo/orden
+    defaults: { _controller: ScriboBundle:Repo:getOrden }

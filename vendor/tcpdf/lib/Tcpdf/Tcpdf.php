@@ -65,9 +65,9 @@ class Tcpdf_Tcpdf extends TCPDF
             $html .= '<tr><td colspan="2">'.$this->emp_web.'</td></tr>';
             
             if($this->grPaginate)
-                $html .= '<tr><td align="left" style="width: 58.5%;">Powered By IT Coporation · www.itclatam.com · sales@itclatam.com</td><td align="right">Pag '.$this->getPageNumGroupAlias().'/'.$this->getPageGroupAlias().'</td></tr>';
+                $html .= '<tr><td align="left" style="width: 58.5%;">Powered By IT Corporation · www.itclatam.com · sales@itclatam.com</td><td align="right">Pag '.$this->getPageNumGroupAlias().'/'.$this->getPageGroupAlias().'</td></tr>';
             else
-                $html .= '<tr><td align="left" style="width: 58.5%;">Powered By IT Coporation · www.itclatam.com · sales@itclatam.com</td><td align="right">Pag '.$this->getAliasNumPage().'/'.$this->getAliasNbPages().'</td></tr>';
+                $html .= '<tr><td align="left" style="width: 58.5%;">Powered By IT Corporation · www.itclatam.com · sales@itclatam.com</td><td align="right">Pag '.$this->getAliasNumPage().'/'.$this->getAliasNbPages().'</td></tr>';
             
             $html .= '</table>';
             $this->writeHTMLCell(0, 0, 20, $this->GetY(), $html, 0, 1, 0, true, 'C', true);

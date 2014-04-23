@@ -250,3 +250,24 @@ scribo_dos_visor:
 scribo_dos_docu:
     pattern:  /dos/{id}/docu
     defaults: { _controller: ScriboBundle:Dos:docu }
+#
+# Reporte
+#
+scribo_repo:
+    pattern:  /repo
+    defaults: { _controller: ScriboBundle:Repo:index }
+scribo_repo_enday:
+    pattern:  /repo/{D}/enday
+    defaults: { _controller: ScriboBundle:Repo:enDay }
+scribo_repo_enweek:
+    pattern:  /repo/{D}/enweek
+    defaults: { _controller: ScriboBundle:Repo:enWeek }
+scribo_repo_enmonth:
+    pattern:  /repo/{D}/enmonth
+    defaults: { _controller: ScriboBundle:Repo:enMonth }
+scribo_repo_enyear:
+    pattern:  /repo/{D}/enyear
+    defaults: { _controller: ScriboBundle:Repo:enYear }
+scribo_repo_endeca:
+    pattern:  /repo/{D}/endeca
+    defaults: { _controller: ScriboBundle:Repo:enDeca }

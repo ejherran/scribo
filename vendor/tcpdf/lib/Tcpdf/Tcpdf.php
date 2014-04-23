@@ -61,13 +61,13 @@ class Tcpdf_Tcpdf extends TCPDF
             $this->SetY(-1*$this->footer_margin);
             $this->SetFont('helvetica', 'B', 8);
             $html = '<table style="border-top: 3px solid #063166;">';
-            $html .= '<tr><td><b>'.$this->emp_ubi.'</b></td></tr>';
-            $html .= '<tr><td>'.$this->emp_web.'</td></tr>';
+            $html .= '<tr><td colspan="2"><b>'.$this->emp_ubi.'</b></td></tr>';
+            $html .= '<tr><td colspan="2">'.$this->emp_web.'</td></tr>';
             
             if($this->grPaginate)
-                $html .= '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pag '.$this->getPageNumGroupAlias().'/'.$this->getPageGroupAlias().'</td></tr>';
+                $html .= '<tr><td align="left" style="width: 58.5%;">Powered By IT Coporation · www.itclatam.com · sales@itclatam.com</td><td align="right">Pag '.$this->getPageNumGroupAlias().'/'.$this->getPageGroupAlias().'</td></tr>';
             else
-                $html .= '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pag '.$this->getAliasNumPage().'/'.$this->getAliasNbPages().'</td></tr>';
+                $html .= '<tr><td align="left" style="width: 58.5%;">Powered By IT Coporation · www.itclatam.com · sales@itclatam.com</td><td align="right">Pag '.$this->getAliasNumPage().'/'.$this->getAliasNbPages().'</td></tr>';
             
             $html .= '</table>';
             $this->writeHTMLCell(0, 0, 20, $this->GetY(), $html, 0, 1, 0, true, 'C', true);

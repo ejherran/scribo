@@ -288,11 +288,16 @@ class Gestion
     
     public static function creaImg($data)
     {
+        $fname = '';
+        
         $img = explode(',',$data);
-        $fname = explode('/', $img[0])[1];
-        $fname = explode(';', $fname)[0];
-        $fname = sha1(date('Y-m-d_H:i:s').'_'.rand(0, 1000)).'.'.$fname;
-        file_put_contents('/tmp/'.$fname, base64_decode($img[1]));
+        if(count($img) > 1)
+        {
+            $fname = explode('/', $img[0])[1];
+            $fname = explode(';', $fname)[0];
+            $fname = sha1(date('Y-m-d_H:i:s').'_'.rand(0, 1000)).'.'.$fname;
+            file_put_contents('/tmp/'.$fname, base64_decode($img[1]));
+        }
         
         return $fname;
     }

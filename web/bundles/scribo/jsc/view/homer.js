@@ -18,6 +18,7 @@ function $_init()
     gId('cicle').onclick = getCicle;
     gId('closer').onclick = closeCicle;
     gId('detCloser').onclick = closeDet;
+    gId('lgCloser').onclick = closeLog;
     
     if(gId('ctFirma') != null)
         iniCanvas();
@@ -310,6 +311,11 @@ function closeDet()
     hide('oDet');
 }
 
+function closeLog()
+{
+    hide('logger');
+}
+
 function meta(elem)
 {
     
@@ -376,6 +382,13 @@ function getDeta(elem)
     alert(elem.parentNode.parentNode.cells[1].innerHTML);
 }
 
+function getDesc(elem)
+{
+    show('logger');
+    gId('lgOid').innerHTML = elem.parentNode.parentNode.cells[1].innerHTML;
+    gId('lgDes').value = elem.parentNode.parentNode.cells[6].innerHTML;
+}
+
 function refresh(response)
 {
     prClear();
@@ -404,7 +417,11 @@ function refresh(response)
             src += '<td>'+cells[3]+'</td>';
             src += '<td>'+cells[4]+'</td>';
             src += '<td>'+tmod+'</td>';
-            src += '<td><img src="'+$imgPath+'/det.png" onclick="getDeta(this);" title="Ver Detalles!." /></td>';
+            src += '<td class="scr-hidden">'+cells[7]+'</td>';
+            src += '<td>';
+            src += '<img src="'+$imgPath+'/log.png" onclick="getDesc(this);" title="Ver Descripción!." />';
+            src += '<img src="'+$imgPath+'/det.png" onclick="getDeta(this);" title="Ver Detalles!." />';
+            src += '</td>';
             src += '</tr>';
         }
         

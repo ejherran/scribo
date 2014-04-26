@@ -34,7 +34,7 @@ class Repo
                     $data = array();
                     
                     while($row = mysql_fetch_assoc($r))
-                        $data[] = $row['id'].'=>'.$row['cliente'].'=>'.$row['fecha'];
+                        $data[] = $row['id'].'=>'.$row['cliente'].'=>'.$row['fecha'].'=>'.$row['id'];
                     
                     $data = count($data) > 0 ? join('|:|', $data) : '_NONE_';
                 }

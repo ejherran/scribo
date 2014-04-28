@@ -169,6 +169,51 @@ class HomeController extends Controller
         }
     }
     
+    public function detaAction()
+    {
+        if(Gestion::isGrant($this, '*'))
+        {
+            $request = $this->getRequest();
+			if($request->isXmlHttpRequest())
+			{
+                $obj = new Home();
+                $res = $obj->deta($this);
+                
+                return new Response($res);
+            }
+            else
+                return $this->redirect($this->generateUrl('scribo_home'));
+        }
+        else
+        {
+            $this->get('session')->getFlashBag()->add('notice', 'Intento de acceso no autorizado!...');
+            return $this->redirect($this->generateUrl('scribo'));
+        }
+    }
+    
+    public function updateFileAction()
+    {
+        if(Gestion::isGrant($this, '*'))
+        {
+            $request = $this->getRequest();
+			if($request->isXmlHttpRequest())
+			{
+                $obj = new Home();
+                $obj->updateFile($this);
+                $res = $obj->deta($this);
+                
+                return new Response($res);
+            }
+            else
+                return $this->redirect($this->generateUrl('scribo_home'));
+        }
+        else
+        {
+            $this->get('session')->getFlashBag()->add('notice', 'Intento de acceso no autorizado!...');
+            return $this->redirect($this->generateUrl('scribo'));
+        }
+    }
+    
     public function docuAction($id)
     {
         if(Gestion::isGrant($this, '*'))

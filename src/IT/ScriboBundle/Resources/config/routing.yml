@@ -34,6 +34,12 @@ scribo_home_cicle:
 scribo_home_veri:
     pattern:  /home/veri
     defaults: { _controller: ScriboBundle:Home:veri }
+scribo_home_deta:
+    pattern:  /home/deta
+    defaults: { _controller: ScriboBundle:Home:deta }
+scribo_home_updfil:
+    pattern:  /home/updfil
+    defaults: { _controller: ScriboBundle:Home:updateFile }
 scribo_home_entrega:
     pattern:  /home/entrega
     defaults: { _controller: ScriboBundle:Home:entrega }

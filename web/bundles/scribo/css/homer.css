@@ -181,7 +181,7 @@
     min-height: 100px;
 }
 
-#visor
+#visor, #detaller
 {
     display: none;
     position: absolute;
@@ -197,7 +197,7 @@
     border-radius: 20px;
 }
 
-#closer
+#closer, #dCloser
 {
     position: absolute;
     right: 0%;
@@ -213,7 +213,7 @@
     opacity: 0.8;
 }
 
-#space
+#space, #dSpace
 {
     position: absolute;
     top: 5%;
@@ -473,3 +473,71 @@
 {
     min-height: 100px;
 }
+
+/* --- Detalles --- */
+
+.dtCab, .dtItm
+{
+    font-size: 0.8em;
+    font-family: monospace;
+    font-weight: bold;
+    width: 100%;
+    color: #fff;
+}
+
+.dtCab td
+{
+    background: #44729E;
+    border: 2px solid #44729E;
+    width: 33%;
+}
+
+.dtItm td
+{
+    background: #fff;
+    color: #000;
+    border: 2px solid #44729E;
+    width: 33%;
+}
+
+/*---- UPLOADER ----*/
+
+.scr-uploader
+{
+    display: none;
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    width: 35%;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px #505050;
+    color: #FFF;
+    text-align: left;
+    z-index: 1000;
+}
+
+.scr-uploader table
+{
+    width: 100%;
+    font-size: 0.7em;
+    font-weight: bold;
+}
+
+.scr-uploader table td
+{
+    width: 75%;
+    height: 20px;
+    border: 1px solid #FFF;
+}
+
+.scr-uploader table b
+{
+    background: #1E90FF;
+    height: 20px;
+    width: 100%;
+    vertical-align: middle;
+    display: inline-block;
+}
+

@@ -363,5 +363,125 @@ class Home
         
         return Gestion::utf8Fix($cli);
     }
+    
+    public function deta($controller)
+    {
+        $oid = Gestion::sqlKill($controller->getRequest()->request->get('param'));
+        
+        $lic = Gestion::getLicencia(Gestion::getDomain($controller));
+        
+        $data = '';
+        
+        if($lic)
+        {
+            $con = Tool::newDbCon($lic);
+            
+            if($con)
+            {
+                $data = array();
+                $otype = '';
+                
+                $r = mysql_query("select orden.id, orden.type as tipo, cliente.name as cliente, concat(personal.surname, ' ', personal.name) as personal, orden.date, orden.status, orden.time, orden.subtotal, orden.iva, orden.total, orden.data from usuario, personal, cliente, orden where usuario.id=orden.usuario_id and personal.id=usuario.personal_id and cliente.id=orden.cliente_id and orden.id='$oid' limit 1;", $con);
+                if($r)
+                {
+                    $row = mysql_fetch_assoc($r);
+                    $otype = $row['tipo'];
+                    $data[] = join('=>', $row);
+                    
+                    if($otype == 'A')
+                    {
+                        $p = mysql_query("select papel.id, material.name as mname, material.cost as ccost, tinta.name as tname, tinta.cost as tcost, papel.name, papel.pages, papel.amount, papel.unit, papel.value, papel.storage, papel.signature, papel.expiry, if(papel.data='', '@', papel.data) from material, tinta, papel where material.id=papel.material_id and tinta.id=papel.tinta_id and papel.orden_id='$oid' order by papel.id asc;", $con);
+                        while($pap = mysql_fetch_assoc($p))
+                        {
+                            $pid = $pap['id'];
+                            
+                            $rac = array();
+                            
+                            $a = mysql_query("select acabado.name, acabado.cost from acabado, papelAcabado where acabado.id=papelAcabado.acabado_id and papelAcabado.papel_id='$pid' order by acabado.name;", $con);
+                            $vaca = 0;
+                            while($aca = mysql_fetch_assoc($a))
+                            {
+                                $rac[] = $aca['name'];
+                                $vaca += intval($aca['cost']);
+                            }
+                            
+                            $rac = count($rac) > 0 ? join(';', $rac) : '@';
+                            
+                            $data[] = join('=>', $pap).'=>'.$rac.'=>'.$vaca;
+                        }
+                    }
+                    else if($otype == 'B')
+                    {
+                        $s = mysql_query("select sustrato.id, material.name as mname, material.cost as mcost, tinta.name as tname, tinta.cost as tcost, sustrato.name, concat(sustrato.width, ' x ', sustrato.height) as dim, sustrato.amount, sustrato.unit, sustrato.value, sustrato.storage, sustrato.signature, sustrato.expiry, if(sustrato.data='', '@', sustrato.data) from material, tinta, sustrato where material.id=sustrato.material_id and tinta.id=sustrato.tinta_id and sustrato.orden_id='$oid' order by sustrato.id asc;", $con);
+                        while($sus = mysql_fetch_assoc($s))
+                        {
+                            $sid = $sus['id'];
+                            
+                            $rac = array();
+                            
+                            $a = mysql_query("select acabado.name, acabado.cost from acabado, sustratoAcabado where acabado.id=sustratoAcabado.acabado_id and sustratoAcabado.sustrato_id='$sid' order by acabado.name;", $con);
+                            $vaca = 0;
+                            while($aca = mysql_fetch_assoc($a))
+                            {
+                                $rac[] = $aca['name'];
+                                $vaca += intval($aca['cost']);
+                            }
+                            
+                            $rac = count($rac) > 0 ? join(';', $rac) : '@';
+                            
+                            $data[] = join('=>', $sus).'=>'.$rac.'=>'.$vaca;
+                        }
+                    }
+                }
+                else
+                    Tool::getDbError($con);
+                    
+                $data = join('|:|', $data);
+                    
+                Tool::closeDbCon($con);
+            }
+        }
+        
+        return $data;
+    }
+    
+    public function updateFile($controller)
+    {
+        $oid = Gestion::sqlKill($controller->getRequest()->request->get('param'));
+        $otype = Gestion::sqlKill($controller->getRequest()->request->get('otype'));
+        $iid = Gestion::sqlKill($controller->getRequest()->request->get('iid'));
+        $oname = Gestion::sqlKill($controller->getRequest()->request->get('oname'));
+        $nname = Gestion::sqlKill($controller->getRequest()->request->get('nname'));
+        $ostorage = Gestion::sqlKill($controller->getRequest()->request->get('ostorage'));
+        $nstorage = Gestion::sqlKill($controller->getRequest()->request->get('nstorage'));
+        $osignature = Gestion::sqlKill($controller->getRequest()->request->get('osignature'));
+        $nsignature = Gestion::sqlKill($controller->getRequest()->request->get('nsignature'));
+        
+        $user = Gestion::getUserId($controller);
+        
+        $lic = Gestion::getLicencia(Gestion::getDomain($controller));
+        
+        $data = '';
+        
+        if($lic)
+        {
+            $con = Tool::newDbCon($lic);
+            
+            if($con)
+            {
+                $msg = "Actualización de ficheros:\nDE:\n\t$oname\n\t$osignature\n\t$ostorage\nA:\n\t$nname\n\t$nstorage\n\t$nsignature!.";
+                $msg = utf8_decode($msg);
+                $r = mysql_query("update proceso set status='C' where orden_id='$oid' and status='O';", $con);
+                $r = mysql_query("insert into proceso values('0', now(), '$oid', '$user', '$user', 'O', 'A', '$msg');", $con);
+                
+                if($otype == 'A')
+                    $r = mysql_query("update papel set name='$nname', storage='$nstorage', signature='$nsignature' where papel.id='$iid';", $con);
+                else
+                    $r = mysql_query("update sustrato set name='$nname', storage='$nstorage', signature='$nsignature' where sustrato.id='$iid';", $con);
+                    
+                Tool::closeDbCon($con);
+            }
+        }
+    }
 }
  

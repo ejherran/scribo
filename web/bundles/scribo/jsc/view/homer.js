@@ -9,6 +9,16 @@ var firmaCode = '';
 var srcLoader = '';
 var cabs = '';
 
+/* --- Actualizar Archivo --- */
+var dId = '';
+var oType = '';
+var tmpFile = '';
+var idActu = '';
+var oldFile = '';
+var oldName = '';
+var oldSig = '';
+var magnaFile = null;
+
 function $_init()
 {
     srcLoader = '<tr><th colspan="6" style="background: #fff; height: 345px;"><img src="'+$imgPath+'/loader.gif" /></th></tr>';
@@ -17,6 +27,7 @@ function $_init()
     gId('lOrder').onclick = fixPid;
     gId('cicle').onclick = getCicle;
     gId('closer').onclick = closeCicle;
+    gId('dCloser').onclick = closeDetaller;
     gId('detCloser').onclick = closeDet;
     gId('lgCloser').onclick = closeLog;
     
@@ -37,6 +48,11 @@ function $_init()
     
     if(gId('entrega') != null)
         gId('entrega').onclick = verifyEnt;
+        
+    if($jar == 'A')
+    {
+        gId('fileIn').onchange = inFile;
+    }
     
     getList();
 }
@@ -306,6 +322,11 @@ function closeCicle()
     gId('pcC').innerHTML = '';
 }
 
+function closeDetaller()
+{
+    hide('detaller');
+}
+
 function closeDet()
 {
     hide('oDet');
@@ -379,7 +400,57 @@ function getAction(ind)
 
 function getDeta(elem)
 {
-    alert(elem.parentNode.parentNode.cells[1].innerHTML);
+    dId = elem.parentNode.parentNode.cells[1].innerHTML;
+    ajaxAction
+    (
+        new Hash(['*param => '+dId]),
+        $basePath+"home/deta",
+        showDeta
+    );
+}
+
+function showDeta(response)
+{
+    upHash = '';
+    var src = '';
+    
+    var rps = response.responseText.split('|:|');
+    var ops = rps[0].split('=>');
+    
+    dId = ops[0];
+    oType = ops[1];
+    
+    src += '<table class="dtCab">';
+    src += '<tr><td colspan="3">'+ops[0]+'</td><td colspan="3">'+(ops[1] == 'A' ? 'PAPEL' : 'SUSTRATO')+'</td></tr>';
+    src += '<tr><td colspan="3">'+ops[2]+'</td><td colspan="3">'+ops[3]+'</td></tr>';
+    src += '<tr><td colspan="2">'+ops[4]+'</td><td colspan="2">'+(getEstado(ops[5]))+'</td><td colspan="2">'+ops[6]+'</td></tr>';
+    src += '<tr><td colspan="2">$ '+ops[7]+'</td><td colspan="2">'+ops[8]+' %</td><td colspan="2">$ '+ops[9]+'</td></tr>';
+    src += '<tr><td colspan="6"><textarea rows="5" readonly="readonly">Observaciones Generales: '+ops[10]+'</textarea></td></tr>';
+    src += '</table><br />';
+    
+    var lit = rps.length;
+    for(var i = 1; i < lit; i++)
+    {   
+        var ips = rps[i].split('=>');
+        
+        src += '<table class="dtItm">';
+        src += '<tr><td colspan="2">'+ips[5]+'</td><td colspan="2">'+ips[1]+'</td><td colspan="2">'+ips[3]+'</td></tr>';
+        src += '<tr><td colspan="3">'+ips[11]+'</td><td colspan="3">'+(ips[12] != '@' ? ips[12] : 'Al entregar!')+'</td></tr>';
+        src += '<tr><td colspan="3">'+ips[6]+'</td><td colspan="3">'+ips[7]+'</td></tr>';
+        src += '<tr><td colspan="6">'+(ips[14] != '@' ? ips[14] : 'Sin Acabados!')+'</tr>';
+        src += '<tr><td colspan="6"><textarea rows="5" readonly="readonly">Observaciones: '+(ips[13] != '@' ? ips[13] : 'Sin observaciones!')+'</textarea></td></tr>';
+        src += '<tr><td colspan="6">';
+        src += '<a href="'+$storage+'/scribo/files/'+ips[10]+'" target="_blank"><img src="'+$imgPath+'/adown.png" title="Descargar Archivo!" /></a>';
+        
+        if($jar == 'A')
+            src += '<img style="cursor: pointer;" src="'+$imgPath+'/refreshb.png" onclick="falseFile(\''+ips[0]+'_'+ips[10]+'_'+ips[5]+'_'+ips[11]+'\');" title="Actualizar Archivo!" />';
+        
+        src += '</td></tr>';
+        src += '</table><br />';
+    }
+    
+    gId('dSpace').innerHTML = src;
+    showB('detaller');
 }
 
 function getDesc(elem)
@@ -497,3 +568,84 @@ function pic(response)
         showFlash("Imposible procesar la entrega!.");
 }
 
+/* ####### Archivos ####### */
+
+function falseFile(fid)
+{
+    fid = fid.split('_');
+    idActu = fid[0];
+    oldFile = fid[1];
+    oldName = fid[2];
+    oldSig = fid[3];
+    falseClick('fileIn');
+}
+
+function inFile(event)
+{
+    magnaFile = event.target.files[0];
+    loadFile();
+}
+
+function loadFile()
+{
+    var reader = new FileReader();
+    reader.onload = createCode;
+    reader.readAsDataURL(magnaFile);
+}
+
+function createCode(event)
+{
+    tmpFile = this.result;
+    uploader();
+}
+
+function uploader()
+{
+    if(confirm("Seguro que desea actualizar el archivo, la version anterior se eliminara?."))
+    {
+        upUrl = $storage+'/scribo/repository.php';
+        upTime = new Date().getTime();
+        upName = magnaFile.name;
+        upOut = '@';
+        upData = tmpFile;
+        upLimit = upData.length;
+        upAction = okUp;
+        
+        gId('upLabel').innerHTML = upName;
+        showB('uploader');
+        
+        partialUpload('');
+    }
+}
+
+function okUp()
+{
+    var porcen = parseInt((1-(upData.length / upLimit))*100);
+    gId('upBar').style.width = porcen+'%';
+    
+    if(upHash != '')
+    {
+        hide('uploader');
+        localPurge(oldFile);
+    }
+}
+
+function localPurge(fileTar)
+{
+    ajaxAction
+    (
+        new Hash(['*action => delete', '*target => '+fileTar]),
+        $storage+'/scribo/repository.php',
+        updateDB
+    );
+}
+
+function updateDB()
+{
+    ajaxAction
+    (
+        new Hash(['*param => '+dId, '*otype => '+oType, '*iid => '+idActu, '*oname => '+oldName, '*nname => '+magnaFile.name, '*ostorage => '+oldFile, '*nstorage => '+upOut, '*osignature => '+oldSig, '*nsignature => '+upHash]),
+        $basePath+"home/updfil",
+        showDeta
+    );
+}

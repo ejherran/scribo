@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{{ asset('bundles/scribo/css/homer.css') }}" />
     <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/firma.js') }}">/*--- Include ---*/ </script>
     <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/findhelper.js') }}">/*--- Include ---*/ </script>
+    <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/upload.js') }}">/*--- Include ---*/ </script>
     <script type="text/javascript" src="{{ asset('bundles/scribo/jsc/view/homer.js') }}">/*--- Include ---*/ </script>
 {% endblock %}
 
@@ -87,7 +88,6 @@
             <tr><th colspan="5" style="background: #fff; height: 359px;"><img src="{{ asset('bundles/scribo/img/loader.gif') }}" /></th></tr>
         </table>
     </div>
-    
     
 {% endblock %}
 
@@ -194,6 +194,24 @@
         </div>
         
     </div>
+    
+    <div id="detaller">
+        <div id="dCloser" title="Cerrar...">&nbsp;</div>
+        <br />
+        <input id="fileIn" class="scr-hidden" type="file" />
+        
+        <div id="dSpace">
+            
+        </div>
+        
+    </div>
+    
+    <div id="uploader" class="scr-uploader">
+        <table>
+            <tr><th id="upLabel">&nbsp;</th><td><b id="upBar"></b></td></tr>
+        </table>
+    </div>
+    
 {% endblock %}
 
 

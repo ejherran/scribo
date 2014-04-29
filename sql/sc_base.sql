@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 29-04-2014 a las 00:04:07
+-- Tiempo de generación: 29-04-2014 a las 01:24:47
 -- Versión del servidor: 5.5.35-2
 -- Versión de PHP: 5.5.11-3
 
@@ -77,7 +77,14 @@ CREATE TABLE IF NOT EXISTS `configuracion` (
   `logo` longtext COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `document` (`document`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+
+--
+-- Volcado de datos para la tabla `configuracion`
+--
+
+INSERT INTO `configuracion` (`id`, `type`, `document`, `name`, `contact`, `address`, `phone`, `web`, `mail`, `storage`, `report`, `logo`) VALUES
+(1, 'N', '00000000000', '_NONE_', '_NONE_', '_NONE_', '_NONE_', '_NONE_', '_NONE_', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -367,8 +374,8 @@ ALTER TABLE `papelAcabado`
 -- Filtros para la tabla `perdida`
 --
 ALTER TABLE `perdida`
-  ADD CONSTRAINT `perdida_ibfk_2` FOREIGN KEY (`orden_id`) REFERENCES `orden` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `perdida_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `perdida_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `perdida_ibfk_2` FOREIGN KEY (`orden_id`) REFERENCES `orden` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `proceso`

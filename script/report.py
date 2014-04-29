@@ -20,8 +20,8 @@ for c in cfs:
         tar = tar[1]
         tar = tar.split(';')
         for t in tar:
-            if(len(t) == 2):
-                tm = t.split(',')
+            tm = t.split(',')
+            if(len(tm) == 2):
                 mail = tm[0]
                 hora = tm[1]
                 

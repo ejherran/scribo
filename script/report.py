@@ -16,7 +16,7 @@ for c in cfs:
     pw = b64.b64decode(ps[4]);
     tar = cm.getoutput("mysql -h "+ps[0]+" -P "+ps[1]+" -u "+us+" -p"+pw+" "+ps[2]+" -e \"select report from configuracion limit 1;\"")
     tar = tar.split("\n");
-    if(len(tar) > 0):
+    if(len(tar) > 1):
         tar = tar[1]
         tar = tar.split(';')
         for t in tar:

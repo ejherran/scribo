@@ -150,6 +150,51 @@
         </table>
     </div>
     
+    <div id="calper">
+        <table class="ex">
+            <tr>
+                <td>
+                    <table class="in">
+                        <tr>
+                            <th>ITEM</th>
+                            <th id="perPag1">Nº PAGINAS</th>
+                            <th>CANTIDAD</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <select id="perItem">
+                                    <option value="">Seleccione...</option>
+                                </select>
+                            </td>
+                            <td id="perPag2"><input id="perPaginas" type="number" /></td>
+                            <td><input id="perCantidad" type="number" /></td>
+                            <td><input id="perAdd" type="button" value="+" /></td>
+                        </tr>
+                        <tr>
+                            <td colspan="4"><textarea id="perView" readonly="readonly" rows="2"></textarea></td>
+                        </tr>
+                        <tr>
+                            <td colspan="4"><textarea id="perObs" rows="2" placeholder="Descripcion de la perdida..."></textarea></td>
+                        </tr>
+                        
+                        <tr>
+                            <td colspan="4"><input id="perValor" type="number" placeholder="Valor de la perdida ($)..." /></td>
+                        </tr>
+                        
+                        <tr>
+                            <td colspan="4">
+                                <input id="perCancel" type="button" value="CANCELAR" />
+                                <input id="perClear" type="button" value="LIMPIAR" />
+                                <input id="perApply" type="button" value="APLICAR" />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    
     <div id="visor">
         <div id="closer" title="Cerrar...">&nbsp;</div>
         <div id="space">
@@ -198,6 +243,15 @@
     <div id="detaller">
         <div id="dCloser" title="Cerrar...">&nbsp;</div>
         <br />
+        
+        {% if role == 'R' %}
+            <input id="btnCancel" type="button" value="Cancelar Orden" />
+        {% endif %}
+        
+        {% if role == 'I' or role == 'D' %}
+            <input id="btnPerdida" type="button" value="Aplicar Pérdida" />
+        {% endif %}
+        
         <input id="fileIn" class="scr-hidden" type="file" />
         
         <div id="dSpace">

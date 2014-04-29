@@ -149,13 +149,57 @@ class HomeController extends Controller
     
     public function entregaAction()
     {
-        if(Gestion::isGrant($this, '*'))
+        if(Gestion::isGrant($this, 'C'))
         {
             $request = $this->getRequest();
 			if($request->isXmlHttpRequest())
 			{
                 $obj = new Home();
                 $res = $obj->entrega($this);
+                
+                return new Response($res);
+            }
+            else
+                return $this->redirect($this->generateUrl('scribo_home'));
+        }
+        else
+        {
+            $this->get('session')->getFlashBag()->add('notice', 'Intento de acceso no autorizado!...');
+            return $this->redirect($this->generateUrl('scribo'));
+        }
+    }
+    
+    public function ordCancelAction()
+    {
+        if(Gestion::isGrant($this, 'R'))
+        {
+            $request = $this->getRequest();
+			if($request->isXmlHttpRequest())
+			{
+                $obj = new Home();
+                $obj->ordCancel($this);
+                
+                return new Response('O');
+            }
+            else
+                return $this->redirect($this->generateUrl('scribo_home'));
+        }
+        else
+        {
+            $this->get('session')->getFlashBag()->add('notice', 'Intento de acceso no autorizado!...');
+            return $this->redirect($this->generateUrl('scribo'));
+        }
+    }
+    
+    public function applyperdidaAction()
+    {
+        if(Gestion::isGrant($this, 'I,D'))
+        {
+            $request = $this->getRequest();
+			if($request->isXmlHttpRequest())
+			{
+                $obj = new Home();
+                $res = $obj->applyPerdida($this);
                 
                 return new Response($res);
             }

@@ -40,6 +40,12 @@ scribo_home_deta:
 scribo_home_updfil:
     pattern:  /home/updfil
     defaults: { _controller: ScriboBundle:Home:updateFile }
+scribo_home_ordcan:
+    pattern:  /home/ordcan
+    defaults: { _controller: ScriboBundle:Home:ordCancel }
+scribo_home_appper:
+    pattern:  /home/appper
+    defaults: { _controller: ScriboBundle:Home:applyPerdida }
 scribo_home_entrega:
     pattern:  /home/entrega
     defaults: { _controller: ScriboBundle:Home:entrega }

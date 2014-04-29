@@ -19,6 +19,10 @@ var oldName = '';
 var oldSig = '';
 var magnaFile = null;
 
+/* --- Calacula perdidad ---*/
+var matIt = new Array();
+var vvPer = 0;
+
 function $_init()
 {
     srcLoader = '<tr><th colspan="6" style="background: #fff; height: 345px;"><img src="'+$imgPath+'/loader.gif" /></th></tr>';
@@ -48,13 +52,46 @@ function $_init()
     
     if(gId('entrega') != null)
         gId('entrega').onclick = verifyEnt;
+    
+    if(gId('btnCancel') != null)
+        gId('btnCancel').onclick = cancelOrder;
+    
+    if(gId('btnPerdida') != null)
+        gId('btnPerdida').onclick = viewPerdida;
+    
+    if(gId('perCancel') != null)
+        gId('perCancel').onclick = closePerdida;
+    
+    if(gId('perClear') != null)
+        gId('perClear').onclick = clearPerdida;
+    
+    if(gId('perApply') != null)
+        gId('perApply').onclick = applyPerdida;
+    
+    if(gId('perAdd') != null)
+        gId('perAdd').onclick = addPerdida;
         
     if($jar == 'A')
     {
         gId('fileIn').onchange = inFile;
     }
     
-    getList();
+    ajaxTest
+    (
+        new Hash(['*action => test']),
+        $storage+'/scribo/repository.php',
+        testStorage
+    );
+}
+
+function testStorage(response)
+{
+    if(response.status != 200 || response.responseText != 'Ok!')
+        showFlash("Imposible conectar con el servidor de almacenamiento local!");
+    else if(response.responseText == 'Ok!')
+    {
+        getList();
+    }
 }
 
 function showLoader()
@@ -411,6 +448,7 @@ function getDeta(elem)
 
 function showDeta(response)
 {
+    matIt = new Array();
     upHash = '';
     var src = '';
     
@@ -432,6 +470,9 @@ function showDeta(response)
     for(var i = 1; i < lit; i++)
     {   
         var ips = rps[i].split('=>');
+        
+        var ait = [ips[5], ips[2], ips[4], ips[15]];
+        matIt.push(ait);
         
         src += '<table class="dtItm">';
         src += '<tr><td colspan="2">'+ips[5]+'</td><td colspan="2">'+ips[1]+'</td><td colspan="2">'+ips[3]+'</td></tr>';
@@ -648,4 +689,184 @@ function updateDB()
         $basePath+"home/updfil",
         showDeta
     );
+}
+
+function cancelOrder()
+{
+    if(confirm("Seguro que desea cancelar esta orden, el valor total se aplicara como perdida?."))
+    {
+        ajaxAction
+        (
+            new Hash(['*param => '+dId]),
+            $basePath+"home/ordcan",
+            okCancel
+        );
+    }
+}
+
+function okCancel()
+{
+    hide('detaller');
+    getList();
+}
+
+/*--- Perdida ---*/
+
+function viewPerdida()
+{
+    var lit = matIt.length;
+    gId('perItem').innerHTML = '<option value="">Seleccione...</option>';
+    for(var i = 0; i < lit; i++)
+    {
+        gId('perItem').innerHTML += '<option value="'+i+'">'+matIt[i][0]+'</option>';
+    }
+    
+    if(oType == 'B')
+    {
+        hide('perPag1');
+        hide('perPag2');
+    }
+    else
+    {
+        gId('perPag1').style.display = 'table-cell';
+        gId('perPag2').style.display = 'table-cell';
+    }
+    
+    showB('calper');
+}
+
+function addPerdida()
+{
+    if(oType == 'A')
+    {
+        if(validate('perItem,perPaginas,perCantidad'))
+        {
+            var iid = parseInt(gId('perItem').value);
+            if($jar == 'I')
+            {
+                var pags = parseInt(gId('perPaginas').value);
+                var cant = parseInt(gId('perCantidad').value);
+                
+                var vmat = parseInt(matIt[iid][1]);
+                var vtin = parseInt(matIt[iid][2]);
+                
+                var tval = ((vmat+vtin)*pags)*cant;
+                
+                vvPer += tval;
+                
+                gId('perView').value += matIt[iid][0]+':    $ '+tval+"\n";
+                gId('perValor').value = vvPer;
+            }
+            else if($jar == 'D')
+            {
+                var pags = parseInt(gId('perPaginas').value);
+                var cant = parseInt(gId('perCantidad').value);
+                
+                var vmat = parseInt(matIt[iid][1]);
+                var vtin = parseInt(matIt[iid][2]);
+                var vaca = parseInt(matIt[iid][3]);
+                
+                var tval = ((vmat+vtin+vaca)*pags)*cant;
+                
+                vvPer += tval;
+                
+                gId('perView').value += matIt[iid][0]+':    $ '+tval+"\n";
+                gId('perValor').value = vvPer;
+            }
+        }
+    }
+    else
+    {
+        if(validate('perItem,perCantidad'))
+        {
+            var iid = parseInt(gId('perItem').value);
+            if($jar == 'I')
+            {
+                var cant = parseInt(gId('perCantidad').value);
+                
+                var vmat = parseInt(matIt[iid][1]);
+                var vtin = parseInt(matIt[iid][2]);
+                
+                var tval = (vmat+vtin)*cant;
+                
+                vvPer += tval;
+                
+                gId('perView').value += matIt[iid][0]+':    $ '+tval+"\n";
+                gId('perValor').value = vvPer;
+            }
+            else if($jar == 'D')
+            {
+                var cant = parseInt(gId('perCantidad').value);
+                
+                var vmat = parseInt(matIt[iid][1]);
+                var vtin = parseInt(matIt[iid][2]);
+                var vaca = parseInt(matIt[iid][3]);
+                
+                var tval = (vmat+vtin+vaca)*cant;
+                
+                vvPer += tval;
+                
+                gId('perView').value += matIt[iid][0]+':    $ '+tval+"\n";
+                gId('perValor').value = vvPer;
+            }
+        }
+    }
+    
+    clear('perItem,perPaginas,perCantidad');
+    gId('perItem').focus();
+}
+
+function applyPerdida()
+{
+    if(validate('perObs,perValor'))
+    {
+        var lVal = parseInt(gId('perValor').value);
+        
+        if(lVal < vvPer)
+        {
+            gId('perValor').value = vvPer;
+            gId('perValor').focus();
+            alert('El valor de la pérdida no puede ser menor al calculado!.');
+        }
+        else
+        {
+            ajaxAction
+            (
+                new Hash(['*param => '+dId,'*obs => '+gId('perObs').value,'*value => '+gId('perValor').value]),
+                $basePath+"home/appper",
+                okPerdida
+            );
+        }
+    }
+}
+
+function okPerdida(response)
+{
+    alert('Pérdida aplicada!');
+    closePerdida();
+}
+
+function clearPerdida()
+{
+    vvPer = 0;
+    clear('perView,perValor,perObs,perItem,perPaginas,perCantidad');
+    gId('perItem').focus();
+    
+    gId('perItem').style.borderColor= "";
+    gId('perPaginas').style.borderColor= "";
+    gId('perCantidad').style.borderColor= "";
+    gId('perObs').style.borderColor= "";
+    gId('perValor').style.borderColor= "";
+    gId('perItem').style.boxShadow= "";
+    gId('perPaginas').style.boxShadow= "";
+    gId('perCantidad').style.boxShadow= "";
+    gId('perObs').style.boxShadow= "";
+    gId('perValor').style.boxShadow= "";
+}
+
+function closePerdida()
+{
+    hide('calper');
+    
+    clearPerdida();
 }

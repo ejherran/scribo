@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.9deb1
+-- version 4.1.12deb2
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 30-03-2014 a las 16:30:32
+-- Tiempo de generación: 29-04-2014 a las 00:10:13
 -- Versión del servidor: 5.5.35-2
--- Versión de PHP: 5.5.9-1
+-- Versión de PHP: 5.5.11-3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `conexion` (
 --
 
 INSERT INTO `conexion` (`id`, `licencia_id`, `name`, `engine`, `host`, `port`, `path`, `user`, `pass`, `data`) VALUES
-(1, 1, 'DB_MASTER', 'mysql', 'localhost', '3306', 'scribo', 'c2NyaWJv', 'c2NyaWJv', NULL);
+(1, 1, 'DB_MASTER', 'mysql', 'localhost', '3306', 'sctest', 'c2N0ZXN0', 'c2N0ZXN0', 'Escenario de prueba');
 
 -- --------------------------------------------------------
 
@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `licencia` (
 --
 
 INSERT INTO `licencia` (`id`, `servicio_id`, `domain`, `inicio`, `fin`, `owner`, `phone`, `mail`, `data`) VALUES
-(1, 1, 'zarate', '2013-12-01', '2014-12-31', 'Impresiones Zarate', '123456789', 'test@test.com', NULL);
+(1, 1, 'test', '2014-01-01', '2050-12-31', 'IT Corporation', '_NONE_', '_NONE_', 'Test Base');
 
 -- --------------------------------------------------------
 

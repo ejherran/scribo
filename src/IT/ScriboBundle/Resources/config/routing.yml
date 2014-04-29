@@ -190,6 +190,9 @@ scribo_config:
 scribo_config_save:
     pattern:  /conf/save
     defaults: { _controller: ScriboBundle:Config:save }
+scribo_config_dsql:
+    pattern:  /conf/dsql
+    defaults: { _controller: ScriboBundle:Config:dSql }
 #
 # G. De Ficheros
 #

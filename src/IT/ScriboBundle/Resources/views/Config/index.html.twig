@@ -15,7 +15,10 @@
 {% block view %}
 
 
-    <h1>CONFIGURACÓN GENERAL</h1><br />
+    <h1>CONFIGURACÓN GENERAL</h1>
+    <a style="float: right;" href="{{ asset('bundles/scribo/pack/scribo_storage.zip') }}"><img src="{{ asset('bundles/scribo/img/pack.png') }}" title="Descargar Scrip Storage..."/></a>
+    <a style="float: right;" href="{{ path('scribo_config_dsql') }}"><img src="{{ asset('bundles/scribo/img/sql_d.png') }}" title="Descargar Copia De Seguridad..."/></a>
+    <br /><br />
 
     <table class="scr-tabOne">
         
@@ -61,7 +64,7 @@
         <tr><td><input id="web" name="web" type="text" value="{{ act.web }}" maxlength="250" /></td><td><input id="mail" name="mail" type="text" value="{{ act.mail }}" maxlength="250" /></td></tr>
         
         <tr><th>ALMACENAMIENTO LOCAL:</th><th>REPORTES:</th></tr>
-        <tr><td><input id="storage" name="storage" type="text" value="{{ act.storage }}" maxlength="250" placeholder="EJ: http://192.168.0.1" /></td><td><textarea id="report" name="report" placeholder="EJ: user1@mail.com,03:30;user2@mail.com,23:55...">{{ act.report }}</textarea></td></tr>
+        <tr><td><input id="storage" name="storage" type="text" value="{{ act.storage }}" maxlength="250" placeholder="EJ: http://192.168.0.1" /></td><td><textarea id="report" name="report" placeholder="EJ: user1@mail.com,03;user2@mail.com,23...">{{ act.report }}</textarea></td></tr>
         
         <tr><th colspan="2">LOGO:</th></tr>
         <tr>

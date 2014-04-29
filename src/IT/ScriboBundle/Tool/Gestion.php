@@ -314,5 +314,21 @@ class Gestion
         
         return $permit[Gestion::getRole($controller)][$action];
     }
+    
+    public static function getSQLName($controller)
+    {
+        $xcn = explode('|:|', base64_decode(Gestion::getLicencia(Gestion::getDomain($controller))));
+        return $xcn[3];
+    }
+    
+    public static function getSQLCopy($controller)
+    {
+        $xcn = explode('|:|', base64_decode(Gestion::getLicencia(Gestion::getDomain($controller))));
+        $file = "/tmp/sql_".$xcn[3]."_".date('Ymd')."_".date('His');
+        exec("mysqldump -h ".$xcn[1]." -P ".$xcn[2]." -u ".$xcn[4]." -p".$xcn[5]." ".$xcn[3]." > ".$file.".sql");
+        exec("zip -9 -j ".$file.".zip ".$file.".sql");
+        unlink($file.".sql");
+        return  $file.".zip";
+    }
 }
  

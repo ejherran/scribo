@@ -6,7 +6,7 @@ import base64 as b64
 
 HF = cm.getoutput('date +%H');
 
-cfs = cm.getoutput("mysql -h "+db.Host+" -P "+db.Port+" -u "+db.User+" -p"+db.Pass+" "+db.Name+" -e \"select conexion.host, conexion.port, conexion.path, conexion.user, conexion.pass from conexion, licencia, servicio where servicio.code='SCRB' and licencia.servicio_id=servicio.id and licencia.fin>=curdate();\"")
+cfs = cm.getoutput("mysql -h "+db.Host+" -P "+db.Port+" -u "+db.User+" -p"+db.Pass+" "+db.Name+" -e \"select conexion.host, conexion.port, conexion.path, conexion.user, conexion.pass from conexion, licencia, servicio where servicio.code='SCRB' and licencia.servicio_id=servicio.id and licencia.fin>=curdate() and conexion.licencia_id=licencia.id;\"")
 cfs = cfs.split("\n")
 cfs = cfs[1:]
 

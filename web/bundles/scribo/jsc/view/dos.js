@@ -262,7 +262,12 @@ function calculateSub()
 
 function aplicaIva()
 {
-    var iva = parseFloat(gId('ordIva').value)/100;
+    var iva = '';
+    
+    if(gId('ordIva').value == '')
+        gId('ordIva').value = '16';
+    
+    iva = parseFloat(gId('ordIva').value)/100;
     if(!isNaN(iva))
         gId('ordTotal').value = ((iva+1)*parseFloat(gId('ordSubtotal').value)).toFixed(2);
     else

@@ -484,7 +484,7 @@ function showDeta(response)
         src += '<a href="'+$storage+'/scribo/files/'+ips[10]+'" target="_blank"><img src="'+$imgPath+'/adown.png" title="Descargar Archivo!" /></a>';
         
         if($jar == 'A')
-            src += '<img style="cursor: pointer;" src="'+$imgPath+'/refreshb.png" onclick="falseFile(\''+ips[0]+'_'+ips[10]+'_'+ips[5]+'_'+ips[11]+'\');" title="Actualizar Archivo!" />';
+            src += '<img style="cursor: pointer;" src="'+$imgPath+'/refreshb.png" onclick="falseFile(\''+ips[0]+'|:|'+ips[10]+'|:|'+ips[5]+'|:|'+ips[11]+'\');" title="Actualizar Archivo!" />';
         
         src += '</td></tr>';
         src += '</table><br />';
@@ -613,7 +613,8 @@ function pic(response)
 
 function falseFile(fid)
 {
-    fid = fid.split('_');
+    console.log(fid);
+    fid = fid.split('|:|');
     idActu = fid[0];
     oldFile = fid[1];
     oldName = fid[2];
@@ -683,6 +684,7 @@ function localPurge(fileTar)
 
 function updateDB()
 {
+    console.log(oldName+"\n"+oldFile+"\n"+oldSig);
     ajaxAction
     (
         new Hash(['*param => '+dId, '*otype => '+oType, '*iid => '+idActu, '*oname => '+oldName, '*nname => '+magnaFile.name, '*ostorage => '+oldFile, '*nstorage => '+upOut, '*osignature => '+oldSig, '*nsignature => '+upHash]),

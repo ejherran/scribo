@@ -469,7 +469,7 @@ class Home
             
             if($con)
             {
-                $msg = "Actualización de ficheros:\nDE:\n\t$oname\n\t$osignature\n\t$ostorage\nA:\n\t$nname\n\t$nstorage\n\t$nsignature!.";
+                $msg = "Actualización de ficheros:\nDE:\n\t$oname\n\t$ostorage\n\t$osignature\nA:\n\t$nname\n\t$nstorage\n\t$nsignature";
                 $msg = utf8_decode($msg);
                 $r = mysql_query("update proceso set status='C' where orden_id='$oid' and status='O';", $con);
                 $r = mysql_query("insert into proceso values('0', now(), '$oid', '$user', '$user', 'O', 'A', '$msg');", $con);

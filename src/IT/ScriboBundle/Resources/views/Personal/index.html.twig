@@ -18,8 +18,19 @@
     <h1>GESTIÓN DE PERSONAL</h1><br />
 
     <table class="scr-tabOne">
-        <tr><th>ID:</th><th>DOCUMENTO:</th></tr>
-        <tr><td><input id="id" name="id" type="text" readonly /></td><td><input id="document" name="document" type="text" maxlength="25"/></td></tr>
+        <tr><th colspan="2">ID:</th></tr>
+        <tr><td colspan="2"><input id="id" name="id" type="text" readonly /></tr>
+        
+        <tr><th>ESTADO:</th><th>DOCUMENTO:</th></tr>
+        <tr>
+            <td>
+                <select id="status" name="status">
+                    <option value="">Seleccione...</option>
+                    <option value="A">Activo</option>
+                    <option value="I">Inactivo</option>
+                </select>
+            </td>
+            <td><input id="document" name="document" type="text" maxlength="25"/></td></tr>
         
         <tr><th>APELLIDOS:</th><th>NOMBRES:</th></tr>
         <tr><td><input id="surname" name="surname" type="text" maxlength="100" /></td><td><input id="name" name="name" type="text" maxlength="100"/></td></tr>

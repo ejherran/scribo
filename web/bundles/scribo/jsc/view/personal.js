@@ -18,16 +18,16 @@ function showLoader()
 
 function clrPersonal()
 {
-    clear("id,document,surname,name,address,phone,mail,data");
+    clear("id,status,document,surname,name,address,phone,mail,data");
 }
 
 function savPersonal()
 {
-    if(validate("document,surname,name,address,phone,mail"))
+    if(validate("status,document,surname,name,address,phone,mail"))
     {
         ajaxAction
         (
-            new Hash(["id","document","surname","name","address","phone","mail","data"]),
+            new Hash(["id","status","document","surname","name","address","phone","mail","data"]),
             $basePath+"pers/save",
             xSavPersonal
         );

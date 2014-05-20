@@ -56,11 +56,15 @@ class Gestion
             $con = Tool::newDbCon($lic);
             if($con)
             {
-                $user = mysql_query("select role from usuario where user = '$user' and pass = '$pass' limit 1", $con);
+                $user = mysql_query("select personal.status as status , usuario.role as role from personal, usuario where usuario.personal_id=personal.id and user = '$user' and pass = '$pass' limit 1", $con);
                 if($user)
                 {
                     $user = mysql_fetch_assoc($user);
-                    $user = $user['role'];
+                    $status = $user['status'];
+                    if($status == 'A')
+                        $user = $user['role'];
+                    else
+                        $user = '';
                 }
                 else
                     $user = '';

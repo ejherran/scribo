@@ -10,6 +10,7 @@ class Personal
     public function save($controller)
     {
         $id = Gestion::sqlKill($controller->getRequest()->request->get('id'));
+        $status = Gestion::sqlKill($controller->getRequest()->request->get('status'));
         $document = Gestion::sqlKill($controller->getRequest()->request->get('document'));
         $surname = Gestion::sqlKill($controller->getRequest()->request->get('surname'));
         $name = Gestion::sqlKill($controller->getRequest()->request->get('name'));
@@ -31,7 +32,7 @@ class Personal
                 if($id == '')
                 {
                     $id = '0';
-                    $r = mysql_query("insert into personal values ('$id', '$document', '$surname', '$name', '$address', '$phone', '$mail', '$data');", $con);
+                    $r = mysql_query("insert into personal values ('$id', '$status', '$document', '$surname', '$name', '$address', '$phone', '$mail', '$data');", $con);
                     if($r)
                         $flag = 0;
                     else
@@ -39,7 +40,7 @@ class Personal
                 }
                 else
                 {
-                    $r = mysql_query("update personal set document='$document', surname='$surname', name='$name', address='$address', phone='$phone', mail='$mail', data='$data' where id='$id';", $con);
+                    $r = mysql_query("update personal set status='$status', document='$document', surname='$surname', name='$name', address='$address', phone='$phone', mail='$mail', data='$data' where id='$id';", $con);
                     if($r)
                         $flag = 1;
                     else
@@ -65,13 +66,13 @@ class Personal
             
             if($con)
             {                    
-                $r = mysql_query("select id, document, surname, name from personal order by surname;", $con);
+                $r = mysql_query("select id, status, document, surname, name from personal order by status, surname;", $con);
                 if($r)
                 {
                     $data = array();
                     
                     while($row = mysql_fetch_assoc($r))
-                        $data[] = $row['id'].'=>'.$row['document'].'=>'.$row['surname'].'=>'.$row['name'];
+                        $data[] = $row['id'].'=>'.$row['status'].'=>'.$row['document'].'=>'.$row['surname'].'=>'.$row['name'];
                     
                     $data = count($data) > 0 ? join('|:|', $data) : '_NONE_';
                 }

@@ -34,6 +34,8 @@ function $_init()
     gId('dCloser').onclick = closeDetaller;
     gId('detCloser').onclick = closeDet;
     gId('lgCloser').onclick = closeLog;
+    gId('flOk').onclick = actFlot;
+    gId('flCn').onclick = actFlot;
     
     if(gId('ctFirma') != null)
         iniCanvas();
@@ -114,8 +116,12 @@ function getList()
 function fixPid(event)
 {
     var obj = event.target;
-    if(obj.nodeName == 'TD' && obj.firstChild.nodeName != 'IMG')
+    
+    if((obj.nodeName == 'TD' || obj.nodeName == 'B') && obj.firstChild.nodeName != 'IMG')
     {
+        if(obj.nodeName == 'B')
+            obj = obj.parentNode;
+        
         var rows = obj.parentNode.parentNode.rows;
         var limit = rows.length;
         for(var i = 1; i < limit; i++)
@@ -613,7 +619,6 @@ function pic(response)
 
 function falseFile(fid)
 {
-    console.log(fid);
     fid = fid.split('|:|');
     idActu = fid[0];
     oldFile = fid[1];
@@ -684,7 +689,6 @@ function localPurge(fileTar)
 
 function updateDB()
 {
-    console.log(oldName+"\n"+oldFile+"\n"+oldSig);
     ajaxAction
     (
         new Hash(['*param => '+dId, '*otype => '+oType, '*iid => '+idActu, '*oname => '+oldName, '*nname => '+magnaFile.name, '*ostorage => '+oldFile, '*nstorage => '+upOut, '*osignature => '+oldSig, '*nsignature => '+upHash]),
@@ -695,15 +699,26 @@ function updateDB()
 
 function cancelOrder()
 {
-    if(confirm("Seguro que desea cancelar esta orden, el valor total se aplicara como perdida?."))
+    showB('flotter');
+}
+
+function actFlot()
+{
+    hide('flotter');
+    
+    if(this.id == 'flOk')
     {
+        var oval = gId('flVl').value != '' ? gId('flVl').value : '@';
+        
         ajaxAction
         (
-            new Hash(['*param => '+dId]),
+            new Hash(['*oid => '+dId, '*oval => '+oval]),
             $basePath+"home/ordcan",
             okCancel
         );
     }
+    
+    gId('flVl').value = '';
 }
 
 function okCancel()

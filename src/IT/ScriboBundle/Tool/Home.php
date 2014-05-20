@@ -486,7 +486,8 @@ class Home
     
     public function ordCancel($controller)
     {
-        $oid = Gestion::sqlKill($controller->getRequest()->request->get('param'));
+        $oid = Gestion::sqlKill($controller->getRequest()->request->get('oid'));
+        $oval = Gestion::sqlKill($controller->getRequest()->request->get('oval'));
         
         $user = Gestion::getUserId($controller);
         
@@ -500,15 +501,21 @@ class Home
             
             if($con)
             {
-                $r = mysql_query("select total from orden where id='$oid';", $con);
-                $tot = mysql_fetch_assoc($r);
-                $tot = $tot['total'];
+                $tot = '';
+                if($oval == '@')
+                {
+                    $r = mysql_query("select total from orden where id='$oid';", $con);
+                    $tot = mysql_fetch_assoc($r);
+                    $tot = $tot['total'];
+                }
+                else
+                    $tot = $oval;
                 
                 $msg = "Orden cancelada, perdida aplicada por valor de $ $tot";
                 
                 $r = mysql_query("update proceso set status='C' where orden_id='$oid' and status='O';", $con);
                 $r = mysql_query("insert into proceso values('0', now(), '$oid', '$user', '$user', 'C', 'A', '$msg');", $con);
-                $r = mysql_query("insert into perdida values('0', '$user', '$oid', now(), '$tot', 'Orden cancelada usuario administrador.');", $con);
+                $r = mysql_query("insert into perdida values('0', '$user', '$oid', now(), '$tot', 'Orden cancelada por usuario administrador.');", $con);
                 $r = mysql_query("update orden set status='X' where id='$oid';", $con);
                 
                 Tool::closeDbCon($con);

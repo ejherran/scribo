@@ -487,6 +487,58 @@
     min-height: 100px;
 }
 
+/* --- Flot ---*/
+
+#flotter
+{
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0%;
+    left: 0%;
+    z-index: 905;
+    cursor: default;
+}
+
+#flotter .ex
+{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+#flotter .in
+{
+    min-width: 500px;
+    padding: 20px;
+    border: 2px solid #44729E;
+    border-radius: 10px;
+    background: #fff;
+    margin: auto;
+    font-weight: bold;
+    font-size: 0.8em;
+    border-spacing: 5px;
+    border-collapse: separate;
+    box-shadow: 10px 10px 10px #44729E;
+}
+
+#flotter .in td, #flotter .in th 
+{
+    padding: 5px;
+}
+
+#flotter .in th 
+{
+    background: #44729E;
+    color: #fff;
+}
+
+#flotter .in textarea
+{
+    min-height: 100px;
+}
+
 /* --- PERDIDA ---*/
 
 #calper

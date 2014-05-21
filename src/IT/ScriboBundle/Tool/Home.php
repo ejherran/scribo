@@ -436,7 +436,7 @@ class Home
                 $data = array();
                 $otype = '';
                 
-                $r = mysql_query("select orden.id, orden.type as tipo, cliente.name as cliente, concat(personal.surname, ' ', personal.name) as personal, orden.date, orden.status, orden.time, orden.subtotal, orden.iva, orden.total, orden.data from usuario, personal, cliente, orden where usuario.id=orden.usuario_id and personal.id=usuario.personal_id and cliente.id=orden.cliente_id and orden.id='$oid' limit 1;", $con);
+                $r = mysql_query("select orden.id, orden.type as tipo, cliente.name as cliente, concat(personal.surname, ' ', personal.name) as personal, orden.date, orden.status, orden.time, orden.subtotal, orden.iva, orden.total, orden.data, orden.proc from usuario, personal, cliente, orden where usuario.id=orden.usuario_id and personal.id=usuario.personal_id and cliente.id=orden.cliente_id and orden.id='$oid' limit 1;", $con);
                 if($r)
                 {
                     $row = mysql_fetch_assoc($r);
@@ -497,7 +497,7 @@ class Home
             }
         }
         
-        return $data;
+        return Gestion::utf8Fix($data);
     }
     
     public function updateFile($controller)

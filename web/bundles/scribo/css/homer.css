@@ -624,6 +624,7 @@
     font-weight: bold;
     width: 100%;
     color: #fff;
+    text-align: left;
 }
 
 .dtCab td
@@ -637,8 +638,17 @@
 {
     background: #fff;
     color: #000;
-    border: 2px solid #44729E;
-    width: 33%;
+    border: 2px solid #26639E;
+    width: 35%;
+    padding-left: 0.35em;
+}
+
+.dtItm th
+{
+    background: #547A9E;
+    border: 2px solid #26639E;
+    width: 15%;
+    padding-left: 0.35em;
 }
 
 /*---- UPLOADER ----*/

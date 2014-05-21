@@ -473,12 +473,34 @@ function showDeta(response)
     dId = ops[0];
     oType = ops[1];
     
-    src += '<table class="dtCab">';
-    src += '<tr><td colspan="3">'+ops[0]+'</td><td colspan="3">'+(ops[1] == 'A' ? 'OFFSET DIGITAL' : 'GRAN FORMATO')+'</td></tr>';
-    src += '<tr><td colspan="3">'+ops[2]+'</td><td colspan="3">'+ops[3]+'</td></tr>';
-    src += '<tr><td colspan="2">'+ops[4]+'</td><td colspan="2">'+(getEstado(ops[5]))+'</td><td colspan="2">'+ops[6]+'</td></tr>';
-    src += '<tr><td colspan="2">$ '+ops[7]+'</td><td colspan="2">'+ops[8]+' %</td><td colspan="2">$ '+ops[9]+'</td></tr>';
-    src += '<tr><td colspan="6"><textarea rows="5" readonly="readonly">Observaciones Generales: '+ops[10]+'</textarea></td></tr>';
+    src += '<table class="dtItm">';
+    src += '<tr>';
+    src += '<th>ORDEN Nº:</th><td>'+ops[0]+'</td>';
+    src += '<th>F. REGISTRO:</th><td>'+ops[4]+'</td>';
+    src += '</tr>';
+    src += '<tr>';
+    src += '<th>PROCESO:</th><td>'+(ops[11] == 'S' ? 'ESTÁNDAR' : 'SIMPLIFICADO')+'</td>';
+    src += '<th>T. DE ORDEN:</th><td>'+(ops[1] == 'A' ? 'OFFSET DIGITAL' : 'GRAN FORMATO')+'</td>';
+    src += '</tr>';
+    src += '<tr>';
+    src += '<th>CLIENTE:</th><td>'+ops[2]+'</td>';
+    src += '<th>PERSONAL:</th><td>'+ops[3]+'</td>';
+    src += '</tr>';
+    src += '<tr>';
+    src += '<th>ESTADO:</th><td>'+(getEstado(ops[5]))+'</td>';
+    src += '<th>T. ESTIMADO:</th><td>'+ops[6]+' Hr. </td>';
+    src += '</tr>';
+    src += '<tr>';
+    src += '<th>SUBTOTAL:</th><td>$'+ops[7]+'</td>';
+    src += '<th>IVA:</th><td>'+ops[8]+' % </td>';
+    src += '</tr>';
+    src += '<tr>';
+    src += '<th>TOTAL:</th><td>$'+ops[9]+'</td>';
+    src += '<th>&nbsp;</th><td>&nbsp;</td>';
+    src += '</tr>';
+    src += '<tr>';
+    src += '<td colspan="4" style="padding-left: 0px;"><textarea rows="5" readonly="readonly">Observaciones Generales: '+ops[10]+'</textarea></td>';
+    src += '</tr>';
     src += '</table><br />';
     
     var lit = rps.length;
@@ -490,18 +512,32 @@ function showDeta(response)
         matIt.push(ait);
         
         src += '<table class="dtItm">';
-        src += '<tr><td colspan="2">'+ips[5]+'</td><td colspan="2">'+ips[1]+'</td><td colspan="2">'+ips[3]+'</td></tr>';
-        src += '<tr><td colspan="3">'+ips[11]+'</td><td colspan="3">'+(ips[12] != '@' ? ips[12] : 'Al entregar!')+'</td></tr>';
-        src += '<tr><td colspan="3">'+ips[6]+'</td><td colspan="3">'+ips[7]+'</td></tr>';
-        src += '<tr><td colspan="6">'+(ips[14] != '@' ? ips[14] : 'Sin Acabados!')+'</tr>';
-        src += '<tr><td colspan="6"><textarea rows="5" readonly="readonly">Observaciones: '+(ips[13] != '@' ? ips[13] : 'Sin observaciones!')+'</textarea></td></tr>';
-        src += '<tr><td colspan="6">';
+        src += '<tr>';
+        src += '<th>ARCHIVO:</th><td>'+ips[5]+'</td>';
+        src += '<th>FIRMA:</th><td>'+ips[11]+'</td>';
+        src += '</tr>';
+        src += '<tr>';
+        src += '<th>MATERIAL:</th><td>'+ips[1]+'</td>';
+        src += '<th>TINTA:</th><td>'+ips[3]+'</td>';
+        src += '</tr>';
+        src += '<tr>';
+        src += '<th>'+(ops[1] == 'A' ? 'Nº PÁGINAS:' : '(W cm x H cm):')+'</th><td>'+ips[6]+'</td>';
+        src += '<th>CANTIDAD:</th><td>'+ips[7]+'</td>';
+        src += '</tr>';
+        src += '<tr>';
+        src += '<th>EXPIRACIÓN:</th><td>'+(ips[12] != '@' ? ips[12] : 'Al entregar!')+'</td>';
+        src += '<th>ACABADOS:</th><td>'+(ips[14] != '@' ? ips[14] : 'Sin Acabados!')+'</td>';
+        src += '</tr>';
+        src += '<tr>';
+        src += '<td colspan="4" style="padding-left: 0px;"><textarea rows="5" readonly="readonly">Observaciones: '+(ips[13] != '@' ? ips[13] : 'Sin observaciones!')+'</textarea></td>';
+        src += '</tr>';
+        src += '<tr>';
+        src += '<td colspan="4" align="center">';
         src += '<a href="'+$storage+'/scribo/files/'+ips[10]+'" target="_blank"><img src="'+$imgPath+'/adown.png" title="Descargar Archivo!" /></a>';
-        
         if($jar == 'A')
             src += '<img style="cursor: pointer;" src="'+$imgPath+'/refreshb.png" onclick="falseFile(\''+ips[0]+'|:|'+ips[10]+'|:|'+ips[5]+'|:|'+ips[11]+'\');" title="Actualizar Archivo!" />';
-        
-        src += '</td></tr>';
+        src += '</td>';
+        src += '</tr>';
         src += '</table><br />';
     }
     

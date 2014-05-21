@@ -4,6 +4,7 @@ var uDek = null;
 
 var pId = '';
 var oId = '';
+var oPr = '';
 var firmaCode = '';
 
 var srcLoader = '';
@@ -139,6 +140,7 @@ function fixPid(event)
         {
             pId = tmp;
             oId = obj.parentNode.cells[1].innerHTML;
+            oPr = obj.parentNode.cells[7].innerHTML;
             
             obj.parentNode.style.background = '#658BC7';
             obj.parentNode.style.color = '#FFF';
@@ -147,6 +149,7 @@ function fixPid(event)
         {
             pId = '';
             oId = '';
+            oPr = '';
         }
     }
 }
@@ -177,7 +180,7 @@ function prevCon()
 {
     if(gId('action').value != '' && pId != '')
     {
-        gId('xreciv').extraInfo = gId('action').value+'|:|'+pId;
+        gId('xreciv').extraInfo = gId('action').value+'|:|'+pId+'|:|'+oId+'|:|'+oPr;
         return true;
     }
     else
@@ -531,6 +534,7 @@ function refresh(response)
             var lc = cells.length;
             
             var otip = cells[2] == 'A' ? 'OFFSET DIGITAL' : 'GRAN FORMATO';
+            otip = cells[8] == 'Q' ? '<b style="color: #008000;">'+otip+'</b>' : otip;
             
             var tmod = parseInt(cells[5])-parseInt(cells[6]);
             tmod = tmod > 0 ? toHours(tmod)+' Restantes.' : '<b style="color: red;">'+toHours(-1*tmod)+' De Restraso.</b>'; 
@@ -542,6 +546,7 @@ function refresh(response)
             src += '<td>'+cells[4]+'</td>';
             src += '<td>'+tmod+'</td>';
             src += '<td class="scr-hidden">'+cells[7]+'</td>';
+            src += '<td class="scr-hidden">'+cells[8]+'</td>';
             src += '<td>';
             if($jar != 'F')
             {

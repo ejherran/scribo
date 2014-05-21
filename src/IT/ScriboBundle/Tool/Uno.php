@@ -161,12 +161,12 @@ class Uno
             
             if($con)
             {
-                $obs = $dO[5] != '@' ? $dO[5] : '';
-                $sql = "insert into orden values ('0', 'U', 'A', '".$dO[0]."', '".$user."', now(), 'A', '".$dO[1]."', '".$dO[2]."', '".$dO[3]."', '".$dO[4]."', '".$param[count($param)-1]."', '".$obs."');";
+                $obs = $dO[6] != '@' ? $dO[6] : '';
+                $sql = "insert into orden values ('0', 'U', '".$dO[0]."', 'A', '".$dO[1]."', '".$user."', now(), 'A', '".$dO[2]."', '".$dO[3]."', '".$dO[4]."', '".$dO[5]."', '".$param[count($param)-1]."', '".$obs."');";
                 $r = mysql_query($sql, $con);
                 if($r)
                 {
-                   $oid = mysql_insert_id();
+                    $oid = mysql_insert_id();
                    
                     if(intval($oid) > 0)
                     {

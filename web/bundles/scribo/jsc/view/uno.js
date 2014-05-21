@@ -302,7 +302,8 @@ function saveOrder()
             {
                 var obser = gId('ordData').value != '' ? gId('ordData').value : '@';
                 
-                dSave = gId('OrdClient').value+'|-|';
+                dSave = gId('OrdProc').value+'|-|';
+                dSave += gId('OrdClient').value+'|-|';
                 dSave += gId('ordTime').value+'|-|';
                 dSave += gId('ordSubtotal').value+'|-|';
                 dSave += gId('ordIva').value+'|-|';

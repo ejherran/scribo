@@ -306,16 +306,37 @@ class Gestion
         return $fname;
     }
     
-    public static function perRole($controller, $action)
+    public static function perRole($controller, $action, $proc)
     {
         $permit = array();
-        $permit["A"] = array("F" => "usuario.role='P'", "R" => "usuario.id=0", "B" => "usuario.role='N'", "T" => "usuario.role='A'");
-        $permit["P"] = array("F" => "usuario.role='I'", "R" => "usuario.id=proceso.emite_id", "B" => "usuario.role='A'", "T" => "usuario.role='P'");
-        $permit["I"] = array("F" => "usuario.role='T'", "R" => "usuario.id=proceso.emite_id", "B" => "usuario.role='N'", "T" => "usuario.role='N'");
-        $permit["T"] = array("F" => "usuario.role='D'", "R" => "usuario.id=proceso.emite_id", "B" => "usuario.role='I'", "T" => "usuario.role='T'");
-        $permit["D"] = array("F" => "usuario.role='C'", "R" => "usuario.id=proceso.emite_id", "B" => "usuario.role='N'", "T" => "usuario.role='N'");
-        $permit["C"] = array("F" => "usuario.role='N'", "R" => "usuario.id=proceso.emite_id", "B" => "((usuario.role='A' or usuario.role='P' or usuario.role='T') and usuario.role<>'R' and usuario.role<>'C')", "T" => "usuario.role='C'");
         
+        if($proc == 'S')
+        {
+            $permit["A"] = array("F" => "usuario.role='P'", "R" => "usuario.id=0", "B" => "usuario.role='N'", "T" => "usuario.role='A'");
+            $permit["P"] = array("F" => "usuario.role='I'", "R" => "usuario.id=proceso.emite_id", "B" => "usuario.role='A'", "T" => "usuario.role='P'");
+            $permit["I"] = array("F" => "usuario.role='T'", "R" => "usuario.id=proceso.emite_id", "B" => "usuario.role='N'", "T" => "usuario.role='N'");
+            $permit["T"] = array("F" => "usuario.role='D'", "R" => "usuario.id=proceso.emite_id", "B" => "usuario.role='I'", "T" => "usuario.role='T'");
+            $permit["D"] = array("F" => "usuario.role='C'", "R" => "usuario.id=proceso.emite_id", "B" => "usuario.role='N'", "T" => "usuario.role='N'");
+            $permit["C"] = array("F" => "usuario.role='N'", "R" => "usuario.id=proceso.emite_id", "B" => "((usuario.role='A' or usuario.role='P' or usuario.role='T') and usuario.role<>'R' and usuario.role<>'C')", "T" => "usuario.role='C'");
+        }
+        else if($proc == 'Q')
+        {
+            $permit["A"] = array("F" => "usuario.role='I'", "R" => "usuario.id=0", "B" => "usuario.role='N'", "T" => "usuario.role='A'");
+            $permit["P"] = array("F" => "usuario.role='N'", "R" => "usuario.role='N'", "B" => "usuario.role='N'", "T" => "usuario.role='N'");
+            $permit["I"] = array("F" => "usuario.role='D'", "R" => "usuario.id=proceso.emite_id", "B" => "usuario.role='N'", "T" => "usuario.role='I'");
+            $permit["T"] = array("F" => "usuario.role='N'", "R" => "usuario.role='N'", "B" => "usuario.role='N'", "T" => "usuario.role='N'");
+            $permit["D"] = array("F" => "usuario.role='C'", "R" => "usuario.id=proceso.emite_id", "B" => "usuario.role='N'", "T" => "usuario.role='D'");
+            $permit["C"] = array("F" => "usuario.role='N'", "R" => "usuario.id=proceso.emite_id", "B" => "usuario.role='N'", "T" => "usuario.role='C'");
+        }
+        else if($proc == 'J')
+        {
+            $permit["A"] = array("F" => "usuario.role='I'", "R" => "usuario.id=0", "B" => "usuario.role='N'", "T" => "usuario.role='A'");
+            $permit["P"] = array("F" => "usuario.role='N'", "R" => "usuario.role='N'", "B" => "usuario.role='N'", "T" => "usuario.role='N'");
+            $permit["I"] = array("F" => "usuario.role='C'", "R" => "usuario.id=proceso.emite_id", "B" => "usuario.role='N'", "T" => "usuario.role='I'");
+            $permit["T"] = array("F" => "usuario.role='N'", "R" => "usuario.role='N'", "B" => "usuario.role='N'", "T" => "usuario.role='N'");
+            $permit["D"] = array("F" => "usuario.role='N'", "R" => "usuario.role='N'", "B" => "usuario.role='N'", "T" => "usuario.role='N'");
+            $permit["C"] = array("F" => "usuario.role='N'", "R" => "usuario.id=proceso.emite_id", "B" => "usuario.role='N'", "T" => "usuario.role='C'");
+        }
         return $permit[Gestion::getRole($controller)][$action];
     }
     

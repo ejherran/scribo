@@ -26,7 +26,7 @@ class Home
             {    
                 if($role != 'R' && $role != 'F')
                 {
-                    $r = mysql_query("select proceso.id as pid, orden.id as orden, orden.type as tipo, cliente.name as cliente, orden.date as inicio, orden.time * 3600 as tiempo, TIME_TO_SEC(TIMEDIFF(now(), orden.date)) as lapso, proceso.data as detalle from proceso, orden, cliente, usuario where proceso.orden_id=orden.id and proceso.recibe_id=usuario.id and proceso.status='O' and orden.status=usuario.role and orden.cliente_id=cliente.id and usuario.id='$user' and orden.mode='A' order by inicio asc;", $con);
+                    $r = mysql_query("select proceso.id as pid, orden.id as orden, orden.type as tipo, cliente.name as cliente, orden.date as inicio, orden.time * 3600 as tiempo, TIME_TO_SEC(TIMEDIFF(now(), orden.date)) as lapso, proceso.data as detalle, orden.proc as proc from proceso, orden, cliente, usuario where proceso.orden_id=orden.id and proceso.recibe_id=usuario.id and proceso.status='O' and orden.status=usuario.role and orden.cliente_id=cliente.id and usuario.id='$user' and orden.mode='A' order by inicio asc;", $con);
                     if($r)
                     {
                         while($row = mysql_fetch_assoc($r))
@@ -39,7 +39,7 @@ class Home
                 }
                 else if($role == 'F')
                 {
-                    $r = mysql_query("select proceso.id as pid, orden.id as orden, orden.type as tipo, cliente.name as cliente, orden.date as inicio, orden.time * 3600 as tiempo, TIME_TO_SEC(TIMEDIFF(now(), orden.date)) as lapso, proceso.data as detalle from proceso, orden, cliente where proceso.orden_id=orden.id and proceso.status='O' and orden.cliente_id=cliente.id and orden.mode='U' order by inicio asc;", $con);
+                    $r = mysql_query("select proceso.id as pid, orden.id as orden, orden.type as tipo, cliente.name as cliente, orden.date as inicio, orden.time * 3600 as tiempo, TIME_TO_SEC(TIMEDIFF(now(), orden.date)) as lapso, proceso.data as detalle, orden.proc as proc from proceso, orden, cliente where proceso.orden_id=orden.id and proceso.status='O' and orden.cliente_id=cliente.id and orden.mode='U' order by inicio asc;", $con);
                     if($r)
                     {
                         while($row = mysql_fetch_assoc($r))
@@ -52,7 +52,7 @@ class Home
                 }
                 else
                 {
-                    $r = mysql_query("select proceso.id as pid, orden.id as orden, orden.type as tipo, cliente.name as cliente, orden.date as inicio, orden.time * 3600 as tiempo, TIME_TO_SEC(TIMEDIFF(now(), orden.date)) as lapso, proceso.data as detalle from proceso, orden, cliente where proceso.orden_id=orden.id and proceso.status='O' and orden.cliente_id=cliente.id order by inicio asc;", $con);
+                    $r = mysql_query("select proceso.id as pid, orden.id as orden, orden.type as tipo, cliente.name as cliente, orden.date as inicio, orden.time * 3600 as tiempo, TIME_TO_SEC(TIMEDIFF(now(), orden.date)) as lapso, proceso.data as detalle, orden.proc as proc from proceso, orden, cliente where proceso.orden_id=orden.id and proceso.status='O' and orden.cliente_id=cliente.id order by inicio asc;", $con);
                     if($r)
                     {
                         while($row = mysql_fetch_assoc($r))
@@ -166,6 +166,8 @@ class Home
         $extra = explode('|:|', $extra);
         $action = $extra[0];
         $pid = $extra[1];
+        $oid = $extra[2];
+        $opr = $extra[3];
         $user = Gestion::getUserId($controller);
         
         $data = '_NONE_';
@@ -182,7 +184,15 @@ class Home
                     
                     if($con)
                     {
-                        $r = mysql_query("select usuario.id as uid, usuario.user as nick, usuario.role as rol, personal.surname as psur, personal.name as pnam from proceso, usuario, personal where proceso.id='$pid' and (personal.surname like '%$param%' or personal.name like '%$param%') and ".Gestion::perRole($controller, $action)." and usuario.personal_id=personal.id and usuario.id<>'$user' order by personal.surname, usuario.user asc;", $con);
+                        if($opr == 'Q')
+                        {
+                            $r = mysql_query("select (select count(papelAcabado.id) from proceso, orden, papel, papelAcabado where orden.id='$oid' and papel.orden_id=orden.id and papelAcabado.papel_id=papel.id) as apa, (select count(sustratoAcabado.id) from orden, sustrato, sustratoAcabado where orden.id='$oid' and sustrato.orden_id=orden.id and sustratoAcabado.sustrato_id=sustrato.id) as asu;", $con);
+                            $qd = mysql_fetch_assoc($r);
+                            if( intval($qd['apa']) == 0 && intval($qd['asu']) == 0 )
+                                $opr = 'J';
+                        }
+                        
+                        $r = mysql_query("select usuario.id as uid, usuario.user as nick, usuario.role as rol, personal.surname as psur, personal.name as pnam from proceso, usuario, personal where proceso.id='$pid' and (personal.surname like '%$param%' or personal.name like '%$param%') and ".Gestion::perRole($controller, $action, $opr)." and usuario.personal_id=personal.id and usuario.id<>'$user' order by personal.surname, usuario.user asc;", $con);
                         if($r)
                         {
                             $data = array();

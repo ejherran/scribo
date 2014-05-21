@@ -407,6 +407,7 @@ function meta(elem)
 function getColor(action)
 {
     var res = '';
+    res = action == 'L' ? '#FFFFFF': res;
     res = action == 'A' ? '#0000ff': res;
     res = action == 'F' ? '#00ff00': res;
     res = action == 'B' ? '#ffff00': res;
@@ -420,6 +421,7 @@ function getColor(action)
 function getEstado(ind)
 {
     var res = '';
+    res = ind == 'F' ? 'Facturación' : res;
     res = ind == 'A' ? 'Asesoria' : res;
     res = ind == 'P' ? 'Jefatura De Impresión' : res;
     res = ind == 'I' ? 'Impresión' : res;
@@ -434,6 +436,7 @@ function getAction(ind)
 {
     var res = '';
     res = ind == 'C' ? 'Crear' : res;
+    res = ind == 'L' ? 'Liberar' : res;
     res = ind == 'A' ? 'Anotar' : res;
     res = ind == 'F' ? 'Avanzar' : res;
     res = ind == 'B' ? 'Retroceder' : res;
@@ -906,7 +909,7 @@ function setLiber()
         {
             ajaxAction
             (
-                new Hash(['*oid => '+oId]),
+                new Hash(['*pid => '+pId,'*oid => '+oId]),
                 $basePath+"home/liber",
                 getList
             );

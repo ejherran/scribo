@@ -11,8 +11,8 @@ class RepoController extends Controller
 {
     private $NM = ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE'];
     private $tipos = array("CC"=>"C.C.","CE"=>"C.E.","NT"=>"NIT","RC"=>"R. Civil","RM"=>"R. Mercantil");
-    private $acciones = array('C' => 'CREAR', 'A' => 'ANOTAR', 'F' => 'AVANZAR', 'B' => 'RETROCEDER', 'R' => 'DEVOLVER', 'T' => 'TRANSFERIR', 'O' => 'ACEPTAR', 'X' => 'ENTREGAR');
-    private $roles = array('R'=>'Administrador', 'A'=>'Asesor','P'=>'Jefe de Prensa','I'=>'Operario de Prensa','T'=>'Jefe de Acabados','D'=>'Operario de Acabados','C'=>'Entregas');
+    private $acciones = array('C' => 'CREAR', 'L' => 'LIBERAR', 'A' => 'ANOTAR', 'F' => 'AVANZAR', 'B' => 'RETROCEDER', 'R' => 'DEVOLVER', 'T' => 'TRANSFERIR', 'O' => 'ACEPTAR', 'X' => 'ENTREGAR');
+    private $roles = array('R'=>'Administrador', 'F'=>'Facturación', 'A'=>'Asesor','P'=>'Jefe de Prensa','I'=>'Operario de Prensa','T'=>'Jefe de Acabados','D'=>'Operario de Acabados','C'=>'Entregas');
     
     public function indexAction()
     {

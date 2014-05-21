@@ -275,7 +275,10 @@ class Home
     
     public function liber($controller)
     {
+        $pid = Gestion::sqlKill($controller->getRequest()->request->get('pid'));
         $oid = Gestion::sqlKill($controller->getRequest()->request->get('oid'));
+        
+        $user = Gestion::getUserId($controller);
         
         $lic = Gestion::getLicencia(Gestion::getDomain($controller));
         
@@ -287,6 +290,12 @@ class Home
             
             if($con)
             {
+                $r = mysql_query("select proceso.recibe_id as rid from proceso where  proceso.id='$pid' limit 1;", $con);
+                $rid = mysql_fetch_assoc($r);
+                $rid = $rid['rid'];
+                
+                $r = mysql_query("update proceso set status='C', date=now() where id='$pid';", $con);
+                $r = mysql_query("insert into proceso values('0', now(), '$oid', '$user', '$rid', 'O', 'L', 'Orden Liberada Para Procesar!.');", $con);
                 $r = mysql_query("update orden set mode='A' where id='$oid';", $con);
                 
                 Tool::closeDbCon($con);

@@ -55,6 +55,12 @@ scribo_home_visor:
 scribo_home_docu:
     pattern:  /home/{id}/docu
     defaults: { _controller: ScriboBundle:Home:docu }
+scribo_home_factur:
+    pattern:  /home/{id}/factur
+    defaults: { _controller: ScriboBundle:Home:factur }
+scribo_home_recibo:
+    pattern:  /home/{id}/recibo
+    defaults: { _controller: ScriboBundle:Home:recibo }
 #
 # Board
 #

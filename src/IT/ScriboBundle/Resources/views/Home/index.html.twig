@@ -18,7 +18,7 @@
 
 {% block view %}
     
-    {% if role != 'R' %}
+    {% if role != 'R' and role != 'F' %}
         <table class="scr-procon">
             <tr>
                 <td>
@@ -72,13 +72,15 @@
         </table>
         <br />
     {% else %}
-        <table class="scr-procon">
-            <tr>
-                <td>
-                    <input style="float: left;" id="cicle" type="button" value="VER PROCESO" />
-                </td>
-            </tr>
-        </table>
+        {% if role != 'F' %}
+            <table class="scr-procon">
+                <tr>
+                    <td>
+                        <input style="float: left;" id="cicle" type="button" value="VER PROCESO" />
+                    </td>
+                </tr>
+            </table>
+        {% endif %}
         <br />
     {% endif %}
     

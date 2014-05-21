@@ -24,7 +24,7 @@ class Home
             
             if($con)
             {    
-                if($role != 'R')
+                if($role != 'R' && $role != 'F')
                 {
                     $r = mysql_query("select proceso.id as pid, orden.id as orden, orden.type as tipo, cliente.name as cliente, orden.date as inicio, orden.time * 3600 as tiempo, TIME_TO_SEC(TIMEDIFF(now(), orden.date)) as lapso, proceso.data as detalle from proceso, orden, cliente, usuario where proceso.orden_id=orden.id and proceso.recibe_id=usuario.id and proceso.status='O' and orden.status=usuario.role and orden.cliente_id=cliente.id and usuario.id='$user' order by inicio asc;", $con);
                     if($r)
@@ -37,7 +37,7 @@ class Home
                     else
                         Tool::getDbError($con);
                 }
-                else
+                else if($role == 'R' || $role == 'F')
                 {
                     $r = mysql_query("select proceso.id as pid, orden.id as orden, orden.type as tipo, cliente.name as cliente, orden.date as inicio, orden.time * 3600 as tiempo, TIME_TO_SEC(TIMEDIFF(now(), orden.date)) as lapso, proceso.data as detalle from proceso, orden, cliente where proceso.orden_id=orden.id and proceso.status='O' and orden.cliente_id=cliente.id order by inicio asc;", $con);
                     if($r)

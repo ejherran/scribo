@@ -29,7 +29,6 @@ function $_init()
     cabs = '<tr><th>ORDEN</th><th>TIPO</th><th>CLIENTE</th><th>F. DE REGISTRO</th><th>T. PARA ENTREGA</th><th><img src="'+$imgPath+'/refresh.png" onclick="getList();" title="Atualizar..." /></th></tr>';
     
     gId('lOrder').onclick = fixPid;
-    gId('cicle').onclick = getCicle;
     gId('closer').onclick = closeCicle;
     gId('dCloser').onclick = closeDetaller;
     gId('detCloser').onclick = closeDet;
@@ -73,10 +72,11 @@ function $_init()
     if(gId('perAdd') != null)
         gId('perAdd').onclick = addPerdida;
         
+    if($jar != 'F')
+        gId('cicle').onclick = getCicle;
+        
     if($jar == 'A')
-    {
         gId('fileIn').onchange = inFile;
-    }
     
     ajaxTest
     (
@@ -537,8 +537,13 @@ function refresh(response)
             src += '<td>'+tmod+'</td>';
             src += '<td class="scr-hidden">'+cells[7]+'</td>';
             src += '<td>';
-            src += '<img src="'+$imgPath+'/log.png" onclick="getDesc(this);" title="Ver Descripción!." />';
-            src += '<img src="'+$imgPath+'/det.png" onclick="getDeta(this);" title="Ver Detalles!." />';
+            if($jar != 'F')
+            {
+                src += '<img src="'+$imgPath+'/log.png" onclick="getDesc(this);" title="Ver Descripción!." />';
+                src += '<img src="'+$imgPath+'/det.png" onclick="getDeta(this);" title="Ver Detalles!." />';
+            }
+            else
+                src += '<a href="'+$basePath+'home/'+cells[1]+'/factur"><img src="'+$imgPath+'/fic.png" onclick="getDocu(this);" title="Ver Orden!." /></a>';
             src += '</td>';
             src += '</tr>';
         }

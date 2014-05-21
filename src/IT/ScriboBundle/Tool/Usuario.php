@@ -7,7 +7,7 @@ use IT\ScriboBundle\Tool\Gestion;
 
 class Usuario
 {
-    private $roles = array('R'=>'Administrador', 'A'=>'Asesor','P'=>'Jefe de Prensa','I'=>'Operario de Prensa','T'=>'Jefe de Acabados','D'=>'Operario de Acabados','C'=>'Entregas');
+    private $roles = array('R'=>'Administrador', 'F'=>'Facturacion', 'A'=>'Asesor','P'=>'Jefe de Prensa','I'=>'Operario de Prensa','T'=>'Jefe de Acabados','D'=>'Operario de Acabados','C'=>'Entregas');
     
     public function save($controller)
     {

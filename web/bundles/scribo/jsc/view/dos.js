@@ -4,7 +4,9 @@ var ctlUrl = 'dos'                                          // Url del controlad
 var magnaFile = '';
 
 var vMat = 0;
+var rMat = '';
 var vTin = 0;
+var rTin = '';
 var vAca = 0;
 var vBas = 0;
 var eAca = null;
@@ -107,9 +109,15 @@ function fixValue(elem)
     var camp = remConsecutive(elem.id);
     
     if(camp == 'OrdMaterial')
+    {
         vMat = parseFloat(elem.cells[2].innerHTML.substring(2));
+        rMat = elem.cells[3].innerHTML;
+    }
     else if(camp == 'OrdTinta')
+    {
         vTin = parseFloat(elem.cells[2].innerHTML.substring(2));
+        rTin = elem.cells[3].innerHTML;
+    }
     else if(camp == 'OrdAcabado')
         eAca = elem;
 }
@@ -151,13 +159,20 @@ function calculateAcabado()
 
 function calculateBase()
 {
+    var nIte = parseFloat(gId('amount').value);
+    
     var dW = (parseFloat(gId('width').value)/100);
     var dH = (parseFloat(gId('height').value)/100);
     var dMen = dW*dH;
     dMen = Math.round(dMen * Math.pow(10,2))/Math.pow(10,2);
-    vBas = dMen*(vMat+vTin+vAca);
+    
+    var tvMat = disRange(rMat, dMen*nIte)*vMat;
+    var tvTin = disRange(rTin, dMen*nIte)*vTin;
+    
+    vBas = dMen*(tvMat+tvTin+vAca);
     vBas = Math.round(vBas * Math.pow(10,2))/Math.pow(10,2);
     vBas = parseFloat(1.0*vBas.toFixed(2));
+    
     gId('unit').value = vBas;
 }
 
@@ -180,7 +195,11 @@ function calculateValor()
 function addItem()
 {
     if(validate("fileIn,xFileIn,width,height,OrdMaterial,xOrdMaterial,OrdTinta,xOrdTinta,amount,unit,value"))
-    {   
+    {  
+        calculateAcabado();
+        calculateBase();
+        calculateValor();
+        
         var rows = gId('acabadosList').rows;
         var crows = rows.length;
         var daca = Array();
@@ -232,7 +251,9 @@ function clrItem()
     
     magnaFile = '';
     vMat = 0;
+    rMat = 0;
     vTin = 0;
+    rTin = 0;
     vAca = 0;
     vBas = 0;
     eAca = null;
@@ -385,4 +406,32 @@ function okUp()
         transferId += 1;
         uploader();
     }
+}
+
+/* ####### Rangos ####### */
+
+function disRange(rango, cantidad)
+{
+    cantidad = parseFloat(cantidad);
+    var fac = 1;
+    
+    rango = rango.split(';');
+    for(var i = 0; i < rango.length; i++)
+    {
+        var tmp = rango[i].split(',');
+        if(tmp.length == 3)
+        {
+            var min = parseFloat(tmp[0]);
+            var max = parseFloat(tmp[1]);
+            var por = 1.0 - (parseFloat(tmp[2])/100.0);
+            
+            if(min <= cantidad && cantidad < max)
+            {
+                fac = por;
+                break;
+            }
+        }
+    }
+    
+    return fac;
 }

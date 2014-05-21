@@ -234,7 +234,7 @@ function drawCicle(dek)
     showB('visor');
     
     gId('vId').innerHTML = dek[0][0];
-    gId('vTy').innerHTML = dek[0][1] == 'A' ? 'PAPEL' : 'SUSTRATO';
+    gId('vTy').innerHTML = dek[0][1] == 'A' ? 'OFFSET DIGITAL' : 'GRAN FORMATO';
     gId('vCl').innerHTML = dek[0][2];
     gId('vPr').innerHTML = dek[0][3];
     gId('vFc').innerHTML = dek[0][4];
@@ -465,7 +465,7 @@ function showDeta(response)
     oType = ops[1];
     
     src += '<table class="dtCab">';
-    src += '<tr><td colspan="3">'+ops[0]+'</td><td colspan="3">'+(ops[1] == 'A' ? 'PAPEL' : 'SUSTRATO')+'</td></tr>';
+    src += '<tr><td colspan="3">'+ops[0]+'</td><td colspan="3">'+(ops[1] == 'A' ? 'OFFSET DIGITAL' : 'GRAN FORMATO')+'</td></tr>';
     src += '<tr><td colspan="3">'+ops[2]+'</td><td colspan="3">'+ops[3]+'</td></tr>';
     src += '<tr><td colspan="2">'+ops[4]+'</td><td colspan="2">'+(getEstado(ops[5]))+'</td><td colspan="2">'+ops[6]+'</td></tr>';
     src += '<tr><td colspan="2">$ '+ops[7]+'</td><td colspan="2">'+ops[8]+' %</td><td colspan="2">$ '+ops[9]+'</td></tr>';
@@ -524,7 +524,7 @@ function refresh(response)
             var cells = rows[i].split('=>');
             var lc = cells.length;
             
-            var otip = cells[2] == 'A' ? 'PAPEL' : 'SUSTRATO';
+            var otip = cells[2] == 'A' ? 'OFFSET DIGITAL' : 'GRAN FORMATO';
             
             var tmod = parseInt(cells[5])-parseInt(cells[6]);
             tmod = tmod > 0 ? toHours(tmod)+' Restantes.' : '<b style="color: red;">'+toHours(-1*tmod)+' De Restraso.</b>'; 

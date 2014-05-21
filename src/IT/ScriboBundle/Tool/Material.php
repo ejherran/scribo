@@ -7,7 +7,7 @@ use IT\ScriboBundle\Tool\Gestion;
 
 class Material
 {
-    private $tipos = array("P"=>"PAPEL","S"=>"SUSTRATO");
+    private $tipos = array("P"=>"OFFSET DIGITAL","S"=>"GRAN FORMATO");
     
     public function save($controller)
     {
@@ -19,6 +19,7 @@ class Material
         $width = Gestion::sqlKill($controller->getRequest()->request->get('width'));
         $height = Gestion::sqlKill($controller->getRequest()->request->get('height'));
         $weigth = Gestion::sqlKill($controller->getRequest()->request->get('weigth'));
+        $discount = Gestion::sqlKill($controller->getRequest()->request->get('discount'));
         $data = Gestion::sqlKill($controller->getRequest()->request->get('data'));
         
         $flag = -1;
@@ -34,7 +35,7 @@ class Material
                 if($id == '')
                 {
                     $id = '0';
-                    $r = mysql_query("insert into material values ('$id', '$name', '$cost', '$value', '$type', '$width', '$height', '$weigth', '$data');", $con);
+                    $r = mysql_query("insert into material values ('$id', '$name', '$cost', '$value', '$type', '$width', '$height', '$weigth', '$discount', '$data');", $con);
                     if($r)
                         $flag = 0;
                     else
@@ -42,7 +43,7 @@ class Material
                 }
                 else
                 {
-                    $r = mysql_query("update material set name='$name', cost='$cost', value='$value', type='$type', width='$width', height='$height', weigth='$weigth', data='$data' where id='$id';", $con);
+                    $r = mysql_query("update material set name='$name', cost='$cost', value='$value', type='$type', width='$width', height='$height', weigth='$weigth', discount='$discount', data='$data' where id='$id';", $con);
                     if($r)
                         $flag = 1;
                     else

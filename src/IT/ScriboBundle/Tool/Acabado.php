@@ -7,7 +7,7 @@ use IT\ScriboBundle\Tool\Gestion;
 
 class Acabado
 {
-    private $tipos = array("P"=>"PAPEL","S"=>"SUSTRATO");
+    private $tipos = array("P"=>"OFFSET DIGITAL","S"=>"GRAN FORMATO");
     
     public function save($controller)
     {

@@ -131,7 +131,12 @@ function toTable(res, cfun, mark)
                 if(j == 0)
                     td += '<td style="display:none;">'+cells[j]+'</td>';
                 else
-                    td += '<td>'+cells[j]+'</td>';
+                {
+                    if(cells[j].substring(0, 3) == '~|~')
+                        td += '<td style="display:none;">'+cells[j].substring(3)+'</td>';
+                    else
+                        td += '<td>'+cells[j]+'</td>';
+                }       
             }
             
             var mkcons = '';

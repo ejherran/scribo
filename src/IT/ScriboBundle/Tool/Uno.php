@@ -55,13 +55,13 @@ class Uno
             
             if($con)
             {
-                $r = mysql_query("select id, name, value from material where name like '%$param%' and type = 'P' order by name;", $con);
+                $r = mysql_query("select id, name, value, discount from material where name like '%$param%' and type = 'P' order by name;", $con);
                 if($r)
                 {
                     $data = array();
                     
                     while($row = mysql_fetch_assoc($r))
-                        $data[] = $row['id'].'=>'.$row['name'].'=>$ '.$row['value'];
+                        $data[] = $row['id'].'=>'.$row['name'].'=>$ '.$row['value'].'=>~|~'.$row['discount'];
                     
                     $data = count($data) > 0 ? join('|:|', $data) : '_NONE_';
                 }
@@ -89,13 +89,13 @@ class Uno
             
             if($con)
             {
-                $r = mysql_query("select id, name, value from tinta where name like '%$param%' and type = 'P' order by name;", $con);
+                $r = mysql_query("select id, name, value, discount from tinta where name like '%$param%' and type = 'P' order by name;", $con);
                 if($r)
                 {
                     $data = array();
                     
                     while($row = mysql_fetch_assoc($r))
-                        $data[] = $row['id'].'=>'.$row['name'].'=>$ '.$row['value'];
+                        $data[] = $row['id'].'=>'.$row['name'].'=>$ '.$row['value'].'=>~|~'.$row['discount'];
                     
                     $data = count($data) > 0 ? join('|:|', $data) : '_NONE_';
                 }

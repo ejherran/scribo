@@ -7,7 +7,7 @@ use IT\ScriboBundle\Tool\Gestion;
 
 class Tinta
 {
-    private $tipos = array("P"=>"PAPEL","S"=>"SUSTRATO");
+    private $tipos = array("P"=>"OFFSET DIGITAL","S"=>"GRAN FORMATO");
     
     public function save($controller)
     {
@@ -16,6 +16,7 @@ class Tinta
         $cost = Gestion::sqlKill($controller->getRequest()->request->get('cost'));
         $value = Gestion::sqlKill($controller->getRequest()->request->get('value'));
         $type = Gestion::sqlKill($controller->getRequest()->request->get('type'));
+        $discount = Gestion::sqlKill($controller->getRequest()->request->get('discount'));
         $data = Gestion::sqlKill($controller->getRequest()->request->get('data'));
         
         $flag = -1;
@@ -31,7 +32,7 @@ class Tinta
                 if($id == '')
                 {
                     $id = '0';
-                    $r = mysql_query("insert into tinta values ('$id', '$name', '$cost', '$value', '$type', '$data');", $con);
+                    $r = mysql_query("insert into tinta values ('$id', '$name', '$cost', '$value', '$type', '$discount', '$data');", $con);
                     if($r)
                         $flag = 0;
                     else
@@ -39,7 +40,7 @@ class Tinta
                 }
                 else
                 {
-                    $r = mysql_query("update tinta set name='$name', cost='$cost', value='$value', type='$type', data='$data' where id='$id';", $con);
+                    $r = mysql_query("update tinta set name='$name', cost='$cost', value='$value', type='$type', discount='$discount', data='$data' where id='$id';", $con);
                     if($r)
                         $flag = 1;
                     else

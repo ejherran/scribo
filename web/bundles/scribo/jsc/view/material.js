@@ -13,6 +13,8 @@ function $_init()
     gId("btnSave").onclick = savMaterial;
     gId("btnDelete").onclick = delMaterial;
     
+    gId("disAdd").onclick = addDesc;
+    
     listMaterial();
 }
 
@@ -83,7 +85,8 @@ function showLoader()
 
 function clrMaterial()
 {
-    clear("id,name,cost,value,type,xtype,width,height,weigth,data");
+    clear("id,name,cost,value,type,xtype,width,height,weigth,discount,data,disMin,disMax,disPor");
+    gId('tabDisZone').innerHTML = '<tr style="background: #44729E; color: #fff;"><td>MIN</td><td>MAX</td><td>DESC (%)</td><td style="width: 20px;">&nbsp;</td></tr>';
 }
 
 function savMaterial()
@@ -92,7 +95,7 @@ function savMaterial()
     {
         ajaxAction
         (
-            new Hash(["id","name","cost","value","type","xtype","width","height","weigth","data"]),
+            new Hash(["id","name","cost","value","type","xtype","width","height","weigth","discount","data"]),
             $basePath+"mate/save",
             xSavMaterial
         );
@@ -161,6 +164,48 @@ function getMaterial(elem)
 
 function xGetMaterial(response)
 {
+    clrMaterial();
     toForm(response.responseText);
+    
+    var diss = gId('discount').value;
+    diss = diss.split(';');
+    
+    for(var i = 0; i < diss.length; i++)
+    {
+        var tmp = diss[i].split(',');
+        if(tmp.length == 3)
+            gId('tabDisZone').innerHTML += '<tr><td>'+tmp[0]+'</td><td>'+tmp[1]+'</td><td>'+tmp[2]+'</td><td><img style="height: 75%; vertical-align: bottom;"src="'+$imgPath+'/rem.png" onclick="elimDesc(this);" title="Eliminar!." /></td></tr>';
+    }
+}
+
+function elimDesc(elem)
+{
+    var erow = elem.parentNode.parentNode;
+    erow.parentNode.removeChild(erow);
+    disTabText();
+}
+
+function addDesc()
+{
+    if(validate("disMin,disMax,disPor"))
+    {
+        gId('tabDisZone').innerHTML += '<tr><td>'+gId('disMin').value+'</td><td>'+gId('disMax').value+'</td><td>'+gId('disPor').value+'</td><td><img style="height: 75%; vertical-align: bottom;"src="'+$imgPath+'/rem.png" onclick="elimDesc(this);" title="Eliminar!." /></td></tr>';
+        clear('disMin,disMax,disPor');
+        disTabText();
+    }
+    
+    gId('disMin').focus();
+}
+
+function disTabText()
+{
+    var drows = gId('tabDisZone').rows;
+    var txt = '';
+    for(var i = 1; i < drows.length; i++)
+    {
+        txt += drows[i].cells[0].innerHTML+','+drows[i].cells[1].innerHTML+','+drows[i].cells[2].innerHTML+';';
+    }
+    
+    gId('discount').value = txt;
 }
 

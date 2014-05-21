@@ -38,8 +38,8 @@
                             <div id="ltype" class="scr-wglist">
                                 <table>
                                     <tr><th>@</th><td>Seleccione...</td></tr>
-                                    <tr><th>P</th><td>PAPEL</td></tr>
-                                    <tr><th>S</th><td>SUSTRATO</td></tr>
+                                    <tr><th>P</th><td>OFFSET DIGITAL</td></tr>
+                                    <tr><th>S</th><td>GRAN FORMATO</td></tr>
                                 </table>
                             </div>
                             
@@ -63,11 +63,39 @@
         <tr><th colspan="2">INFORMACIÓN AD.:</th></tr>
         <tr><td colspan="2"><textarea id="data" name="data"></textarea></td></tr>
         
+        <tr>
+            <td colspan="2">
+                <textarea id="discount" name="discount" class="scr-hidden"></textarea>
+                
+                <b style="display: block; font-weight: bold; border-bottom: 1px solid #000; margin-bottom: 5px;">Descuentos:</b>
+                
+                <table style="width: 100%;">
+                    <tr>
+                        <td><input id="disMin" type="number" placeholder="MIN VALUE" /></td>
+                        <td><img src="{{ asset('bundles/scribo/img/le.png') }}" /></td>
+                        <td><img src="{{ asset('bundles/scribo/img/ex.png') }}" /></td>
+                        <td><img src="{{ asset('bundles/scribo/img/lt.png') }}" /></td>
+                        <td><input id="disMax" type="number" placeholder="MAX VALUE"/></td>
+                        <td><img src="{{ asset('bundles/scribo/img/eq.png') }}" /></td>
+                        <td><input id="disPor" type="number" placeholder="DISCOUNT (%)"/></td>
+                        <td><input id="disAdd" type="button" value="+" title="Agregar descuento!." /></td>
+                    </tr>
+                </table>
+                
+                <div id="disZone" class="scr-zone" style="height: 100px; width: 100%; left: 0%;">
+                    <table id="tabDisZone">
+                        <tr style="background: #44729E; color: #fff;"><td>MIN</td><td>MAX</td><td>DESC (%)</td><td style="width: 20px;">&nbsp;</td></tr>
+                    </table>
+                </div>
+                
+            </td>
+        </tr>
+        
         <tr><td colspan="2"><input id="btnSave" class="scr-flr" type="button" value="Guardar" /><input id="btnDelete" class="scr-flr" type="button" value="Eliminar" /><input id="btnClear" class="scr-fll" type="button" value="Limpiar" /></td></tr>
         
     </table>
     
-    <div id="zone" class="scr-zone"><img src="{{ asset('bundles/scribo/img/loader.gif') }}" /></div>
+    <div id="zone" class="scr-zone" style="height: 190px;"><img src="{{ asset('bundles/scribo/img/loader.gif') }}" /></div>
 
 {% endblock %}
 

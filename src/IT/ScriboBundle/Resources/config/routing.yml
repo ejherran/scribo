@@ -19,6 +19,9 @@ scribo_chpass:
 scribo_home:
     pattern:  /home
     defaults: { _controller: ScriboBundle:Home:index }
+scribo_home_liber:
+    pattern:  /home/liber
+    defaults: { _controller: ScriboBundle:Home:liber }
 scribo_home_list:
     pattern:  /home/list
     defaults: { _controller: ScriboBundle:Home:list }

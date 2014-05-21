@@ -8,6 +8,8 @@ use IT\ScriboBundle\Tool\Gestion;
 
 class DefaultController extends Controller
 {
+    private $roles = array('R'=>'Administrador', 'F'=>'Facturación', 'A'=>'Asesor','P'=>'Jefe de Prensa','I'=>'Operario de Prensa','T'=>'Jefe de Acabados','D'=>'Operario de Acabados','C'=>'Entregas');
+    
     public function indexAction()
     {
         $session = $this->getRequest()->getSession();
@@ -44,6 +46,7 @@ class DefaultController extends Controller
         {
             $session->set("userActive", base64_encode($domain."|:|".$user."|:|".$role));
             $session->set("quick", $role);
+            $session->set("qname", $this->roles[$role]);
             $session->set("storage", Gestion::getStorage($domain));
             return $this->redirect($this->generateUrl('scribo_home'));
         }

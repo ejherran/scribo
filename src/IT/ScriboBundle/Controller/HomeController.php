@@ -38,6 +38,28 @@ class HomeController extends Controller
         }
     }
     
+    public function liberAction()
+    {
+        if(Gestion::isGrant($this, 'F'))
+        {
+            $request = $this->getRequest();
+			if($request->isXmlHttpRequest())
+			{
+                $obj = new Home();
+                $res = $obj->liber($this);
+                
+                return new Response($res);
+            }
+            else
+                return $this->redirect($this->generateUrl('scribo_home'));
+        }
+        else
+        {
+            $this->get('session')->getFlashBag()->add('notice', 'Intento de acceso no autorizado!...');
+            return $this->redirect($this->generateUrl('scribo'));
+        }
+    }
+    
     public function facturAction($id)
     {
         if(Gestion::isGrant($this, 'F'))

@@ -74,6 +74,9 @@ function $_init()
         
     if($jar != 'F')
         gId('cicle').onclick = getCicle;
+    
+    if($jar == 'F')
+        gId('liber').onclick = setLiber;
         
     if($jar == 'A')
         gId('fileIn').onchange = inFile;
@@ -891,4 +894,24 @@ function closePerdida()
     hide('calper');
     
     clearPerdida();
+}
+
+/*--- Facturación ---*/
+
+function setLiber()
+{
+    if(oId != '')
+    {
+        if(confirm("Esto liberará definitivamente la orden, seguro que desea continuar?"))
+        {
+            ajaxAction
+            (
+                new Hash(['*oid => '+oId]),
+                $basePath+"home/liber",
+                getList
+            );
+        }
+    }
+    else
+        showFlash('Debe seleccionar una orden!.');
 }

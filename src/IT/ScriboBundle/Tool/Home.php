@@ -26,7 +26,7 @@ class Home
             {    
                 if($role != 'R' && $role != 'F')
                 {
-                    $r = mysql_query("select proceso.id as pid, orden.id as orden, orden.type as tipo, cliente.name as cliente, orden.date as inicio, orden.time * 3600 as tiempo, TIME_TO_SEC(TIMEDIFF(now(), orden.date)) as lapso, proceso.data as detalle from proceso, orden, cliente, usuario where proceso.orden_id=orden.id and proceso.recibe_id=usuario.id and proceso.status='O' and orden.status=usuario.role and orden.cliente_id=cliente.id and usuario.id='$user' order by inicio asc;", $con);
+                    $r = mysql_query("select proceso.id as pid, orden.id as orden, orden.type as tipo, cliente.name as cliente, orden.date as inicio, orden.time * 3600 as tiempo, TIME_TO_SEC(TIMEDIFF(now(), orden.date)) as lapso, proceso.data as detalle from proceso, orden, cliente, usuario where proceso.orden_id=orden.id and proceso.recibe_id=usuario.id and proceso.status='O' and orden.status=usuario.role and orden.cliente_id=cliente.id and usuario.id='$user' and orden.mode='A' order by inicio asc;", $con);
                     if($r)
                     {
                         while($row = mysql_fetch_assoc($r))
@@ -37,7 +37,20 @@ class Home
                     else
                         Tool::getDbError($con);
                 }
-                else if($role == 'R' || $role == 'F')
+                else if($role == 'F')
+                {
+                    $r = mysql_query("select proceso.id as pid, orden.id as orden, orden.type as tipo, cliente.name as cliente, orden.date as inicio, orden.time * 3600 as tiempo, TIME_TO_SEC(TIMEDIFF(now(), orden.date)) as lapso, proceso.data as detalle from proceso, orden, cliente where proceso.orden_id=orden.id and proceso.status='O' and orden.cliente_id=cliente.id and orden.mode='U' order by inicio asc;", $con);
+                    if($r)
+                    {
+                        while($row = mysql_fetch_assoc($r))
+                        {
+                            $data[] = join('=>', Gestion::utf8Fix($row));
+                        }
+                    }
+                    else
+                        Tool::getDbError($con);
+                }
+                else
                 {
                     $r = mysql_query("select proceso.id as pid, orden.id as orden, orden.type as tipo, cliente.name as cliente, orden.date as inicio, orden.time * 3600 as tiempo, TIME_TO_SEC(TIMEDIFF(now(), orden.date)) as lapso, proceso.data as detalle from proceso, orden, cliente where proceso.orden_id=orden.id and proceso.status='O' and orden.cliente_id=cliente.id order by inicio asc;", $con);
                     if($r)
@@ -252,6 +265,29 @@ class Home
                 $r = mysql_query("update orden set orden.status='X' where orden.id='$oid';", $con);
                 
                 $data = $eid;
+                
+                Tool::closeDbCon($con);
+            }
+        }
+        
+        return $data;
+    }
+    
+    public function liber($controller)
+    {
+        $oid = Gestion::sqlKill($controller->getRequest()->request->get('oid'));
+        
+        $lic = Gestion::getLicencia(Gestion::getDomain($controller));
+        
+        $data = '';
+        
+        if($lic)
+        {
+            $con = Tool::newDbCon($lic);
+            
+            if($con)
+            {
+                $r = mysql_query("update orden set mode='A' where id='$oid';", $con);
                 
                 Tool::closeDbCon($con);
             }
